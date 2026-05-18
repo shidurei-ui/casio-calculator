@@ -2,594 +2,666 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Casio FX-570ES PLUS 2</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:16px 6px;background:radial-gradient(ellipse at 40% 30%,#3a4a6b,#1a2035);font-family:'Segoe UI',Arial,sans-serif;touch-action:manipulation}
-.calculator{width:340px;max-width:100%;background:#e2e2e2;border-radius:18px 18px 14px 14px;box-shadow:0 28px 80px rgba(0,0,0,.65),0 6px 20px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.7);overflow:hidden;border:1px solid #aaa}
-@media(max-width:360px){
-  .calculator{width:100%;border-radius:12px 12px 10px 10px}
-  button,.sm{width:44px!important;font-size:9.5px!important}
-  .num{width:44px!important;height:32px!important;font-size:14px!important}
-  .eq{width:44px!important;height:32px!important;font-size:17px!important}
-  .btn-area{padding:6px 8px 10px}
-  .row{gap:4px;margin-bottom:4px}
+html,body{height:100%}
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:12px 6px 20px;
+  background:#c8c8c8;
+  font-family:'Segoe UI',Arial,sans-serif;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
 
-/* BRAND */
-.brand{background:linear-gradient(180deg,#1a237e 0%,#0d1878 100%);padding:13px 16px 0;border-radius:17px 17px 0 0}
-.brand-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
-.brand-casio{font-family:'Times New Roman',serif;font-size:27px;font-weight:900;font-style:italic;color:#fff;letter-spacing:2px;text-shadow:0 1px 4px rgba(0,0,0,.5)}
-.brand-right{text-align:right}
-.model-fx{font-size:13px;font-weight:bold;color:#bbdefb;display:block}
-.model-sub{font-size:8px;color:#64b5f6;display:block;line-height:1.4}
+/* ── CALCULATOR SHELL ── */
+.calc{
+  width:290px;
+  background:linear-gradient(160deg,#f5f5f5 0%,#e8e8e8 100%);
+  border-radius:14px 14px 10px 10px;
+  box-shadow:
+    0 0 0 1px #b0b0b0,
+    0 4px 0 0 #999,
+    0 8px 24px rgba(0,0,0,.45),
+    0 20px 60px rgba(0,0,0,.3),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  overflow:hidden;
+  position:relative;
+}
 
-/* SOLAR */
-.solar{height:9px;background:#111;border-radius:2px;margin:0 0 7px;display:flex;gap:1px;padding:1px 3px;border:1px solid #000}
-.solar-cell{flex:1;background:linear-gradient(180deg,#1a237e44,#00000022);border-radius:1px}
+/* ── TOP DARK SECTION ── */
+.top{
+  background:linear-gradient(180deg,#1c2672 0%,#111f6e 50%,#0e1a60 100%);
+  padding:12px 14px 0;
+  border-radius:13px 13px 0 0;
+}
 
-/* DISPLAY */
-.display-wrap{background:linear-gradient(180deg,#0d1878,#1a237e);padding:0 16px 14px}
-.display{background:linear-gradient(180deg,#c8d5a0,#b8c895);border:2px solid #333;border-radius:4px;padding:7px 9px;min-height:76px;position:relative;overflow:hidden;box-shadow:inset 0 2px 6px rgba(0,0,0,.3)}
-.display::after{content:'';position:absolute;top:0;left:0;right:0;height:35%;background:linear-gradient(180deg,rgba(255,255,255,.18),transparent);pointer-events:none}
-.disp-top{display:flex;justify-content:space-between;margin-bottom:2px}
-.indicators{display:flex;gap:4px}
-.ind{font-size:7.5px;font-weight:bold;color:#1a1a1a;opacity:.2;font-family:'Courier New',monospace;transition:opacity .1s;line-height:1}
+/* Brand row */
+.brand-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:8px;
+}
+.casio-logo{
+  font-family:'Times New Roman',serif;
+  font-size:22px;
+  font-weight:900;
+  font-style:italic;
+  color:#fff;
+  letter-spacing:1.5px;
+  text-shadow:0 1px 3px rgba(0,0,0,.6);
+}
+.model-block{text-align:right;line-height:1.3}
+.model-main{
+  display:block;
+  font-size:11.5px;
+  font-weight:700;
+  color:#a8c8ff;
+  letter-spacing:.3px;
+}
+.model-sub{
+  display:block;
+  font-size:7px;
+  color:#6a9fd8;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+}
+
+/* Solar panel */
+.solar{
+  height:7px;
+  background:#0a0a14;
+  border-radius:2px;
+  margin-bottom:6px;
+  display:flex;
+  gap:1px;
+  padding:1px 2px;
+  border:1px solid #060610;
+  overflow:hidden;
+}
+.sc{flex:1;background:linear-gradient(180deg,rgba(100,140,255,.15),rgba(0,0,0,.05));border-radius:1px}
+
+/* ── DISPLAY ── */
+.disp-wrap{
+  background:linear-gradient(180deg,#0e1a60,#111f6e);
+  padding:0 14px 12px;
+}
+.disp{
+  background:linear-gradient(175deg,#b5c98a 0%,#a8be80 60%,#9fb57a 100%);
+  border:1.5px solid #2a2a2a;
+  border-radius:3px;
+  padding:5px 8px 6px;
+  min-height:68px;
+  position:relative;
+  box-shadow:
+    inset 0 2px 5px rgba(0,0,0,.35),
+    inset 0 -1px 2px rgba(255,255,255,.1);
+  overflow:hidden;
+}
+/* glare */
+.disp::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:40%;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);
+  pointer-events:none;z-index:1;
+}
+.disp-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:1px;
+  position:relative;z-index:2;
+}
+.inds{display:flex;gap:3px}
+.ind{
+  font-size:7px;font-weight:bold;
+  color:#1a2a1a;opacity:.18;
+  font-family:'Courier New',monospace;
+  letter-spacing:.2px;line-height:1;
+  transition:opacity .1s;
+}
 .ind.on{opacity:1}
-.ind.s-ind.on{color:#b45309}
-.ind.a-ind.on{color:#b91c1c}
-.disp-expr{font-family:'Courier New',monospace;font-size:12px;color:#2a2a2a;text-align:right;min-height:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.3px}
-.disp-result{font-family:'Courier New',monospace;font-size:24px;font-weight:bold;color:#1a1a1a;text-align:right;min-height:29px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:font-size .1s}
+.ind.si.on{color:#7c3a00}
+.ind.ai.on{color:#7a0000}
+.ang-inds{display:flex;gap:2px}
+#d-expr{
+  font-family:'Courier New',monospace;
+  font-size:11px;color:#111;
+  text-align:right;min-height:14px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  position:relative;z-index:2;letter-spacing:.2px;
+}
+#d-res{
+  font-family:'Courier New',monospace;
+  font-size:22px;font-weight:bold;color:#000;
+  text-align:right;min-height:26px;line-height:1.2;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  position:relative;z-index:2;transition:font-size .08s;
+}
 
-/* BUTTON AREA */
-.btn-area{background:linear-gradient(180deg,#d2d2d2,#c6c6c6);padding:8px 11px 14px}
-.row{display:flex;gap:5px;margin-bottom:5px;justify-content:center}
+/* ── BUTTON SECTION ── */
+.btns{
+  background:linear-gradient(180deg,#dcdcdc 0%,#d4d4d4 100%);
+  padding:7px 10px 12px;
+}
+.row{display:flex;gap:4px;margin-bottom:4px;justify-content:center}
 
-/* Key wrapper with secondary label */
-.kw{display:flex;flex-direction:column;align-items:center;position:relative;padding-top:13px}
-.kw.no-pad{padding-top:0}
-.sec{position:absolute;top:0;font-size:7px;font-weight:bold;white-space:nowrap;line-height:13px;text-align:center;left:50%;transform:translateX(-50%)}
-.sec.sh{color:#c05c00}
-.sec.al{color:#b91c1c}
+/* Key wrapper — space above for secondary labels */
+.kw{display:flex;flex-direction:column;align-items:center;position:relative;padding-top:12px}
+.kw0{display:flex;flex-direction:column;align-items:center;position:relative;padding-top:0}
+.lbl{
+  position:absolute;top:0;
+  font-size:6.5px;font-weight:700;white-space:nowrap;
+  left:50%;transform:translateX(-50%);line-height:12px;
+}
+.lsh{color:#b05000}
+.lal{color:#aa0000}
 
-/* Buttons */
-button{border:none;border-radius:5px;cursor:pointer;font-family:'Segoe UI',Arial,sans-serif;font-weight:bold;font-size:11px;width:52px;height:30px;transition:filter .07s,transform .06s;outline:none;box-shadow:0 3px 0 rgba(0,0,0,.45),0 4px 6px rgba(0,0,0,.25);user-select:none;-webkit-user-select:none;letter-spacing:.2px}
-button:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.4);filter:brightness(.82)}
-.sm{width:52px;height:27px;font-size:10px}
-.num{width:52px;height:35px;font-size:15px}
-.eq{width:52px;height:35px;font-size:19px}
+/* ── BUTTON BASE ── */
+button{
+  border:none;border-radius:4px;cursor:pointer;
+  font-family:'Segoe UI',Arial,sans-serif;
+  font-weight:700;font-size:10px;
+  width:46px;height:26px;
+  outline:none;
+  box-shadow:0 2.5px 0 rgba(0,0,0,.5),0 3px 5px rgba(0,0,0,.2);
+  user-select:none;-webkit-user-select:none;
+  transition:filter .06s,transform .05s;
+  letter-spacing:.1px;
+  position:relative;
+  overflow:hidden;
+}
+/* press effect */
+button:active{transform:translateY(2px);box-shadow:0 .5px 0 rgba(0,0,0,.4);filter:brightness(.78)}
+/* subtle top shine on all buttons */
+button::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:45%;
+  background:linear-gradient(180deg,rgba(255,255,255,.22),transparent);
+  border-radius:4px 4px 0 0;pointer-events:none;
+}
 
-/* Colors */
-.c-shift{background:linear-gradient(180deg,#fb923c,#ea580c);color:#fff}
-.c-alpha{background:linear-gradient(180deg,#f87171,#dc2626);color:#fff}
-.c-gray{background:linear-gradient(180deg,#7c8ea5,#5c6e85);color:#fff}
-.c-func{background:linear-gradient(180deg,#6a7f96,#4e6070);color:#fff}
-.c-trig{background:linear-gradient(180deg,#5c7a8c,#3e5a6c);color:#d0ecff}
-.c-hyp{background:linear-gradient(180deg,#6b8a7a,#4a6458);color:#d0ffe8}
-.c-num{background:linear-gradient(180deg,#3a4555,#252f3e);color:#fff}
-.c-op{background:linear-gradient(180deg,#4a5570,#323c55);color:#fff}
-.c-eq{background:linear-gradient(180deg,#2563eb,#1d4ed8);color:#fff}
-.c-ac{background:linear-gradient(180deg,#f87171,#dc2626);color:#fff}
-.c-del{background:linear-gradient(180deg,#7c8ea5,#5c6e85);color:#fff}
-.c-mem{background:linear-gradient(180deg,#34d399,#059669);color:#fff}
-.c-const{background:linear-gradient(180deg,#a78bfa,#7c3aed);color:#fff}
-.c-mode{background:linear-gradient(180deg,#60a5fa,#2563eb);color:#fff}
+/* Sizes */
+.bsm{width:46px;height:24px;font-size:9.5px}
+.bnum{width:46px;height:32px;font-size:14px}
+.beq{width:46px;height:32px;font-size:17px}
 
-/* Flashing active indicator */
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.ind.blinking{animation:blink .6s infinite}
+/* ── BUTTON COLORS ── */
+/* SHIFT – bright orange */
+.bshift{background:linear-gradient(180deg,#f59a20,#d97706);color:#fff}
+/* ALPHA – red */
+.balpha{background:linear-gradient(180deg,#e84040,#c22020);color:#fff}
+/* AC – red */
+.bac{background:linear-gradient(180deg,#e84040,#c22020);color:#fff}
+/* DEL – medium charcoal */
+.bdel{background:linear-gradient(180deg,#5a6575,#44505e);color:#fff}
+/* MODE – medium blue-gray */
+.bmode{background:linear-gradient(180deg,#5a6a80,#3e5060);color:#fff}
+/* Standard function keys – dark charcoal (like real Casio) */
+.bfn{background:linear-gradient(180deg,#484f5c,#333840);color:#e8e8e8}
+/* Number keys – near black */
+.bnum-k{background:linear-gradient(180deg,#2e3340,#1e222e);color:#fff}
+/* Operator keys (+,−,×,÷) – same dark */
+.bop{background:linear-gradient(180deg,#2e3340,#1e222e);color:#fff}
+/* = key – blue */
+.beq-k{background:linear-gradient(180deg,#3b82f6,#1d4ed8);color:#fff}
+/* Memory keys – slightly teal-dark */
+.bmem{background:linear-gradient(180deg,#3d5c5a,#2a4240);color:#e8ffe8}
+/* Constants (π, e) – dark with slight purple tint */
+.bconst{background:linear-gradient(180deg,#484f5c,#333840);color:#c8d8ff}
+
+/* Separator strip between sections */
+.strip{height:4px;background:linear-gradient(180deg,#b8b8b8,#c8c8c8);margin:2px 0 3px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:320px){
+  .calc{width:100%}
+  button{width:40px!important}
+  .bnum,.beq,.bnum-k,.bop,.beq-k,.bmem,.bconst,.bfn,.bdel,.bac,.bmode,.bshift,.balpha{width:40px!important}
+  .btns{padding:6px 6px 10px}
+  .row{gap:3px}
+}
 </style>
 </head>
 <body>
-<div class="calculator">
-  <div class="brand">
+<div class="calc">
+
+  <!-- TOP BRAND + DISPLAY -->
+  <div class="top">
     <div class="brand-row">
-      <div class="brand-casio">CASIO</div>
-      <div class="brand-right">
-        <span class="model-fx">fx-570ES PLUS 2</span>
-        <span class="model-sub">NATURAL-VPAM · 2nd edition</span>
+      <span class="casio-logo">CASIO</span>
+      <div class="model-block">
+        <span class="model-main">fx-570ES PLUS 2</span>
+        <span class="model-sub">Natural-VPAM · 417 Functions</span>
       </div>
     </div>
   </div>
 
-  <div class="display-wrap">
+  <div class="disp-wrap">
     <div class="solar" id="solar"></div>
-    <div class="display">
-      <div class="disp-top">
-        <div class="indicators">
-          <span id="i-s" class="ind s-ind">S</span>
-          <span id="i-a" class="ind a-ind">A</span>
-          <span id="i-m" class="ind">M</span>
+    <div class="disp">
+      <div class="disp-header">
+        <div class="inds">
+          <span id="is" class="ind si">S</span>
+          <span id="ia" class="ind ai">A</span>
+          <span id="im" class="ind">M</span>
         </div>
-        <div class="indicators">
-          <span id="i-d" class="ind on">D</span>
-          <span id="i-r" class="ind">R</span>
-          <span id="i-g" class="ind">G</span>
+        <div class="ang-inds">
+          <span id="id" class="ind on">D</span>
+          <span id="ir" class="ind">R</span>
+          <span id="ig" class="ind">G</span>
         </div>
       </div>
-      <div id="d-expr" class="disp-expr"></div>
-      <div id="d-result" class="disp-result">0</div>
+      <div id="d-expr"></div>
+      <div id="d-res">0</div>
     </div>
   </div>
 
-  <div class="btn-area">
+  <!-- BUTTONS -->
+  <div class="btns">
 
-    <!-- Row 1: Controls -->
+    <!-- R1: SHIFT ALPHA MODE DEL AC -->
     <div class="row">
-      <div class="kw no-pad"><button class="c-shift sm" onclick="pShift()">SHIFT</button></div>
-      <div class="kw no-pad"><button class="c-alpha sm" onclick="pAlpha()">ALPHA</button></div>
-      <div class="kw"><span class="sec sh">SETUP</span><button class="c-mode sm" onclick="pMode()">MODE</button></div>
-      <div class="kw"><span class="sec sh">INS</span><button class="c-del sm" onclick="pDEL()">DEL</button></div>
-      <div class="kw"><span class="sec sh">OFF</span><button class="c-ac sm" onclick="pAC()">AC</button></div>
+      <div class="kw0"><button class="bshift bsm" onclick="pShift()">SHIFT</button></div>
+      <div class="kw0"><button class="balpha bsm" onclick="pAlpha()">ALPHA</button></div>
+      <div class="kw" ><span class="lbl lsh">SETUP</span><button class="bmode bsm" onclick="pMode()">MODE</button></div>
+      <div class="kw" ><span class="lbl lsh">INS</span><button class="bdel bsm" onclick="pDEL()">DEL</button></div>
+      <div class="kw" ><span class="lbl lsh">OFF</span><button class="bac bsm" onclick="pAC()">AC</button></div>
     </div>
 
-    <!-- Row 2: Log/Exp/Fact/nCr -->
+    <!-- R2: log ln Abs x! nCr -->
     <div class="row">
-      <div class="kw"><span class="sec sh">10ˣ</span><button class="c-func sm" onclick="pF('log')">log</button></div>
-      <div class="kw"><span class="sec sh">eˣ</span><button class="c-func sm" onclick="pF('ln')">ln</button></div>
-      <div class="kw"><span class="sec sh">Pol(</span><button class="c-func sm" onclick="pF('abs')">Abs</button></div>
-      <div class="kw"><span class="sec sh">Rec(</span><button class="c-func sm" onclick="pF('fact')">x!</button></div>
-      <div class="kw"><span class="sec sh">nPr</span><button class="c-func sm" onclick="pF('ncr')">nCr</button></div>
+      <div class="kw"><span class="lbl lsh">10ˣ</span><button class="bfn bsm" onclick="pF('log')">log</button></div>
+      <div class="kw"><span class="lbl lsh">eˣ</span><button class="bfn bsm" onclick="pF('ln')">ln</button></div>
+      <div class="kw"><span class="lbl lsh">Pol(</span><button class="bfn bsm" onclick="pF('abs')">Abs</button></div>
+      <div class="kw"><span class="lbl lsh">Rec(</span><button class="bfn bsm" onclick="pF('fact')">x!</button></div>
+      <div class="kw"><span class="lbl lsh">nPr</span><button class="bfn bsm" onclick="pF('ncr')">nCr</button></div>
     </div>
 
-    <!-- Row 3: Powers & Roots -->
+    <!-- R3: x² x³ x^y √ ∛ -->
     <div class="row">
-      <div class="kw"><span class="sec sh">x⁻¹</span><button class="c-func sm" onclick="pF('sq')">x²</button></div>
-      <div class="kw"><span class="sec sh">∛</span><button class="c-func sm" onclick="pF('cube')">x³</button></div>
-      <div class="kw"><span class="sec sh">ˣ√</span><button class="c-func sm" onclick="pF('pow')">xʸ</button></div>
-      <div class="kw"><span class="sec al">x!</span><button class="c-func sm" onclick="pF('sqrt')">√</button></div>
-      <div class="kw"><span class="sec al">ˣ√</span><button class="c-func sm" onclick="pF('cbrt')">∛</button></div>
+      <div class="kw"><span class="lbl lsh">x⁻¹</span><button class="bfn bsm" onclick="pF('sq')">x²</button></div>
+      <div class="kw"><span class="lbl lsh">∛x</span><button class="bfn bsm" onclick="pF('cube')">x³</button></div>
+      <div class="kw"><span class="lbl lsh">ˣ√</span><button class="bfn bsm" onclick="pF('pow')">xʸ</button></div>
+      <div class="kw"><span class="lbl lal">x!</span><button class="bfn bsm" onclick="pF('sqrt')">√</button></div>
+      <div class="kw"><span class="lbl lal">ˣ√</span><button class="bfn bsm" onclick="pF('cbrt')">∛</button></div>
     </div>
 
-    <!-- Row 4: Trig -->
+    <!-- R4: sin cos tan ( ) -->
     <div class="row">
-      <div class="kw"><span class="sec sh">sin⁻¹</span><button class="c-trig sm" onclick="pF('sin')">sin</button></div>
-      <div class="kw"><span class="sec sh">cos⁻¹</span><button class="c-trig sm" onclick="pF('cos')">cos</button></div>
-      <div class="kw"><span class="sec sh">tan⁻¹</span><button class="c-trig sm" onclick="pF('tan')">tan</button></div>
-      <div class="kw"><span class="sec al">π</span><button class="c-gray sm" onclick="pKey('(')">(</button></div>
-      <div class="kw"><span class="sec al">e</span><button class="c-gray sm" onclick="pKey(')')">)</button></div>
+      <div class="kw"><span class="lbl lsh">sin⁻¹</span><button class="bfn bsm" onclick="pF('sin')">sin</button></div>
+      <div class="kw"><span class="lbl lsh">cos⁻¹</span><button class="bfn bsm" onclick="pF('cos')">cos</button></div>
+      <div class="kw"><span class="lbl lsh">tan⁻¹</span><button class="bfn bsm" onclick="pF('tan')">tan</button></div>
+      <div class="kw"><span class="lbl lal">π</span><button class="bfn bsm" onclick="pKey('(')">(</button></div>
+      <div class="kw"><span class="lbl lal">e</span><button class="bfn bsm" onclick="pKey(')')">)</button></div>
     </div>
 
-    <!-- Row 5: Hyperbolic -->
+    <!-- R5: sinh cosh tanh π e -->
     <div class="row">
-      <div class="kw"><span class="sec sh">sinh⁻¹</span><button class="c-hyp sm" onclick="pF('sinh')">sinh</button></div>
-      <div class="kw"><span class="sec sh">cosh⁻¹</span><button class="c-hyp sm" onclick="pF('cosh')">cosh</button></div>
-      <div class="kw"><span class="sec sh">tanh⁻¹</span><button class="c-hyp sm" onclick="pF('tanh')">tanh</button></div>
-      <div class="kw"><span class="sec sh">Ran#</span><button class="c-const sm" onclick="pConst('pi')">π</button></div>
-      <div class="kw"><span class="sec sh">→DEG</span><button class="c-const sm" onclick="pConst('e')">e</button></div>
+      <div class="kw"><span class="lbl lsh">sinh⁻¹</span><button class="bfn bsm" onclick="pF('sinh')">sinh</button></div>
+      <div class="kw"><span class="lbl lsh">cosh⁻¹</span><button class="bfn bsm" onclick="pF('cosh')">cosh</button></div>
+      <div class="kw"><span class="lbl lsh">tanh⁻¹</span><button class="bfn bsm" onclick="pF('tanh')">tanh</button></div>
+      <div class="kw"><span class="lbl lsh">Ran#</span><button class="bconst bsm" onclick="pConst('pi')">π</button></div>
+      <div class="kw"><span class="lbl lsh">→DEG</span><button class="bconst bsm" onclick="pConst('e')">e</button></div>
     </div>
 
-    <!-- Row 6: Memory -->
+    <!-- R6: EXP M+ MR MC ANS -->
     <div class="row">
-      <div class="kw"><span class="sec sh">←</span><button class="c-gray sm" onclick="pEXP()">EXP</button></div>
-      <div class="kw"><span class="sec sh">M−</span><button class="c-mem sm" onclick="pM('plus')">M+</button></div>
-      <div class="kw"><span class="sec sh">STO</span><button class="c-mem sm" onclick="pM('recall')">MR</button></div>
-      <div class="kw"><span class="sec sh">CLR</span><button class="c-mem sm" onclick="pM('clear')">MC</button></div>
-      <div class="kw"><span class="sec sh">DRG▸</span><button class="c-gray sm" onclick="pANS()">ANS</button></div>
+      <div class="kw"><span class="lbl lsh">←</span><button class="bfn bsm" onclick="pEXP()">EXP</button></div>
+      <div class="kw"><span class="lbl lsh">M−</span><button class="bmem bsm" onclick="pM('plus')">M+</button></div>
+      <div class="kw"><span class="lbl lsh">STO</span><button class="bmem bsm" onclick="pM('recall')">MR</button></div>
+      <div class="kw"><span class="lbl lsh">CLR</span><button class="bmem bsm" onclick="pM('clear')">MC</button></div>
+      <div class="kw"><span class="lbl lsh">DRG▸</span><button class="bfn bsm" onclick="pANS()">ANS</button></div>
     </div>
 
-    <!-- Row 7: 7 8 9 DEL AC -->
+    <!-- divider -->
+    <div class="strip"></div>
+
+    <!-- R7: 7 8 9 DEL AC -->
     <div class="row">
-      <div class="kw no-pad"><button class="c-num num" onclick="pNum('7')">7</button></div>
-      <div class="kw no-pad"><button class="c-num num" onclick="pNum('8')">8</button></div>
-      <div class="kw no-pad"><button class="c-num num" onclick="pNum('9')">9</button></div>
-      <div class="kw no-pad"><button class="c-del num" style="font-size:12px" onclick="pDEL()">DEL</button></div>
-      <div class="kw no-pad"><button class="c-ac num" style="font-size:13px" onclick="pAC()">AC</button></div>
+      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('7')">7</button></div>
+      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('8')">8</button></div>
+      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('9')">9</button></div>
+      <div class="kw0"><button class="bdel bnum" style="font-size:11px" onclick="pDEL()">DEL</button></div>
+      <div class="kw0"><button class="bac bnum" style="font-size:12px" onclick="pAC()">AC</button></div>
     </div>
 
-    <!-- Row 8: 4 5 6 × ÷ -->
+    <!-- R8: 4 5 6 × ÷ -->
     <div class="row">
-      <div class="kw no-pad"><button class="c-num num" onclick="pNum('4')">4</button></div>
-      <div class="kw no-pad"><button class="c-num num" onclick="pNum('5')">5</button></div>
-      <div class="kw no-pad"><button class="c-num num" onclick="pNum('6')">6</button></div>
-      <div class="kw no-pad"><button class="c-op num" onclick="pOp('×')">×</button></div>
-      <div class="kw no-pad"><button class="c-op num" onclick="pOp('÷')">÷</button></div>
+      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('4')">4</button></div>
+      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('5')">5</button></div>
+      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('6')">6</button></div>
+      <div class="kw0"><button class="bop bnum" onclick="pOp('×')">×</button></div>
+      <div class="kw0"><button class="bop bnum" onclick="pOp('÷')">÷</button></div>
     </div>
 
-    <!-- Row 9: 1 2 3 + − -->
+    <!-- R9: 1 2 3 + − -->
     <div class="row">
-      <div class="kw no-pad"><button class="c-num num" onclick="pNum('1')">1</button></div>
-      <div class="kw no-pad"><button class="c-num num" onclick="pNum('2')">2</button></div>
-      <div class="kw no-pad"><button class="c-num num" onclick="pNum('3')">3</button></div>
-      <div class="kw no-pad"><button class="c-op num" onclick="pOp('+')">+</button></div>
-      <div class="kw no-pad"><button class="c-op num" onclick="pOp('−')">−</button></div>
+      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('1')">1</button></div>
+      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('2')">2</button></div>
+      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('3')">3</button></div>
+      <div class="kw0"><button class="bop bnum" onclick="pOp('+')">+</button></div>
+      <div class="kw0"><button class="bop bnum" onclick="pOp('−')">−</button></div>
     </div>
 
-    <!-- Row 10: 0 . (−) % = -->
+    <!-- R10: 0 . (−) % = -->
     <div class="row">
-      <div class="kw no-pad"><button class="c-num num" onclick="pNum('0')">0</button></div>
-      <div class="kw no-pad"><button class="c-num num" onclick="pNum('.')">.</button></div>
-      <div class="kw no-pad"><button class="c-num num" style="font-size:12px" onclick="pNeg()">(−)</button></div>
-      <div class="kw no-pad"><button class="c-op num" onclick="pPercent()">%</button></div>
-      <div class="kw no-pad"><button class="c-eq eq" onclick="pEQ()">=</button></div>
+      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('0')">0</button></div>
+      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('.')">.</button></div>
+      <div class="kw0"><button class="bnum-k bnum" style="font-size:11px" onclick="pNeg()">(−)</button></div>
+      <div class="kw0"><button class="bop bnum" onclick="pPct()">%</button></div>
+      <div class="kw0"><button class="beq-k beq" onclick="pEQ()">=</button></div>
     </div>
 
-  </div>
-</div>
+  </div><!-- /btns -->
+</div><!-- /calc -->
 
 <script>
 'use strict';
 
-// ── STATE ──────────────────────────────────────────────
-let expr      = '';
-let shiftOn   = false;
-let alphaOn   = false;
-let angMode   = 'DEG';   // DEG | RAD | GRA
-let mem       = 0;
-let lastAns   = 0;
-let postEq    = false;   // true right after pressing =
+// ── STATE ──────────────────────────────────────────────────────
+let expr    = '';
+let shiftOn = false;
+let alphaOn = false;
+let angMode = 'DEG';  // DEG | RAD | GRA
+let mem     = 0;
+let lastAns = 0;
+let postEq  = false;
 
-// ── ANGLE HELPERS ──────────────────────────────────────
-const toRad   = x => angMode==='RAD' ? x : angMode==='GRA' ? x*Math.PI/200 : x*Math.PI/180;
-const fromRad = x => angMode==='RAD' ? x : angMode==='GRA' ? x*200/Math.PI : x*180/Math.PI;
+// ── ANGLE ──────────────────────────────────────────────────────
+const toRad   = x => angMode==='RAD'?x : angMode==='GRA'?x*Math.PI/200 : x*Math.PI/180;
+const fromRad = x => angMode==='RAD'?x : angMode==='GRA'?x*200/Math.PI : x*180/Math.PI;
 
-// ── MATH FUNCTIONS ─────────────────────────────────────
-function factorial(n) {
-  n = Math.round(n);
-  if (n < 0 || n > 170) return NaN;
-  if (n <= 1) return n < 0 ? NaN : 1;
-  let r = 1; for (let i=2;i<=n;i++) r*=i; return r;
+// ── MATH ────────────────────────────────────────────────────────
+function factorial(n){
+  n=Math.round(n);
+  if(n<0||n>170) return NaN;
+  if(n<=1) return n<0?NaN:1;
+  let r=1; for(let i=2;i<=n;i++) r*=i; return r;
 }
-function nCr(n,r) {
-  n=Math.round(n); r=Math.round(r);
-  if (r<0||r>n||n<0) return 0;
-  if (r===0||r===n) return 1;
+function nCr(n,r){
+  n=Math.round(n);r=Math.round(r);
+  if(r<0||r>n||n<0) return 0;
+  if(r===0||r===n) return 1;
   r=Math.min(r,n-r);
   let res=1; for(let i=0;i<r;i++) res=res*(n-i)/(i+1);
   return Math.round(res);
 }
-function nPr(n,r) {
-  n=Math.round(n); r=Math.round(r);
-  if (r<0||r>n||n<0) return 0;
+function nPr(n,r){
+  n=Math.round(n);r=Math.round(r);
+  if(r<0||r>n||n<0) return 0;
   return factorial(n)/factorial(n-r);
 }
 
-// ── EXPRESSION TRANSFORMER ─────────────────────────────
-function replaceFactorials(e) {
-  while (e.includes('!')) {
-    const idx = e.indexOf('!');
-    if (idx===0) { e=e.slice(1); continue; }
-    const bef = e.slice(0,idx);
-    const aft = e.slice(idx+1);
+// ── TRANSFORM ──────────────────────────────────────────────────
+function fixFactorials(e){
+  while(e.includes('!')){
+    const idx=e.indexOf('!');
+    if(idx===0){e=e.slice(1);continue;}
+    const bef=e.slice(0,idx), aft=e.slice(idx+1);
     let start;
-    if (bef.endsWith(')')) {
-      let depth=0, i=bef.length-1;
-      while(i>=0){ if(bef[i]===')') depth++; else if(bef[i]==='('){ depth--; if(depth===0) break; } i--; }
-      let fs=i; while(fs>0 && /[A-Za-z_]/.test(bef[fs-1])) fs--;
+    if(bef.endsWith(')')){
+      let depth=0,i=bef.length-1;
+      while(i>=0){if(bef[i]===')') depth++; else if(bef[i]==='('){depth--;if(depth===0) break;} i--;}
+      let fs=i; while(fs>0&&/[A-Za-z_]/.test(bef[fs-1])) fs--;
       start=fs;
-    } else {
+    }else{
       let i=bef.length-1;
-      while(i>=0 && /[\d.]/.test(bef[i])) i--;
+      while(i>=0&&/[\d.]/.test(bef[i])) i--;
       start=i+1;
     }
-    const operand=bef.slice(start);
-    if (!operand) { e=e.slice(0,idx)+e.slice(idx+1); continue; }
-    e=bef.slice(0,start)+'_FACT('+operand+')'+aft;
+    const op=bef.slice(start);
+    if(!op){e=e.slice(0,idx)+e.slice(idx+1);continue;}
+    e=bef.slice(0,start)+'_F('+op+')'+aft;
   }
   return e;
 }
 
-function transformExpr(s) {
-  let e = s;
-  // Scientific notation: ×10^( → special token before ^ replacement
-  e = e.replace(/×10\^\(/g,'*_EE(');
-  // Operators
-  e = e.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');
-  // Inverse hyp (longest first)
-  e = e.replace(/sinh⁻¹\(/g,'_ASINH(').replace(/cosh⁻¹\(/g,'_ACOSH(').replace(/tanh⁻¹\(/g,'_ATANH(');
-  // Inverse trig
-  e = e.replace(/sin⁻¹\(/g,'_ASIN(').replace(/cos⁻¹\(/g,'_ACOS(').replace(/tan⁻¹\(/g,'_ATAN(');
-  // Hyp
-  e = e.replace(/sinh\(/g,'_SINH(').replace(/cosh\(/g,'_COSH(').replace(/tanh\(/g,'_TANH(');
-  // Trig
-  e = e.replace(/sin\(/g,'_SIN(').replace(/cos\(/g,'_COS(').replace(/tan\(/g,'_TAN(');
-  // Log / roots / abs
-  e = e.replace(/log\(/g,'_LOG(').replace(/ln\(/g,'_LN(').replace(/Abs\(/g,'_ABS(');
-  e = e.replace(/√\(/g,'_SQRT(').replace(/∛\(/g,'_CBRT(');
-  // Power
-  e = e.replace(/\^/g,'**');
-  // Postfix operators
-  e = e.replace(/²/g,'**2').replace(/³/g,'**3').replace(/⁻¹/g,'**(-1)');
-  // Factorial
-  e = replaceFactorials(e);
-  // nCr / nPr between numbers
-  e = e.replace(/([\d.]+)C([\d.]+)/g,'_NCR($1,$2)');
-  e = e.replace(/([\d.]+)P([\d.]+)/g,'_NPR($1,$2)');
-  // Percent
-  e = e.replace(/%/g,'/100');
-  // Constants
-  e = e.replace(/π/g,'(_PI)');
-  // Standalone e: not preceded/followed by word chars
-  e = e.replace(/(?<![A-Za-z_\d])e(?![A-Za-z_\d])/g,'(_EU)');
-  // Ans / Mem
-  e = e.replace(/Ans/g,'(_ANS)').replace(/Mem/g,'(_MEM)');
-  // Implicit multiplication
-  e = e.replace(/(\d)\(/g,'$1*(');
-  e = e.replace(/\)(\d)/g,')*$1');
-  e = e.replace(/\)\(/g,')*(');
-  e = e.replace(/(\d)(_PI|_EU|_ANS|_MEM)/g,'$1*$2');
-  e = e.replace(/(_PI|_EU|_ANS|_MEM)(\()/g,'$1*$2');
-  e = e.replace(/(_PI|_EU|_ANS|_MEM)(\d)/g,'$1*$2');
+function transform(s){
+  let e=s;
+  e=e.replace(/×10\^\(/g,'*_EE(');
+  e=e.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');
+  // inverse hyp (longest first)
+  e=e.replace(/sinh⁻¹\(/g,'_ASINH(').replace(/cosh⁻¹\(/g,'_ACOSH(').replace(/tanh⁻¹\(/g,'_ATANH(');
+  // inverse trig
+  e=e.replace(/sin⁻¹\(/g,'_ASIN(').replace(/cos⁻¹\(/g,'_ACOS(').replace(/tan⁻¹\(/g,'_ATAN(');
+  // hyp
+  e=e.replace(/sinh\(/g,'_SINH(').replace(/cosh\(/g,'_COSH(').replace(/tanh\(/g,'_TANH(');
+  // trig
+  e=e.replace(/sin\(/g,'_SIN(').replace(/cos\(/g,'_COS(').replace(/tan\(/g,'_TAN(');
+  // log/ln/abs/root
+  e=e.replace(/log\(/g,'_LOG(').replace(/ln\(/g,'_LN(').replace(/Abs\(/g,'_ABS(');
+  e=e.replace(/√\(/g,'_SQRT(').replace(/∛\(/g,'_CBRT(');
+  // power
+  e=e.replace(/\^/g,'**');
+  // postfix
+  e=e.replace(/²/g,'**2').replace(/³/g,'**3').replace(/⁻¹/g,'**(-1)');
+  // factorial
+  e=fixFactorials(e);
+  // combos
+  e=e.replace(/([\d.]+)C([\d.]+)/g,'_NCR($1,$2)');
+  e=e.replace(/([\d.]+)P([\d.]+)/g,'_NPR($1,$2)');
+  // percent
+  e=e.replace(/%/g,'/100');
+  // constants
+  e=e.replace(/π/g,'(_PI)');
+  // digit immediately before 'e' (Euler's) but not scientific notation like 3e5
+  e=e.replace(/(\d)e(?![A-Za-z\d.+\-])/g,'$1*(_EU)');
+  e=e.replace(/(?<![A-Za-z_\d])e(?![A-Za-z_\d])/g,'(_EU)');
+  e=e.replace(/Ans/g,'(_ANS)').replace(/Mem/g,'(_MEM)');
+  // implicit mult
+  e=e.replace(/(\d)\(/g,'$1*(');
+  e=e.replace(/\)(\d)/g,')*$1');
+  e=e.replace(/\)\(/g,')*(');
+  e=e.replace(/(\d)(_PI|_EU|_ANS|_MEM)/g,'$1*$2');
+  e=e.replace(/(_PI|_EU|_ANS|_MEM)(\()/g,'$1*$2');
+  e=e.replace(/(_PI|_EU|_ANS|_MEM)(\d)/g,'$1*$2');
   return e;
 }
 
-// ── EVALUATOR ──────────────────────────────────────────
-function evaluate() {
-  if (!expr.trim()) return null;
+// ── EVALUATE ────────────────────────────────────────────────────
+function evaluate(){
+  if(!expr.trim()) return null;
   let e;
-  try { e = transformExpr(expr); } catch(_) { return null; }
-  try {
-    const fn = new Function(
+  try{e=transform(expr);}catch(_){return null;}
+  try{
+    const fn=new Function(
       '_SIN','_COS','_TAN','_ASIN','_ACOS','_ATAN',
       '_SINH','_COSH','_TANH','_ASINH','_ACOSH','_ATANH',
-      '_LOG','_LN','_ABS','_SQRT','_CBRT','_FACT',
+      '_LOG','_LN','_ABS','_SQRT','_CBRT','_F',
       '_NCR','_NPR','_PI','_EU','_ANS','_MEM','_EE',
       '"use strict";try{return('+e+')}catch(_e){return undefined}'
     );
-    const result = fn(
-      x=>Math.sin(toRad(x)),   x=>Math.cos(toRad(x)),   x=>Math.tan(toRad(x)),
-      x=>fromRad(Math.asin(x)),x=>fromRad(Math.acos(x)),x=>fromRad(Math.atan(x)),
+    const v=fn(
+      x=>Math.sin(toRad(x)), x=>Math.cos(toRad(x)), x=>Math.tan(toRad(x)),
+      x=>fromRad(Math.asin(x)), x=>fromRad(Math.acos(x)), x=>fromRad(Math.atan(x)),
       Math.sinh, Math.cosh, Math.tanh, Math.asinh, Math.acosh, Math.atanh,
       Math.log10, Math.log, Math.abs, Math.sqrt, Math.cbrt, factorial,
-      nCr, nPr,
-      Math.PI, Math.E, lastAns, mem,
-      x => Math.pow(10,x)  // _EE
+      nCr, nPr, Math.PI, Math.E, lastAns, mem, x=>Math.pow(10,x)
     );
-    return (typeof result==='number') ? result : null;
-  } catch(_) { return null; }
+    return typeof v==='number'?v:null;
+  }catch(_){return null;}
 }
 
-// ── DISPLAY ────────────────────────────────────────────
-function fmtNum(n) {
-  if (!isFinite(n)) return n>0?'+∞':'-∞';
-  if (Number.isInteger(n) && Math.abs(n)<1e15) return n.toString();
-  let s = parseFloat(n.toPrecision(10)).toString();
-  if (s.length > 13) {
-    s = n.toExponential(6);
-    s = s.replace(/\.?0+(e)/,'$1');
-  }
+// ── DISPLAY ─────────────────────────────────────────────────────
+function fmt(n){
+  if(!isFinite(n)) return n>0?'+∞':'-∞';
+  if(Number.isInteger(n)&&Math.abs(n)<1e15) return n.toString();
+  let s=parseFloat(n.toPrecision(10)).toString();
+  if(s.length>14){s=n.toExponential(6);s=s.replace(/\.?0+(e)/,'$1');}
   return s;
 }
-
-function showVal(v) {
-  const el = document.getElementById('d-result');
-  if (v===null||v===undefined||(typeof v==='number'&&isNaN(v))) {
-    el.textContent='Math ERROR'; el.style.fontSize='15px'; return;
+function showRes(v){
+  const el=document.getElementById('d-res');
+  if(v===null||v===undefined||(typeof v==='number'&&isNaN(v))){
+    el.textContent='Math ERROR';el.style.fontSize='14px';return;
   }
-  const s = fmtNum(v);
-  el.textContent = s;
-  el.style.fontSize = s.length>14?'13px':s.length>10?'18px':'24px';
+  const s=fmt(v);
+  el.textContent=s;
+  el.style.fontSize=s.length>16?'12px':s.length>13?'15px':s.length>10?'18px':'22px';
+}
+function ind(id,on){ const el=document.getElementById(id); if(el) el.classList.toggle('on',!!on); }
+function render(){
+  document.getElementById('d-expr').textContent=expr;
+  ind('is',shiftOn); ind('ia',alphaOn); ind('im',mem!==0);
+  ind('id',angMode==='DEG'); ind('ir',angMode==='RAD'); ind('ig',angMode==='GRA');
+}
+function live(){ const v=evaluate(); if(v!==null) showRes(v); }
+function clr(){ shiftOn=false; alphaOn=false; render(); }
+
+// ── BUTTON HANDLERS ─────────────────────────────────────────────
+
+// After pressing =:
+//   isOp=true  → chain with last answer (Ans + operator)
+//   isOp=false → start fresh expression
+function afterEq(isOp){
+  if(!postEq) return;
+  postEq=false;
+  if(isOp) expr='Ans';
+  else     expr='';
 }
 
-function setInd(id, active) {
-  const el = document.getElementById(id);
-  if (el) el.classList.toggle('on', !!active);
+// Toast: briefly show a message on the expression line
+let toastTimer=null;
+function toast(msg){
+  const el=document.getElementById('d-expr');
+  el.textContent=msg;
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{el.textContent=expr;},1800);
 }
 
-function render() {
-  document.getElementById('d-expr').textContent = expr;
-  setInd('i-s', shiftOn);
-  setInd('i-a', alphaOn);
-  setInd('i-m', mem!==0);
-  setInd('i-d', angMode==='DEG');
-  setInd('i-r', angMode==='RAD');
-  setInd('i-g', angMode==='GRA');
+function pShift(){ shiftOn=!shiftOn; alphaOn=false; render(); }
+function pAlpha(){ alphaOn=!alphaOn; shiftOn=false; render(); }
+function pMode(){
+  angMode=angMode==='DEG'?'RAD':angMode==='RAD'?'GRA':'DEG';
+  clr();
+  const names={'DEG':'Degrees (D)','RAD':'Radians (R)','GRA':'Gradians (G)'};
+  toast('Angle: '+names[angMode]);
+  render();
 }
-
-function livePreview() {
-  const v = evaluate();
-  if (v!==null) showVal(v);
+function pAC(){ expr=''; postEq=false; showRes(0); clr(); render(); }
+function pDEL(){
+  if(postEq){expr='';postEq=false;render();return;}
+  const tok=['sinh⁻¹(','cosh⁻¹(','tanh⁻¹(','sin⁻¹(','cos⁻¹(','tan⁻¹(',
+    'sinh(','cosh(','tanh(','sin(','cos(','tan(',
+    'log(','ln(','√(','∛(','Abs(','×10^(','Ans','⁻¹','²','³'];
+  for(const t of tok){ if(expr.endsWith(t)){expr=expr.slice(0,-t.length);clr();render();return;} }
+  expr=expr.slice(0,-1); clr(); render();
 }
-
-// ── HELPERS ────────────────────────────────────────────
-function clrModes() { shiftOn=false; alphaOn=false; render(); }
-
-// ── BUTTON HANDLERS ────────────────────────────────────
-function pShift() { shiftOn=!shiftOn; alphaOn=false; render(); }
-function pAlpha() { alphaOn=!alphaOn; shiftOn=false; render(); }
-
-function pMode() {
-  angMode = angMode==='DEG'?'RAD':angMode==='RAD'?'GRA':'DEG';
-  clrModes(); render();
-}
-
-function pAC() {
-  expr=''; postEq=false;
-  showVal(0);
-  clrModes(); render();
-}
-
-function pDEL() {
-  if (postEq) { expr=''; postEq=false; render(); return; }
-  const tokens = [
-    'sinh⁻¹(','cosh⁻¹(','tanh⁻¹(',
-    'sin⁻¹(','cos⁻¹(','tan⁻¹(',
-    'sinh(','cosh(','tanh(',
-    'sin(','cos(','tan(',
-    'log(','ln(','√(','∛(','Abs(',
-    '×10^(','Ans','⁻¹','²','³'
-  ];
-  for (const t of tokens) {
-    if (expr.endsWith(t)) { expr=expr.slice(0,-t.length); clrModes(); render(); return; }
+function pNum(n){
+  afterEq(false);
+  if(n==='.'){
+    const seg=expr.split(/[+\-×÷(^]/);
+    if(seg[seg.length-1].includes('.')) return;
   }
-  expr=expr.slice(0,-1);
-  clrModes(); render();
+  expr+=n; clr(); live(); render();
 }
-
-function pNum(n) {
-  if (postEq) { expr=''; postEq=false; }
-  // Prevent double decimal in current number
-  if (n==='.') {
-    const seg = expr.split(/[+\-×÷(^]/);
-    if (seg[seg.length-1].includes('.')) return;
+function pOp(op){
+  afterEq(true);  // chain: keeps 'Ans' prefix so user builds on last result
+  if(expr&&'+-×÷−'.includes(expr.slice(-1))) expr=expr.slice(0,-1);
+  expr+=op; clr(); render();
+}
+function pKey(k){ afterEq(false); expr+=k; clr(); live(); render(); }
+function pF(name){
+  afterEq(false);
+  const sh=shiftOn; clr();
+  switch(name){
+    case'log':  expr+=sh?'10^(':'log('; break;
+    case'ln':   expr+=sh?'e^(':'ln(';   break;
+    case'abs':  expr+='Abs(';            break;
+    case'fact': expr+='!';               break;
+    case'ncr':  expr+=sh?'P':'C';        break;
+    case'sq':   expr+=sh?'⁻¹':'²';     break;
+    case'cube': expr+=sh?'∛(':'³';     break;
+    case'pow':  expr+='^';              break;
+    case'sqrt': expr+='√(';            break;
+    case'cbrt': expr+='∛(';            break;
+    case'sin':  expr+=sh?'sin⁻¹(':'sin('; break;
+    case'cos':  expr+=sh?'cos⁻¹(':'cos('; break;
+    case'tan':  expr+=sh?'tan⁻¹(':'tan('; break;
+    case'sinh': expr+=sh?'sinh⁻¹(':'sinh('; break;
+    case'cosh': expr+=sh?'cosh⁻¹(':'cosh('; break;
+    case'tanh': expr+=sh?'tanh⁻¹(':'tanh('; break;
   }
-  expr += n;
-  clrModes();
-  livePreview();
-  render();
+  live(); render();
 }
-
-function pOp(op) {
-  if (postEq) postEq=false;
-  // Replace trailing operator
-  if (expr && '+-×÷−'.includes(expr.slice(-1))) expr=expr.slice(0,-1);
-  expr += op;
-  clrModes(); render();
-}
-
-function pKey(k) {
-  if (postEq) postEq=false;
-  expr += k;
-  clrModes();
-  livePreview();
-  render();
-}
-
-function pF(name) {
-  if (postEq) postEq=false;
-  const sh = shiftOn;
-  clrModes();
-  switch(name) {
-    case 'log':  expr += sh ? '10^(' : 'log('; break;
-    case 'ln':   expr += sh ? 'e^('  : 'ln(';  break;
-    case 'abs':  expr += 'Abs(';   break;
-    case 'fact': expr += '!';      break;
-    case 'ncr':  expr += sh ? 'P' : 'C'; break;
-    case 'sq':   expr += sh ? '⁻¹' : '²'; break;
-    case 'cube': expr += sh ? '∛(' : '³'; break;
-    case 'pow':  expr += '^';      break;
-    case 'sqrt': expr += '√(';    break;
-    case 'cbrt': expr += '∛(';    break;
-    case 'sin':  expr += sh ? 'sin⁻¹(' : 'sin('; break;
-    case 'cos':  expr += sh ? 'cos⁻¹(' : 'cos('; break;
-    case 'tan':  expr += sh ? 'tan⁻¹(' : 'tan('; break;
-    case 'sinh': expr += sh ? 'sinh⁻¹(' : 'sinh('; break;
-    case 'cosh': expr += sh ? 'cosh⁻¹(' : 'cosh('; break;
-    case 'tanh': expr += sh ? 'tanh⁻¹(' : 'tanh('; break;
-  }
-  livePreview();
-  render();
-}
-
-function pConst(c) {
-  if (postEq) postEq=false;
-  const sh = shiftOn;
-  clrModes();
-  if (c==='pi') { expr += sh ? (Math.random().toFixed(9).slice(1)) : 'π'; }
-  else           { expr += 'e'; }
-  livePreview();
-  render();
-}
-
-function pEXP() {
-  if (postEq) postEq=false;
-  expr += '×10^(';
-  clrModes(); render();
-}
-
-function pM(action) {
-  const sh = shiftOn;
-  clrModes();
-  const v = evaluate();
-  const cur = v!==null ? v : lastAns;
-  if (action==='plus')   { mem += sh ? -cur : cur; render(); }
-  else if (action==='recall') {
-    if (postEq) postEq=false;
-    expr += fmtNum(mem);
-    livePreview(); render();
-  } else if (action==='clear') { mem=0; render(); }
-}
-
-function pANS() {
-  if (postEq) postEq=false;
-  expr += 'Ans';
-  clrModes();
-  livePreview();
-  render();
-}
-
-function pNeg() {
-  if (postEq) { expr='-'; postEq=false; clrModes(); render(); return; }
-  // If expression empty or ends with operator/open-paren: insert unary minus
-  if (!expr || /[+\-×÷−(^]$/.test(expr)) {
-    expr += '-';
+function pConst(c){
+  afterEq(false);
+  const sh=shiftOn; clr();
+  if(c==='pi'){
+    if(sh){ expr+=parseFloat(Math.random().toPrecision(9)).toString(); }
+    else   { expr+='π'; }
   } else {
-    // Find last number and negate it
-    const m = expr.match(/([\d.]+)$/);
-    if (m) {
-      const n = m[1], bef = expr.slice(0,-n.length);
-      const prevChar = bef.slice(-1);
-      if (prevChar==='-') {
-        expr = bef.slice(0,-1) + n;
-      } else {
-        expr = bef + '(-' + n + ')';
-      }
-    } else {
-      expr += '×(-';
-    }
+    expr+='e';
   }
-  clrModes();
-  livePreview();
-  render();
+  live(); render();
 }
-
-function pPercent() {
-  if (postEq) postEq=false;
-  expr += '%';
-  clrModes();
-  livePreview();
-  render();
+function pEXP(){ afterEq(false); expr+='×10^('; clr(); render(); }
+function pM(action){
+  const sh=shiftOn; clr();
+  const v=evaluate(); const cur=v!==null?v:lastAns;
+  if(action==='plus')  { mem+=sh?-cur:cur; toast('M='+(mem>=0?'':'')+fmt(mem)); render(); }
+  else if(action==='recall'){ afterEq(false); expr+=fmt(mem); live(); render(); }
+  else if(action==='clear') { mem=0; toast('Memory Cleared'); render(); }
 }
-
-function pEQ() {
-  clrModes();
-  const v = evaluate();
-  if (v!==null) {
-    lastAns = v;
-    showVal(v);
-    postEq = true;
-  } else {
-    showVal(null);
-    postEq = false;
+function pANS(){ afterEq(false); expr+='Ans'; clr(); live(); render(); }
+function pNeg(){
+  if(postEq){afterEq(false);expr='-';clr();render();return;}
+  if(!expr||/[+\-×÷−(^]$/.test(expr)){ expr+='-'; }
+  else{
+    const m=expr.match(/([\d.]+)$/);
+    if(m){
+      const n=m[1],bef=expr.slice(0,-n.length),pc=bef.slice(-1);
+      expr=pc==='-'?bef.slice(0,-1)+n:bef+'(-'+n+')';
+    } else { expr+='×(-'; }
   }
+  clr(); live(); render();
+}
+function pPct(){ afterEq(false); expr+='%'; clr(); live(); render(); }
+function pEQ(){
+  clr();
+  const v=evaluate();
+  if(v!==null){ lastAns=v; showRes(v); postEq=true; }
+  else showRes(null);
   render();
 }
 
-// ── KEYBOARD ───────────────────────────────────────────
-document.addEventListener('keydown', ev => {
-  if (ev.ctrlKey||ev.metaKey||ev.altKey) return;
-  const k = ev.key;
-  if (k>='0'&&k<='9')            { pNum(k); return; }
-  if (k==='.')                    { pNum('.'); return; }
-  if (k==='+')                    { pOp('+'); return; }
-  if (k==='-')                    { pOp('−'); return; }
-  if (k==='*')                    { pOp('×'); return; }
-  if (k==='/')                    { ev.preventDefault(); pOp('÷'); return; }
-  if (k==='Enter'||k==='=')       { pEQ(); return; }
-  if (k==='Backspace')            { pDEL(); return; }
-  if (k==='Escape')               { pAC(); return; }
-  if (k==='(')                    { pKey('('); return; }
-  if (k===')')                    { pKey(')'); return; }
-  if (k==='%')                    { pPercent(); return; }
-  if (k==='^')                    { pF('pow'); return; }
-  // Letter shortcuts (no modifier)
-  if (k==='s')                    { pF('sin'); return; }
-  if (k==='c')                    { pF('cos'); return; }
-  if (k==='t')                    { pF('tan'); return; }
-  if (k==='l')                    { pF('log'); return; }
-  if (k==='n')                    { pF('ln'); return; }
-  if (k==='r')                    { pF('sqrt'); return; }
-  if (k==='p')                    { pConst('pi'); return; }
-  if (k==='!')                    { pF('fact'); return; }
+// ── KEYBOARD ────────────────────────────────────────────────────
+document.addEventListener('keydown',ev=>{
+  if(ev.ctrlKey||ev.metaKey||ev.altKey) return;
+  const k=ev.key;
+  if(k>='0'&&k<='9')          {pNum(k);return;}
+  if(k==='.')                  {pNum('.');return;}
+  if(k==='+')                  {pOp('+');return;}
+  if(k==='-')                  {pOp('−');return;}
+  if(k==='*')                  {pOp('×');return;}
+  if(k==='/')                  {ev.preventDefault();pOp('÷');return;}
+  if(k==='Enter'||k==='=')     {pEQ();return;}
+  if(k==='Backspace')          {pDEL();return;}
+  if(k==='Escape')             {pAC();return;}
+  if(k==='(')                  {pKey('(');return;}
+  if(k===')')                  {pKey(')');return;}
+  if(k==='%')                  {pPct();return;}
+  if(k==='^')                  {pF('pow');return;}
+  if(k==='s')                  {pF('sin');return;}
+  if(k==='c')                  {pF('cos');return;}
+  if(k==='t')                  {pF('tan');return;}
+  if(k==='l')                  {pF('log');return;}
+  if(k==='n')                  {pF('ln');return;}
+  if(k==='r')                  {pF('sqrt');return;}
+  if(k==='p')                  {pConst('pi');return;}
+  if(k==='!')                  {pF('fact');return;}
 });
 
-// ── INIT ───────────────────────────────────────────────
-(function init() {
-  const s = document.getElementById('solar');
-  for (let i=0;i<20;i++) s.innerHTML+='<div class="solar-cell"></div>';
-  render();
-  showVal(0);
+// ── INIT ────────────────────────────────────────────────────────
+(function(){
+  const s=document.getElementById('solar');
+  for(let i=0;i<22;i++) s.innerHTML+='<div class="sc"></div>';
+  render(); showRes(0);
 })();
 </script>
 </body>
