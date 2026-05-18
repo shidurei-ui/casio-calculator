@@ -7,221 +7,122 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  padding:12px 6px 20px;
-  background:#c8c8c8;
-  font-family:'Segoe UI',Arial,sans-serif;
-  touch-action:manipulation;
-  -webkit-tap-highlight-color:transparent;
-}
-
-/* ── CALCULATOR SHELL ── */
-.calc{
-  width:290px;
-  background:linear-gradient(160deg,#f5f5f5 0%,#e8e8e8 100%);
-  border-radius:14px 14px 10px 10px;
-  box-shadow:
-    0 0 0 1px #b0b0b0,
-    0 4px 0 0 #999,
-    0 8px 24px rgba(0,0,0,.45),
-    0 20px 60px rgba(0,0,0,.3),
-    inset 0 1px 0 rgba(255,255,255,.9);
-  overflow:hidden;
-  position:relative;
-}
-
-/* ── TOP DARK SECTION ── */
-.top{
-  background:linear-gradient(180deg,#1c2672 0%,#111f6e 50%,#0e1a60 100%);
-  padding:12px 14px 0;
-  border-radius:13px 13px 0 0;
-}
-
-/* Brand row */
-.brand-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  margin-bottom:8px;
-}
-.casio-logo{
-  font-family:'Times New Roman',serif;
-  font-size:22px;
-  font-weight:900;
-  font-style:italic;
-  color:#fff;
-  letter-spacing:1.5px;
-  text-shadow:0 1px 3px rgba(0,0,0,.6);
-}
+body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:12px 6px 20px;background:#c8c8c8;font-family:'Segoe UI',Arial,sans-serif;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+.calc{width:290px;background:linear-gradient(160deg,#f5f5f5 0%,#e8e8e8 100%);border-radius:14px 14px 10px 10px;box-shadow:0 0 0 1px #b0b0b0,0 4px 0 0 #999,0 8px 24px rgba(0,0,0,.45),0 20px 60px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.9);overflow:hidden;position:relative;}
+.top{background:linear-gradient(180deg,#1c2672 0%,#111f6e 50%,#0e1a60 100%);padding:12px 14px 0;border-radius:13px 13px 0 0;}
+.brand-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+.casio-logo{font-family:'Times New Roman',serif;font-size:22px;font-weight:900;font-style:italic;color:#fff;letter-spacing:1.5px;text-shadow:0 1px 3px rgba(0,0,0,.6);}
 .model-block{text-align:right;line-height:1.3}
-.model-main{
-  display:block;
-  font-size:11.5px;
-  font-weight:700;
-  color:#a8c8ff;
-  letter-spacing:.3px;
-}
-.model-sub{
-  display:block;
-  font-size:7px;
-  color:#6a9fd8;
-  letter-spacing:.5px;
-  text-transform:uppercase;
-}
-
-/* Solar panel */
-.solar{
-  height:7px;
-  background:#0a0a14;
-  border-radius:2px;
-  margin-bottom:6px;
-  display:flex;
-  gap:1px;
-  padding:1px 2px;
-  border:1px solid #060610;
-  overflow:hidden;
-}
+.model-main{display:block;font-size:11.5px;font-weight:700;color:#a8c8ff;letter-spacing:.3px;}
+.model-sub{display:block;font-size:7px;color:#6a9fd8;letter-spacing:.5px;text-transform:uppercase;}
+.solar{height:7px;background:#0a0a14;border-radius:2px;margin-bottom:6px;display:flex;gap:1px;padding:1px 2px;border:1px solid #060610;overflow:hidden;}
 .sc{flex:1;background:linear-gradient(180deg,rgba(100,140,255,.15),rgba(0,0,0,.05));border-radius:1px}
-
-/* ── DISPLAY ── */
-.disp-wrap{
-  background:linear-gradient(180deg,#0e1a60,#111f6e);
-  padding:0 14px 12px;
-}
-.disp{
-  background:linear-gradient(175deg,#b5c98a 0%,#a8be80 60%,#9fb57a 100%);
-  border:1.5px solid #2a2a2a;
-  border-radius:3px;
-  padding:5px 8px 6px;
-  min-height:68px;
-  position:relative;
-  box-shadow:
-    inset 0 2px 5px rgba(0,0,0,.35),
-    inset 0 -1px 2px rgba(255,255,255,.1);
-  overflow:hidden;
-}
-/* glare */
-.disp::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:40%;
-  background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);
-  pointer-events:none;z-index:1;
-}
-.disp-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  margin-bottom:1px;
-  position:relative;z-index:2;
-}
+.disp-wrap{background:linear-gradient(180deg,#0e1a60,#111f6e);padding:0 14px 12px;}
+.disp{background:linear-gradient(175deg,#b5c98a 0%,#a8be80 60%,#9fb57a 100%);border:1.5px solid #2a2a2a;border-radius:3px;padding:5px 8px 6px;min-height:68px;position:relative;box-shadow:inset 0 2px 5px rgba(0,0,0,.35),inset 0 -1px 2px rgba(255,255,255,.1);overflow:hidden;}
+.disp::before{content:'';position:absolute;top:0;left:0;right:0;height:40%;background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);pointer-events:none;z-index:1;}
+.disp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1px;position:relative;z-index:2;}
 .inds{display:flex;gap:3px}
-.ind{
-  font-size:7px;font-weight:bold;
-  color:#1a2a1a;opacity:.18;
-  font-family:'Courier New',monospace;
-  letter-spacing:.2px;line-height:1;
-  transition:opacity .1s;
-}
+.ind{font-size:7px;font-weight:bold;color:#1a2a1a;opacity:.18;font-family:'Courier New',monospace;letter-spacing:.2px;line-height:1;transition:opacity .1s;}
 .ind.on{opacity:1}
 .ind.si.on{color:#7c3a00}
 .ind.ai.on{color:#7a0000}
 .ang-inds{display:flex;gap:2px}
-#d-expr{
-  font-family:'Courier New',monospace;
-  font-size:11px;color:#111;
-  text-align:right;min-height:14px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  position:relative;z-index:2;letter-spacing:.2px;
-}
-#d-res{
-  font-family:'Courier New',monospace;
-  font-size:22px;font-weight:bold;color:#000;
-  text-align:right;min-height:26px;line-height:1.2;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  position:relative;z-index:2;transition:font-size .08s;
-}
+#d-expr{font-family:'Courier New',monospace;font-size:11px;color:#111;text-align:right;min-height:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative;z-index:2;letter-spacing:.2px;}
+#d-res{font-family:'Courier New',monospace;font-size:22px;font-weight:bold;color:#000;text-align:right;min-height:26px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative;z-index:2;transition:font-size .08s;}
 
-/* ── BUTTON SECTION ── */
-.btns{
-  background:linear-gradient(180deg,#dcdcdc 0%,#d4d4d4 100%);
-  padding:7px 10px 12px;
-}
+/* mode panel between display and buttons */
+#mode-panel{display:none;background:linear-gradient(175deg,#b5c98a 0%,#a8be80 60%,#9fb57a 100%);border:1.5px solid #2a2a2a;border-radius:3px;margin:0 14px 4px;padding:6px 8px;font-family:'Courier New',monospace;font-size:11px;max-height:180px;overflow-y:auto;box-shadow:inset 0 1px 3px rgba(0,0,0,.3);}
+#mode-panel.open{display:block;}
+.mp-title{font-size:10px;font-weight:bold;color:#111;margin-bottom:4px;padding-bottom:2px;border-bottom:1px solid #888;}
+
+/* stat */
+.stat-tbl{width:100%;border-collapse:collapse;font-size:10px;}
+.stat-tbl th,.stat-tbl td{border:1px solid #888;padding:2px 3px;text-align:center;}
+.stat-tbl th{background:rgba(0,0,0,.15);font-size:9px;}
+.stat-tbl td{background:rgba(255,255,255,.2);}
+.stat-tbl tr.hi td{background:rgba(0,60,200,.2);}
+.stat-tbl input{width:52px;background:transparent;border:none;font-family:'Courier New',monospace;font-size:10px;color:#111;text-align:center;outline:none;}
+
+/* eqn */
+.eqn-form{display:flex;flex-wrap:wrap;gap:3px;align-items:center;font-size:10px;color:#111;margin-bottom:4px;}
+.eqn-coef{width:38px;background:rgba(255,255,255,.4);border:1px solid #888;border-radius:2px;font-family:'Courier New',monospace;font-size:10px;color:#111;padding:1px 2px;text-align:center;}
+.eqn-res{font-size:10px;color:#111;margin-top:3px;}
+
+/* table */
+.tbl-header{display:flex;gap:8px;font-size:9px;color:#333;font-weight:bold;margin-bottom:2px;}
+.tbl-row{display:flex;gap:8px;font-size:10px;color:#111;border-bottom:1px solid rgba(0,0,0,.1);padding:1px 0;}
+.tbl-row span{font-family:'Courier New',monospace;min-width:60px;}
+
+/* matrix */
+.mat-wrap{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;}
+.mat-grid{border-collapse:collapse;}
+.mat-grid td{padding:2px;}
+.mat-cell{width:34px;height:20px;background:rgba(255,255,255,.4);border:1px solid #888;border-radius:2px;font-family:'Courier New',monospace;font-size:9px;color:#111;text-align:center;padding:0;outline:none;}
+
+/* base */
+.base-rows{font-size:10px;color:#111;}
+.base-row{display:flex;justify-content:space-between;padding:1px 0;border-bottom:1px solid rgba(0,0,0,.1);}
+.base-lbl{color:#555;font-size:9px;}
+.base-val{font-family:'Courier New',monospace;font-weight:bold;font-size:11px;}
+
+/* vector */
+.vec-wrap{display:flex;gap:8px;align-items:flex-start;}
+.vec-col{display:flex;flex-direction:column;gap:2px;}
+.vec-cell{width:34px;height:20px;background:rgba(255,255,255,.4);border:1px solid #888;border-radius:2px;font-family:'Courier New',monospace;font-size:9px;color:#111;text-align:center;padding:0;outline:none;}
+
+/* BUTTONS */
+.btns{background:linear-gradient(180deg,#dcdcdc 0%,#d4d4d4 100%);padding:7px 10px 12px;}
 .row{display:flex;gap:4px;margin-bottom:4px;justify-content:center}
-
-/* Key wrapper — space above for secondary labels */
 .kw{display:flex;flex-direction:column;align-items:center;position:relative;padding-top:12px}
 .kw0{display:flex;flex-direction:column;align-items:center;position:relative;padding-top:0}
-.lbl{
-  position:absolute;top:0;
-  font-size:6.5px;font-weight:700;white-space:nowrap;
-  left:50%;transform:translateX(-50%);line-height:12px;
-}
+.lbl{position:absolute;top:0;font-size:6.5px;font-weight:700;white-space:nowrap;left:50%;transform:translateX(-50%);line-height:12px;}
 .lsh{color:#b05000}
 .lal{color:#aa0000}
-
-/* ── BUTTON BASE ── */
-button{
-  border:none;border-radius:4px;cursor:pointer;
-  font-family:'Segoe UI',Arial,sans-serif;
-  font-weight:700;font-size:10px;
-  width:46px;height:26px;
-  outline:none;
-  box-shadow:0 2.5px 0 rgba(0,0,0,.5),0 3px 5px rgba(0,0,0,.2);
-  user-select:none;-webkit-user-select:none;
-  transition:filter .06s,transform .05s;
-  letter-spacing:.1px;
-  position:relative;
-  overflow:hidden;
-}
-/* press effect */
+button{border:none;border-radius:4px;cursor:pointer;font-family:'Segoe UI',Arial,sans-serif;font-weight:700;font-size:10px;width:46px;height:26px;outline:none;box-shadow:0 2.5px 0 rgba(0,0,0,.5),0 3px 5px rgba(0,0,0,.2);user-select:none;-webkit-user-select:none;transition:filter .06s,transform .05s;letter-spacing:.1px;position:relative;overflow:hidden;}
 button:active{transform:translateY(2px);box-shadow:0 .5px 0 rgba(0,0,0,.4);filter:brightness(.78)}
-/* subtle top shine on all buttons */
-button::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:45%;
-  background:linear-gradient(180deg,rgba(255,255,255,.22),transparent);
-  border-radius:4px 4px 0 0;pointer-events:none;
-}
-
-/* Sizes */
+button::before{content:'';position:absolute;top:0;left:0;right:0;height:45%;background:linear-gradient(180deg,rgba(255,255,255,.22),transparent);border-radius:4px 4px 0 0;pointer-events:none;}
 .bsm{width:46px;height:24px;font-size:9.5px}
 .bnum{width:46px;height:32px;font-size:14px}
 .beq{width:46px;height:32px;font-size:17px}
-
-/* ── BUTTON COLORS ── */
-/* SHIFT – bright orange */
 .bshift{background:linear-gradient(180deg,#f59a20,#d97706);color:#fff}
-/* ALPHA – red */
 .balpha{background:linear-gradient(180deg,#e84040,#c22020);color:#fff}
-/* AC – red */
 .bac{background:linear-gradient(180deg,#e84040,#c22020);color:#fff}
-/* DEL – medium charcoal */
 .bdel{background:linear-gradient(180deg,#5a6575,#44505e);color:#fff}
-/* MODE – medium blue-gray */
 .bmode{background:linear-gradient(180deg,#5a6a80,#3e5060);color:#fff}
-/* Standard function keys – dark charcoal (like real Casio) */
 .bfn{background:linear-gradient(180deg,#484f5c,#333840);color:#e8e8e8}
-/* Number keys – near black */
 .bnum-k{background:linear-gradient(180deg,#2e3340,#1e222e);color:#fff}
-/* Operator keys (+,−,×,÷) – same dark */
 .bop{background:linear-gradient(180deg,#2e3340,#1e222e);color:#fff}
-/* = key – blue */
 .beq-k{background:linear-gradient(180deg,#3b82f6,#1d4ed8);color:#fff}
-/* Memory keys – slightly teal-dark */
 .bmem{background:linear-gradient(180deg,#3d5c5a,#2a4240);color:#e8ffe8}
-/* Constants (π, e) – dark with slight purple tint */
 .bconst{background:linear-gradient(180deg,#484f5c,#333840);color:#c8d8ff}
-
-/* Separator strip between sections */
 .strip{height:4px;background:linear-gradient(180deg,#b8b8b8,#c8c8c8);margin:2px 0 3px}
 
-/* ── RESPONSIVE ── */
+/* modal overlay */
+.ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:200;justify-content:center;align-items:center;}
+.ov.open{display:flex;}
+.mbox{background:linear-gradient(175deg,#b5c98a 0%,#a8be80 60%,#9fb57a 100%);border:2px solid #2a2a2a;border-radius:4px;padding:8px 10px;min-width:220px;max-width:280px;font-family:'Courier New',monospace;box-shadow:inset 0 2px 5px rgba(0,0,0,.3),0 8px 32px rgba(0,0,0,.5);}
+.mbox-title{font-size:11px;font-weight:bold;color:#111;margin-bottom:6px;border-bottom:1px solid #888;padding-bottom:3px;}
+.mgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;}
+.mgrid2{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.mi{display:flex;align-items:center;gap:4px;padding:5px 4px;cursor:pointer;font-size:11px;color:#111;border-radius:3px;border:1px solid transparent;}
+.mi:hover,.mi:active{background:rgba(0,0,0,.15);border-color:rgba(0,0,0,.2);}
+.mi-n{font-weight:bold;color:#333;width:14px;flex-shrink:0;}
+.mi.active{background:rgba(0,80,0,.2);border-color:rgba(0,80,0,.3);}
+
+/* constants modal */
+.clist{max-height:200px;overflow-y:auto;}
+.ci{display:flex;align-items:center;gap:4px;padding:3px 2px;cursor:pointer;font-size:9.5px;color:#111;border-bottom:1px solid rgba(0,0,0,.1);}
+.ci:hover{background:rgba(0,0,0,.1);}
+.ci-n{width:16px;font-weight:bold;color:#555;flex-shrink:0;}
+.ci-sym{width:44px;font-style:italic;color:#222;flex-shrink:0;}
+.ci-val{flex:1;font-family:'Courier New',monospace;font-size:8.5px;}
+
+/* setup sub */
+.sub-label{font-size:10px;color:#444;margin-bottom:4px;}
+
 @media(max-width:320px){
   .calc{width:100%}
   button{width:40px!important}
-  .bnum,.beq,.bnum-k,.bop,.beq-k,.bmem,.bconst,.bfn,.bdel,.bac,.bmode,.bshift,.balpha{width:40px!important}
   .btns{padding:6px 6px 10px}
   .row{gap:3px}
 }
@@ -229,8 +130,6 @@ button::before{
 </head>
 <body>
 <div class="calc">
-
-  <!-- TOP BRAND + DISPLAY -->
   <div class="top">
     <div class="brand-row">
       <span class="casio-logo">CASIO</span>
@@ -240,7 +139,6 @@ button::before{
       </div>
     </div>
   </div>
-
   <div class="disp-wrap">
     <div class="solar" id="solar"></div>
     <div class="disp">
@@ -249,6 +147,7 @@ button::before{
           <span id="is" class="ind si">S</span>
           <span id="ia" class="ind ai">A</span>
           <span id="im" class="ind">M</span>
+          <span id="icx" class="ind">i</span>
         </div>
         <div class="ang-inds">
           <span id="id" class="ind on">D</span>
@@ -261,46 +160,42 @@ button::before{
     </div>
   </div>
 
-  <!-- BUTTONS -->
-  <div class="btns">
+  <div id="mode-panel"></div>
 
-    <!-- R1: SHIFT ALPHA MODE DEL AC -->
+  <div class="btns">
+    <!-- R1 -->
     <div class="row">
       <div class="kw0"><button class="bshift bsm" onclick="pShift()">SHIFT</button></div>
       <div class="kw0"><button class="balpha bsm" onclick="pAlpha()">ALPHA</button></div>
-      <div class="kw" ><span class="lbl lsh">SETUP</span><button class="bmode bsm" onclick="pMode()">MODE</button></div>
-      <div class="kw" ><span class="lbl lsh">INS</span><button class="bdel bsm" onclick="pDEL()">DEL</button></div>
-      <div class="kw" ><span class="lbl lsh">OFF</span><button class="bac bsm" onclick="pAC()">AC</button></div>
+      <div class="kw"><span class="lbl lsh">SETUP</span><button class="bmode bsm" onclick="pMode()">MODE</button></div>
+      <div class="kw"><span class="lbl lsh">INS</span><button class="bdel bsm" onclick="pDEL()">DEL</button></div>
+      <div class="kw"><span class="lbl lsh">OFF</span><button class="bac bsm" onclick="pAC()">AC</button></div>
     </div>
-
-    <!-- R2: log ln Abs x! nCr -->
+    <!-- R2 -->
     <div class="row">
-      <div class="kw"><span class="lbl lsh">10ˣ</span><button class="bfn bsm" onclick="pF('log')">log</button></div>
-      <div class="kw"><span class="lbl lsh">eˣ</span><button class="bfn bsm" onclick="pF('ln')">ln</button></div>
-      <div class="kw"><span class="lbl lsh">Pol(</span><button class="bfn bsm" onclick="pF('abs')">Abs</button></div>
-      <div class="kw"><span class="lbl lsh">Rec(</span><button class="bfn bsm" onclick="pF('fact')">x!</button></div>
-      <div class="kw"><span class="lbl lsh">nPr</span><button class="bfn bsm" onclick="pF('ncr')">nCr</button></div>
+      <div class="kw"><span class="lbl lsh">10ˣ</span><button class="bfn bsm" id="btn-log" onclick="pF('log')">log</button></div>
+      <div class="kw"><span class="lbl lsh">eˣ</span><button class="bfn bsm" id="btn-ln" onclick="pF('ln')">ln</button></div>
+      <div class="kw"><span class="lbl lsh">Pol(</span><button class="bfn bsm" id="btn-abs" onclick="pF('abs')">Abs</button></div>
+      <div class="kw"><span class="lbl lsh">Rec(</span><button class="bfn bsm" id="btn-fact" onclick="pF('fact')">x!</button></div>
+      <div class="kw"><span class="lbl lsh">nPr</span><button class="bfn bsm" id="btn-ncr" onclick="pF('ncr')">nCr</button></div>
     </div>
-
-    <!-- R3: x² x³ x^y √ ∛ -->
+    <!-- R3 -->
     <div class="row">
       <div class="kw"><span class="lbl lsh">x⁻¹</span><button class="bfn bsm" onclick="pF('sq')">x²</button></div>
-      <div class="kw"><span class="lbl lsh">∛x</span><button class="bfn bsm" onclick="pF('cube')">x³</button></div>
+      <div class="kw"><span class="lbl lsh">∛</span><button class="bfn bsm" onclick="pF('cube')">x³</button></div>
       <div class="kw"><span class="lbl lsh">ˣ√</span><button class="bfn bsm" onclick="pF('pow')">xʸ</button></div>
-      <div class="kw"><span class="lbl lal">x!</span><button class="bfn bsm" onclick="pF('sqrt')">√</button></div>
-      <div class="kw"><span class="lbl lal">ˣ√</span><button class="bfn bsm" onclick="pF('cbrt')">∛</button></div>
+      <div class="kw"><span class="lbl lsh">∫dx</span><button class="bfn bsm" onclick="pF('sqrt')">√</button></div>
+      <div class="kw"><span class="lbl lsh">d/dx</span><button class="bfn bsm" onclick="pF('cbrt')">∛</button></div>
     </div>
-
-    <!-- R4: sin cos tan ( ) -->
+    <!-- R4 -->
     <div class="row">
-      <div class="kw"><span class="lbl lsh">sin⁻¹</span><button class="bfn bsm" onclick="pF('sin')">sin</button></div>
-      <div class="kw"><span class="lbl lsh">cos⁻¹</span><button class="bfn bsm" onclick="pF('cos')">cos</button></div>
-      <div class="kw"><span class="lbl lsh">tan⁻¹</span><button class="bfn bsm" onclick="pF('tan')">tan</button></div>
-      <div class="kw"><span class="lbl lal">π</span><button class="bfn bsm" onclick="pKey('(')">(</button></div>
-      <div class="kw"><span class="lbl lal">e</span><button class="bfn bsm" onclick="pKey(')')">)</button></div>
+      <div class="kw"><span class="lbl lsh">sin⁻¹</span><button class="bfn bsm" id="btn-sin" onclick="pF('sin')">sin</button></div>
+      <div class="kw"><span class="lbl lsh">cos⁻¹</span><button class="bfn bsm" id="btn-cos" onclick="pF('cos')">cos</button></div>
+      <div class="kw"><span class="lbl lsh">tan⁻¹</span><button class="bfn bsm" id="btn-tan" onclick="pF('tan')">tan</button></div>
+      <div class="kw"><span class="lbl lal">π</span><button class="bfn bsm" id="btn-lp" onclick="pKey('(')">(</button></div>
+      <div class="kw"><span class="lbl lal">e</span><button class="bfn bsm" id="btn-rp" onclick="pKey(')')">)</button></div>
     </div>
-
-    <!-- R5: sinh cosh tanh π e -->
+    <!-- R5 -->
     <div class="row">
       <div class="kw"><span class="lbl lsh">sinh⁻¹</span><button class="bfn bsm" onclick="pF('sinh')">sinh</button></div>
       <div class="kw"><span class="lbl lsh">cosh⁻¹</span><button class="bfn bsm" onclick="pF('cosh')">cosh</button></div>
@@ -308,111 +203,341 @@ button::before{
       <div class="kw"><span class="lbl lsh">Ran#</span><button class="bconst bsm" onclick="pConst('pi')">π</button></div>
       <div class="kw"><span class="lbl lsh">→DEG</span><button class="bconst bsm" onclick="pConst('e')">e</button></div>
     </div>
-
-    <!-- R6: EXP M+ MR MC ANS -->
+    <!-- R6 -->
     <div class="row">
-      <div class="kw"><span class="lbl lsh">←</span><button class="bfn bsm" onclick="pEXP()">EXP</button></div>
+      <div class="kw"><span class="lbl lsh">Σ</span><button class="bfn bsm" id="btn-exp" onclick="pEXP()">EXP</button></div>
       <div class="kw"><span class="lbl lsh">M−</span><button class="bmem bsm" onclick="pM('plus')">M+</button></div>
-      <div class="kw"><span class="lbl lsh">STO</span><button class="bmem bsm" onclick="pM('recall')">MR</button></div>
+      <div class="kw"><span class="lbl lsh">STO</span><button class="bmem bsm" id="btn-mr" onclick="pM('recall')">MR</button></div>
       <div class="kw"><span class="lbl lsh">CLR</span><button class="bmem bsm" onclick="pM('clear')">MC</button></div>
       <div class="kw"><span class="lbl lsh">DRG▸</span><button class="bfn bsm" onclick="pANS()">ANS</button></div>
     </div>
-
-    <!-- divider -->
     <div class="strip"></div>
-
-    <!-- R7: 7 8 9 DEL AC -->
+    <!-- R7 -->
     <div class="row">
-      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('7')">7</button></div>
-      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('8')">8</button></div>
-      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('9')">9</button></div>
+      <div class="kw0"><button class="bnum-k bnum" id="btn-7" onclick="pNum('7')">7</button></div>
+      <div class="kw0"><button class="bnum-k bnum" id="btn-8" onclick="pNum('8')">8</button></div>
+      <div class="kw0"><button class="bnum-k bnum" id="btn-9" onclick="pNum('9')">9</button></div>
       <div class="kw0"><button class="bdel bnum" style="font-size:11px" onclick="pDEL()">DEL</button></div>
       <div class="kw0"><button class="bac bnum" style="font-size:12px" onclick="pAC()">AC</button></div>
     </div>
-
-    <!-- R8: 4 5 6 × ÷ -->
+    <!-- R8 -->
     <div class="row">
-      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('4')">4</button></div>
-      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('5')">5</button></div>
-      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('6')">6</button></div>
+      <div class="kw0"><button class="bnum-k bnum" id="btn-4" onclick="pNum('4')">4</button></div>
+      <div class="kw0"><button class="bnum-k bnum" id="btn-5" onclick="pNum('5')">5</button></div>
+      <div class="kw0"><button class="bnum-k bnum" id="btn-6" onclick="pNum('6')">6</button></div>
       <div class="kw0"><button class="bop bnum" onclick="pOp('×')">×</button></div>
       <div class="kw0"><button class="bop bnum" onclick="pOp('÷')">÷</button></div>
     </div>
-
-    <!-- R9: 1 2 3 + − -->
+    <!-- R9 -->
     <div class="row">
-      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('1')">1</button></div>
-      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('2')">2</button></div>
-      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('3')">3</button></div>
+      <div class="kw0"><button class="bnum-k bnum" id="btn-1" onclick="pNum('1')">1</button></div>
+      <div class="kw0"><button class="bnum-k bnum" id="btn-2" onclick="pNum('2')">2</button></div>
+      <div class="kw0"><button class="bnum-k bnum" id="btn-3" onclick="pNum('3')">3</button></div>
       <div class="kw0"><button class="bop bnum" onclick="pOp('+')">+</button></div>
       <div class="kw0"><button class="bop bnum" onclick="pOp('−')">−</button></div>
     </div>
-
-    <!-- R10: 0 . (−) % = -->
+    <!-- R10 -->
     <div class="row">
-      <div class="kw0"><button class="bnum-k bnum" onclick="pNum('0')">0</button></div>
+      <div class="kw0"><button class="bnum-k bnum" id="btn-0" onclick="pNum('0')">0</button></div>
       <div class="kw0"><button class="bnum-k bnum" onclick="pNum('.')">.</button></div>
       <div class="kw0"><button class="bnum-k bnum" style="font-size:11px" onclick="pNeg()">(−)</button></div>
-      <div class="kw0"><button class="bop bnum" onclick="pPct()">%</button></div>
+      <div class="kw0"><button class="bop bnum" id="btn-pct" onclick="pPct()">%</button></div>
       <div class="kw0"><button class="beq-k beq" onclick="pEQ()">=</button></div>
     </div>
+  </div>
+</div>
 
-  </div><!-- /btns -->
-</div><!-- /calc -->
+<!-- MODE MENU -->
+<div class="ov" id="ov-mode" onclick="closeOv('ov-mode')">
+<div class="mbox" onclick="event.stopPropagation()">
+  <div class="mbox-title">MODE</div>
+  <div class="mgrid">
+    <div class="mi" onclick="setCalcMode('COMP')"><span class="mi-n">1</span>COMP</div>
+    <div class="mi" onclick="setCalcMode('CMPLX')"><span class="mi-n">2</span>CMPLX</div>
+    <div class="mi" onclick="setCalcMode('STAT')"><span class="mi-n">3</span>STAT</div>
+    <div class="mi" onclick="setCalcMode('BASE-N')"><span class="mi-n">4</span>BASE-N</div>
+    <div class="mi" onclick="setCalcMode('EQN')"><span class="mi-n">5</span>EQN</div>
+    <div class="mi" onclick="setCalcMode('MATRIX')"><span class="mi-n">6</span>MATRIX</div>
+    <div class="mi" onclick="setCalcMode('TABLE')"><span class="mi-n">7</span>TABLE</div>
+    <div class="mi" onclick="setCalcMode('VECTOR')"><span class="mi-n">8</span>VECTOR</div>
+  </div>
+</div>
+</div>
+
+<!-- SETUP MENU -->
+<div class="ov" id="ov-setup" onclick="closeOv('ov-setup')">
+<div class="mbox" onclick="event.stopPropagation()">
+  <div class="mbox-title">SETUP</div>
+  <div class="mgrid2" style="margin-bottom:6px">
+    <div class="mi" onclick="openSub('angle')"><span class="mi-n">1</span>Angle Unit</div>
+    <div class="mi" onclick="openSub('numfmt')"><span class="mi-n">2</span>Number Fmt</div>
+    <div class="mi" onclick="openSub('disp')"><span class="mi-n">3</span>Input/Out</div>
+    <div class="mi" onclick="openSub('frac')"><span class="mi-n">4</span>Fraction</div>
+  </div>
+  <div id="sub-content"></div>
+</div>
+</div>
+
+<!-- STO PROMPT -->
+<div class="ov" id="ov-sto" onclick="closeOv('ov-sto')">
+<div class="mbox" onclick="event.stopPropagation()">
+  <div class="mbox-title">STO → variable</div>
+  <div class="mgrid" style="margin-bottom:4px">
+    <div class="mi" onclick="doSTO('A')"><span class="mi-n">A</span></div>
+    <div class="mi" onclick="doSTO('B')"><span class="mi-n">B</span></div>
+    <div class="mi" onclick="doSTO('C')"><span class="mi-n">C</span></div>
+    <div class="mi" onclick="doSTO('D')"><span class="mi-n">D</span></div>
+    <div class="mi" onclick="doSTO('E')"><span class="mi-n">E</span></div>
+    <div class="mi" onclick="doSTO('F')"><span class="mi-n">F</span></div>
+    <div class="mi" onclick="doSTO('X')"><span class="mi-n">X</span></div>
+    <div class="mi" onclick="doSTO('Y')"><span class="mi-n">Y</span></div>
+    <div class="mi" onclick="doSTO('M')"><span class="mi-n">M</span></div>
+  </div>
+</div>
+</div>
+
+<!-- RCL PROMPT -->
+<div class="ov" id="ov-rcl" onclick="closeOv('ov-rcl')">
+<div class="mbox" onclick="event.stopPropagation()">
+  <div class="mbox-title">RCL variable</div>
+  <div class="mgrid">
+    <div class="mi" onclick="doRCL('A')"><span class="mi-n">A</span></div>
+    <div class="mi" onclick="doRCL('B')"><span class="mi-n">B</span></div>
+    <div class="mi" onclick="doRCL('C')"><span class="mi-n">C</span></div>
+    <div class="mi" onclick="doRCL('D')"><span class="mi-n">D</span></div>
+    <div class="mi" onclick="doRCL('E')"><span class="mi-n">E</span></div>
+    <div class="mi" onclick="doRCL('F')"><span class="mi-n">F</span></div>
+    <div class="mi" onclick="doRCL('X')"><span class="mi-n">X</span></div>
+    <div class="mi" onclick="doRCL('Y')"><span class="mi-n">Y</span></div>
+    <div class="mi" onclick="doRCL('M')"><span class="mi-n">M</span></div>
+  </div>
+</div>
+</div>
+
+<!-- STAT TYPE -->
+<div class="ov" id="ov-stat" onclick="closeOv('ov-stat')">
+<div class="mbox" onclick="event.stopPropagation()">
+  <div class="mbox-title">STAT type</div>
+  <div class="mgrid2">
+    <div class="mi" onclick="setStatType('1-VAR')"><span class="mi-n">1</span>1-VAR</div>
+    <div class="mi" onclick="setStatType('A+BX')"><span class="mi-n">2</span>A+BX</div>
+    <div class="mi" onclick="setStatType('_+CX²')"><span class="mi-n">3</span>_+CX²</div>
+    <div class="mi" onclick="setStatType('ln X')"><span class="mi-n">4</span>ln X</div>
+    <div class="mi" onclick="setStatType('e^X')"><span class="mi-n">5</span>e^X</div>
+    <div class="mi" onclick="setStatType('A·B^X')"><span class="mi-n">6</span>A·B^X</div>
+    <div class="mi" onclick="setStatType('A·X^B')"><span class="mi-n">7</span>A·X^B</div>
+    <div class="mi" onclick="setStatType('1/X')"><span class="mi-n">8</span>1/X</div>
+  </div>
+</div>
+</div>
+
+<!-- EQN TYPE -->
+<div class="ov" id="ov-eqn" onclick="closeOv('ov-eqn')">
+<div class="mbox" onclick="event.stopPropagation()">
+  <div class="mbox-title">EQN type</div>
+  <div class="mgrid2">
+    <div class="mi" onclick="setEqnType(1)"><span class="mi-n">1</span>anX²+bnX+cn</div>
+    <div class="mi" onclick="setEqnType(2)"><span class="mi-n">2</span>anX³+…+dn</div>
+    <div class="mi" onclick="setEqnType(3)"><span class="mi-n">3</span>2×2 Linear</div>
+    <div class="mi" onclick="setEqnType(4)"><span class="mi-n">4</span>3×3 Linear</div>
+  </div>
+</div>
+</div>
+
+<!-- MATRIX OP -->
+<div class="ov" id="ov-matop" onclick="closeOv('ov-matop')">
+<div class="mbox" onclick="event.stopPropagation()">
+  <div class="mbox-title">MATRIX op</div>
+  <div class="mgrid2">
+    <div class="mi" onclick="matOp('det')"><span class="mi-n">1</span>det(A)</div>
+    <div class="mi" onclick="matOp('inv')"><span class="mi-n">2</span>A⁻¹</div>
+    <div class="mi" onclick="matOp('trnA')"><span class="mi-n">3</span>Trn(A)</div>
+    <div class="mi" onclick="matOp('add')"><span class="mi-n">4</span>A+B</div>
+    <div class="mi" onclick="matOp('sub')"><span class="mi-n">5</span>A−B</div>
+    <div class="mi" onclick="matOp('mul')"><span class="mi-n">6</span>A×B</div>
+  </div>
+</div>
+</div>
+
+<!-- VECTOR OP -->
+<div class="ov" id="ov-vecop" onclick="closeOv('ov-vecop')">
+<div class="mbox" onclick="event.stopPropagation()">
+  <div class="mbox-title">VECTOR op</div>
+  <div class="mgrid2">
+    <div class="mi" onclick="vecOp('dot')"><span class="mi-n">1</span>A·B (dot)</div>
+    <div class="mi" onclick="vecOp('cross')"><span class="mi-n">2</span>A×B (cross)</div>
+    <div class="mi" onclick="vecOp('magA')"><span class="mi-n">3</span>|A|</div>
+    <div class="mi" onclick="vecOp('magB')"><span class="mi-n">4</span>|B|</div>
+    <div class="mi" onclick="vecOp('add')"><span class="mi-n">5</span>A+B</div>
+    <div class="mi" onclick="vecOp('sub')"><span class="mi-n">6</span>A−B</div>
+  </div>
+</div>
+</div>
+
+<!-- PHYSICAL CONSTANTS -->
+<div class="ov" id="ov-const" onclick="closeOv('ov-const')">
+<div class="mbox" onclick="event.stopPropagation()">
+  <div class="mbox-title">Physical Constants</div>
+  <div class="clist" id="const-list"></div>
+</div>
+</div>
 
 <script>
 'use strict';
 
-// ── STATE ──────────────────────────────────────────────────────
+// ── STATE ──────────────────────────────────────────────────────────────────
 let expr    = '';
 let shiftOn = false;
 let alphaOn = false;
-let angMode = 'DEG';  // DEG | RAD | GRA
+let angMode = 'DEG';
 let mem     = 0;
 let lastAns = 0;
 let postEq  = false;
+let calcMode= 'COMP';
+let history = [];
+let histIdx = -1;
+let numFmt  = {type:'Norm',n:1};  // Norm1/2, Fix0-9, Sci0-9
+let fracMode= 'd/c';              // d/c | a b/c
+let dispMode= 'MthIO';
 
-// ── ANGLE ──────────────────────────────────────────────────────
-const toRad   = x => angMode==='RAD'?x : angMode==='GRA'?x*Math.PI/200 : x*Math.PI/180;
-const fromRad = x => angMode==='RAD'?x : angMode==='GRA'?x*200/Math.PI : x*180/Math.PI;
+let vars = {A:0,B:0,C:0,D:0,E:0,F:0,X:0,Y:0,M:0};
 
-// ── MATH ────────────────────────────────────────────────────────
+// STAT
+let statType = '1-VAR';
+let statData = [];   // [{x, freq}] or [{x,y}]
+let statRow  = 0;
+let statCol  = 'x'; // 'x' | 'freq' | 'y'
+
+// BASE-N
+let baseMode = 'DEC';
+
+// EQN
+let eqnType   = 1;
+let eqnCoeffs = [0,0,0];  // will resize per type
+
+// MATRIX
+let matA = null, matB = null;
+let matEdit = 'A';
+let matAr = 2, matAc = 2, matBr = 2, matBc = 2;
+
+// VECTOR
+let vecA = [0,0,0], vecB = [0,0,0];
+let vecDim = 3;
+
+// TABLE
+let tableExpr  = '';
+let tableStart = 0, tableEnd = 6, tableStep = 1;
+let tablePhase = 'expr'; // 'expr'|'start'|'end'|'step'|'result'
+
+// STO waiting
+let stoWaiting = false;
+
+// ── PHYSICAL CONSTANTS ─────────────────────────────────────────────────────
+const PHYS_CONST = [
+  {sym:'c',    name:'Speed of light',       val:299792458},
+  {sym:'h',    name:'Planck constant',      val:6.62607015e-34},
+  {sym:'ħ',    name:'Reduced Planck',       val:1.054571817e-34},
+  {sym:'G',    name:'Gravitational const',  val:6.67430e-11},
+  {sym:'Vm',   name:'Molar volume',         val:22.41396954e-3},
+  {sym:'NA',   name:'Avogadro number',      val:6.02214076e23},
+  {sym:'kB',   name:'Boltzmann const',      val:1.380649e-23},
+  {sym:'R',    name:'Gas constant',         val:8.314462618},
+  {sym:'F',    name:'Faraday const',        val:96485.33212},
+  {sym:'e',    name:'Elementary charge',    val:1.602176634e-19},
+  {sym:'ε₀',   name:'Electric constant',    val:8.8541878128e-12},
+  {sym:'μ₀',   name:'Magnetic constant',    val:1.25663706212e-6},
+  {sym:'me',   name:'Electron mass',        val:9.1093837015e-31},
+  {sym:'mp',   name:'Proton mass',          val:1.67262192369e-27},
+  {sym:'mn',   name:'Neutron mass',         val:1.67492749804e-27},
+  {sym:'mμ',   name:'Muon mass',            val:1.883531627e-28},
+  {sym:'u',    name:'Atomic mass unit',     val:1.66053906660e-27},
+  {sym:'a₀',   name:'Bohr radius',          val:5.29177210903e-11},
+  {sym:'rp',   name:'Proton charge radius', val:8.414e-16},
+  {sym:'α',    name:'Fine-structure const', val:7.2973525693e-3},
+  {sym:'σ',    name:'Stefan-Boltzmann',     val:5.670374419e-8},
+  {sym:'Ry',   name:'Rydberg constant',     val:10973731.568160},
+  {sym:'eV',   name:'Electron-volt',        val:1.602176634e-19},
+  {sym:'g',    name:'Std gravity',          val:9.80665},
+  {sym:'atm',  name:'Std atmosphere',       val:101325},
+  {sym:'ly',   name:'Light year (m)',        val:9.4607304725808e15},
+  {sym:'pc',   name:'Parsec (m)',            val:3.085677581e16},
+  {sym:'AU',   name:'Astron. unit (m)',      val:1.495978707e11},
+  {sym:'μB',   name:'Bohr magneton',        val:9.2740100783e-24},
+  {sym:'μN',   name:'Nuclear magneton',     val:5.0507837461e-27},
+];
+
+// ── ANGLE ──────────────────────────────────────────────────────────────────
+const toRad   = x => angMode==='RAD'?x:angMode==='GRA'?x*Math.PI/200:x*Math.PI/180;
+const fromRad = x => angMode==='RAD'?x:angMode==='GRA'?x*200/Math.PI:x*180/Math.PI;
+
+// ── MATH HELPERS ───────────────────────────────────────────────────────────
 function factorial(n){
   n=Math.round(n);
   if(n<0||n>170) return NaN;
   if(n<=1) return n<0?NaN:1;
-  let r=1; for(let i=2;i<=n;i++) r*=i; return r;
+  let r=1;for(let i=2;i<=n;i++) r*=i;return r;
 }
 function nCr(n,r){
   n=Math.round(n);r=Math.round(r);
   if(r<0||r>n||n<0) return 0;
   if(r===0||r===n) return 1;
   r=Math.min(r,n-r);
-  let res=1; for(let i=0;i<r;i++) res=res*(n-i)/(i+1);
+  let res=1;for(let i=0;i<r;i++) res=res*(n-i)/(i+1);
   return Math.round(res);
 }
-function nPr(n,r){
-  n=Math.round(n);r=Math.round(r);
-  if(r<0||r>n||n<0) return 0;
-  return factorial(n)/factorial(n-r);
+function nPr(n,r){n=Math.round(n);r=Math.round(r);if(r<0||r>n||n<0) return 0;return factorial(n)/factorial(n-r);}
+
+// float→fraction helper
+function toFrac(x,maxD=1000){
+  if(!isFinite(x)) return null;
+  const neg=x<0;x=Math.abs(x);
+  const intPart=Math.floor(x);x-=intPart;
+  if(x<1e-10) return {whole:neg?-intPart:intPart,num:0,den:1};
+  let h1=1,h2=0,k1=0,k2=1,b=x;
+  for(let i=0;i<64;i++){
+    const a=Math.floor(b);
+    const h=a*h1+h2,k=a*k1+k2;
+    if(k>maxD) break;
+    h2=h1;h1=h;k2=k1;k1=k;
+    b=1/(b-a);if(Math.abs(b)>1e10) break;
+  }
+  const num=intPart*k1+h1;
+  return {whole:0,num:neg?-num:num,den:k1};
 }
 
-// ── TRANSFORM ──────────────────────────────────────────────────
+// numerical integration (Simpson 1/3)
+function integrate(fn,a,b,n=100){
+  n=n%2===0?n:n+1;
+  const h=(b-a)/n;
+  let s=fn(a)+fn(b);
+  for(let i=1;i<n;i++) s+=(i%2===0?2:4)*fn(a+i*h);
+  return s*h/3;
+}
+// numerical derivative
+function derivative(fn,x,h=1e-5){return(fn(x+h)-fn(x-h))/(2*h);}
+// summation
+function summation(fn,start,end){
+  let s=0;for(let i=start;i<=end;i++) s+=fn(i);return s;
+}
+
+// Pol/Rec
+function polConv(x,y){const r=Math.sqrt(x*x+y*y);const th=fromRad(Math.atan2(y,x));return{r,th};}
+function recConv(r,th){const x=r*Math.cos(toRad(th));const y=r*Math.sin(toRad(th));return{x,y};}
+
+// ── TRANSFORM ──────────────────────────────────────────────────────────────
 function fixFactorials(e){
   while(e.includes('!')){
     const idx=e.indexOf('!');
     if(idx===0){e=e.slice(1);continue;}
-    const bef=e.slice(0,idx), aft=e.slice(idx+1);
+    const bef=e.slice(0,idx),aft=e.slice(idx+1);
     let start;
     if(bef.endsWith(')')){
       let depth=0,i=bef.length-1;
-      while(i>=0){if(bef[i]===')') depth++; else if(bef[i]==='('){depth--;if(depth===0) break;} i--;}
-      let fs=i; while(fs>0&&/[A-Za-z_]/.test(bef[fs-1])) fs--;
+      while(i>=0){if(bef[i]===')') depth++;else if(bef[i]==='('){depth--;if(depth===0) break;}i--;}
+      let fs=i;while(fs>0&&/[A-Za-z_]/.test(bef[fs-1])) fs--;
       start=fs;
     }else{
-      let i=bef.length-1;
-      while(i>=0&&/[\d.]/.test(bef[i])) i--;
-      start=i+1;
+      let i=bef.length-1;while(i>=0&&/[\d.]/.test(bef[i])) i--;start=i+1;
     }
     const op=bef.slice(start);
     if(!op){e=e.slice(0,idx)+e.slice(idx+1);continue;}
@@ -423,101 +548,149 @@ function fixFactorials(e){
 
 function transform(s){
   let e=s;
+  // variable substitution
+  e=e.replace(/\bA\b/g,'(_VA)').replace(/\bB\b/g,'(_VB)').replace(/\bC\b/g,'(_VC)')
+     .replace(/\bD\b/g,'(_VD)').replace(/\bE\b/g,'(_VE)').replace(/\bF\b/g,'(_VF)')
+     .replace(/\bX\b/g,'(_VX)').replace(/\bY\b/g,'(_VY)').replace(/\bM\b/g,'(_VM)');
   e=e.replace(/×10\^\(/g,'*_EE(');
   e=e.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');
-  // inverse hyp (longest first)
   e=e.replace(/sinh⁻¹\(/g,'_ASINH(').replace(/cosh⁻¹\(/g,'_ACOSH(').replace(/tanh⁻¹\(/g,'_ATANH(');
-  // inverse trig
   e=e.replace(/sin⁻¹\(/g,'_ASIN(').replace(/cos⁻¹\(/g,'_ACOS(').replace(/tan⁻¹\(/g,'_ATAN(');
-  // hyp
   e=e.replace(/sinh\(/g,'_SINH(').replace(/cosh\(/g,'_COSH(').replace(/tanh\(/g,'_TANH(');
-  // trig
   e=e.replace(/sin\(/g,'_SIN(').replace(/cos\(/g,'_COS(').replace(/tan\(/g,'_TAN(');
-  // log/ln/abs/root
   e=e.replace(/log\(/g,'_LOG(').replace(/ln\(/g,'_LN(').replace(/Abs\(/g,'_ABS(');
+  e=e.replace(/Pol\(/g,'_POL(').replace(/Rec\(/g,'_REC(');
+  e=e.replace(/∫\(/g,'_INT(').replace(/d\/dx\(/g,'_DDX(').replace(/Σ\(/g,'_SUM(');
   e=e.replace(/√\(/g,'_SQRT(').replace(/∛\(/g,'_CBRT(');
-  // power
   e=e.replace(/\^/g,'**');
-  // postfix
   e=e.replace(/²/g,'**2').replace(/³/g,'**3').replace(/⁻¹/g,'**(-1)');
-  // factorial
   e=fixFactorials(e);
-  // combos
   e=e.replace(/([\d.]+)C([\d.]+)/g,'_NCR($1,$2)');
   e=e.replace(/([\d.]+)P([\d.]+)/g,'_NPR($1,$2)');
-  // percent
   e=e.replace(/%/g,'/100');
-  // constants
   e=e.replace(/π/g,'(_PI)');
-  // digit immediately before 'e' (Euler's) but not scientific notation like 3e5
   e=e.replace(/(\d)e(?![A-Za-z\d.+\-])/g,'$1*(_EU)');
   e=e.replace(/(?<![A-Za-z_\d])e(?![A-Za-z_\d])/g,'(_EU)');
   e=e.replace(/Ans/g,'(_ANS)').replace(/Mem/g,'(_MEM)');
-  // implicit mult
   e=e.replace(/(\d)\(/g,'$1*(');
   e=e.replace(/\)(\d)/g,')*$1');
   e=e.replace(/\)\(/g,')*(');
-  e=e.replace(/(\d)(_PI|_EU|_ANS|_MEM)/g,'$1*$2');
-  e=e.replace(/(_PI|_EU|_ANS|_MEM)(\()/g,'$1*$2');
-  e=e.replace(/(_PI|_EU|_ANS|_MEM)(\d)/g,'$1*$2');
+  e=e.replace(/(\d)(_PI|_EU|_ANS|_MEM|_VA|_VB|_VC|_VD|_VE|_VF|_VX|_VY|_VM)/g,'$1*$2');
+  e=e.replace(/(_PI|_EU|_ANS|_MEM|_VA|_VB|_VC|_VD|_VE|_VF|_VX|_VY|_VM)(\()/g,'$1*$2');
   return e;
 }
 
-// ── EVALUATE ────────────────────────────────────────────────────
-function evaluate(){
-  if(!expr.trim()) return null;
-  let e;
-  try{e=transform(expr);}catch(_){return null;}
+// ── EVALUATE ───────────────────────────────────────────────────────────────
+function makeEvalFn(e){
+  return new Function(
+    '_SIN','_COS','_TAN','_ASIN','_ACOS','_ATAN',
+    '_SINH','_COSH','_TANH','_ASINH','_ACOSH','_ATANH',
+    '_LOG','_LN','_ABS','_SQRT','_CBRT','_F',
+    '_NCR','_NPR','_PI','_EU','_ANS','_MEM','_EE',
+    '_VA','_VB','_VC','_VD','_VE','_VF','_VX','_VY','_VM',
+    '_POL','_REC','_INT','_DDX','_SUM',
+    '"use strict";try{return('+e+')}catch(_e){return undefined}'
+  );
+}
+function evalArgs(){
+  return [
+    x=>Math.sin(toRad(x)), x=>Math.cos(toRad(x)), x=>Math.tan(toRad(x)),
+    x=>fromRad(Math.asin(x)), x=>fromRad(Math.acos(x)), x=>fromRad(Math.atan2?Math.atan(x):x),
+    Math.sinh, Math.cosh, Math.tanh, Math.asinh, Math.acosh, Math.atanh,
+    Math.log10, Math.log, Math.abs, Math.sqrt, Math.cbrt, factorial,
+    nCr, nPr, Math.PI, Math.E, lastAns, mem, x=>Math.pow(10,x),
+    vars.A, vars.B, vars.C, vars.D, vars.E, vars.F, vars.X, vars.Y, vars.M,
+    (x,y)=>{const p=polConv(x,y);return p.r;},  // POL returns r (simplified)
+    (r,th)=>{const p=recConv(r,th);return p.x;}, // REC returns x (simplified)
+    (fx,a,b)=>integrate(t=>evalExprX(fx,t),a,b),
+    (fx,a)=>derivative(t=>evalExprX(fx,t),a),
+    (fx,s,e2)=>summation(t=>evalExprX(fx,t),s,e2)
+  ];
+}
+function evalExprX(fxStr,xVal){
+  const tmp=vars.X;vars.X=xVal;
+  const v=evaluateStr(fxStr);
+  vars.X=tmp;return v!==null?v:0;
+}
+function evaluateStr(s){
+  if(!s||!s.trim()) return null;
+  let e;try{e=transform(s);}catch(_){return null;}
   try{
-    const fn=new Function(
-      '_SIN','_COS','_TAN','_ASIN','_ACOS','_ATAN',
-      '_SINH','_COSH','_TANH','_ASINH','_ACOSH','_ATANH',
-      '_LOG','_LN','_ABS','_SQRT','_CBRT','_F',
-      '_NCR','_NPR','_PI','_EU','_ANS','_MEM','_EE',
-      '"use strict";try{return('+e+')}catch(_e){return undefined}'
-    );
-    const v=fn(
-      x=>Math.sin(toRad(x)), x=>Math.cos(toRad(x)), x=>Math.tan(toRad(x)),
-      x=>fromRad(Math.asin(x)), x=>fromRad(Math.acos(x)), x=>fromRad(Math.atan(x)),
-      Math.sinh, Math.cosh, Math.tanh, Math.asinh, Math.acosh, Math.atanh,
-      Math.log10, Math.log, Math.abs, Math.sqrt, Math.cbrt, factorial,
-      nCr, nPr, Math.PI, Math.E, lastAns, mem, x=>Math.pow(10,x)
-    );
-    return typeof v==='number'?v:null;
+    const fn=makeEvalFn(e);
+    const v=fn.apply(null,evalArgs());
+    return typeof v==='number'&&isFinite(v)?v:typeof v==='number'?v:null;
   }catch(_){return null;}
 }
+function evaluate(){return evaluateStr(expr);}
 
-// ── DISPLAY ─────────────────────────────────────────────────────
+// ── DISPLAY FORMAT ─────────────────────────────────────────────────────────
+let showFrac = false;
 function fmt(n){
+  if(n===null||n===undefined) return 'Math ERROR';
   if(!isFinite(n)) return n>0?'+∞':'-∞';
+  if(isNaN(n)) return 'Math ERROR';
+  if(numFmt.type==='Fix'){
+    return n.toFixed(Math.min(numFmt.n,10));
+  }
+  if(numFmt.type==='Sci'){
+    return n.toExponential(Math.min(numFmt.n,9));
+  }
+  // Norm
   if(Number.isInteger(n)&&Math.abs(n)<1e15) return n.toString();
   let s=parseFloat(n.toPrecision(10)).toString();
   if(s.length>14){s=n.toExponential(6);s=s.replace(/\.?0+(e)/,'$1');}
   return s;
 }
-function showRes(v){
+function fmtFrac(n){
+  if(!isFinite(n)||isNaN(n)) return fmt(n);
+  const f=toFrac(n);
+  if(!f||f.den===1) return fmt(n);
+  if(fracMode==='a b/c'&&f.whole!==0){
+    const sign=f.num<0?'-':'';
+    return `${sign}${Math.abs(f.whole)} ${Math.abs(f.num%f.den)}/${f.den}`;
+  }
+  return `${f.num}/${f.den}`;
+}
+function showRes(v,forceStr){
   const el=document.getElementById('d-res');
+  if(forceStr!==undefined){el.textContent=forceStr;el.style.fontSize='14px';return;}
   if(v===null||v===undefined||(typeof v==='number'&&isNaN(v))){
     el.textContent='Math ERROR';el.style.fontSize='14px';return;
   }
-  const s=fmt(v);
+  const s=showFrac?fmtFrac(v):fmt(v);
   el.textContent=s;
-  el.style.fontSize=s.length>16?'12px':s.length>13?'15px':s.length>10?'18px':'22px';
+  el.style.fontSize=s.length>16?'11px':s.length>13?'14px':s.length>10?'18px':'22px';
 }
-function ind(id,on){ const el=document.getElementById(id); if(el) el.classList.toggle('on',!!on); }
+function ind(id,on){const el=document.getElementById(id);if(el) el.classList.toggle('on',!!on);}
 function render(){
-  document.getElementById('d-expr').textContent=expr;
-  ind('is',shiftOn); ind('ia',alphaOn); ind('im',mem!==0);
-  ind('id',angMode==='DEG'); ind('ir',angMode==='RAD'); ind('ig',angMode==='GRA');
+  const exprEl=document.getElementById('d-expr');
+  if(!exprEl) return;
+  exprEl.textContent=expr;
+  ind('is',shiftOn);ind('ia',alphaOn);ind('im',mem!==0||Object.values(vars).some(v=>v!==0));
+  ind('id',angMode==='DEG');ind('ir',angMode==='RAD');ind('ig',angMode==='GRA');
+  ind('icx',calcMode==='CMPLX');
 }
-function live(){ const v=evaluate(); if(v!==null) showRes(v); }
-function clr(){ shiftOn=false; alphaOn=false; render(); }
+function live(){const v=evaluate();if(v!==null) showRes(v);}
+function clr(){shiftOn=false;alphaOn=false;render();}
 
-// ── BUTTON HANDLERS ─────────────────────────────────────────────
+// ── TOAST ──────────────────────────────────────────────────────────────────
+let toastTimer=null;
+function toast(msg){
+  const el=document.getElementById('d-expr');
+  if(!el) return;
+  el.textContent=msg;
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{el.textContent=expr;},2000);
+}
 
-// After pressing =:
-//   isOp=true  → chain with last answer (Ans + operator)
-//   isOp=false → start fresh expression
+// ── MODAL HELPERS ──────────────────────────────────────────────────────────
+function openOv(id){document.getElementById(id).classList.add('open');}
+function closeOv(id){document.getElementById(id).classList.remove('open');}
+function closeAllOv(){
+  document.querySelectorAll('.ov').forEach(o=>o.classList.remove('open'));
+}
+
+// ── AFTER-EQ ───────────────────────────────────────────────────────────────
 function afterEq(isOp){
   if(!postEq) return;
   postEq=false;
@@ -525,143 +698,776 @@ function afterEq(isOp){
   else     expr='';
 }
 
-// Toast: briefly show a message on the expression line
-let toastTimer=null;
-function toast(msg){
-  const el=document.getElementById('d-expr');
-  el.textContent=msg;
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>{el.textContent=expr;},1800);
+// ── MODE SWITCHING ─────────────────────────────────────────────────────────
+function setCalcMode(m){
+  closeOv('ov-mode');
+  calcMode=m;
+  expr='';postEq=false;
+  showRes(0);
+  render();
+  updateModePanel();
+  if(m==='STAT')   openOv('ov-stat');
+  if(m==='EQN')    openOv('ov-eqn');
+  if(m==='BASE-N') toast('BASE-N: DEC');
 }
 
-function pShift(){ shiftOn=!shiftOn; alphaOn=false; render(); }
-function pAlpha(){ alphaOn=!alphaOn; shiftOn=false; render(); }
-function pMode(){
-  angMode=angMode==='DEG'?'RAD':angMode==='RAD'?'GRA':'DEG';
-  clr();
-  const names={'DEG':'Degrees (D)','RAD':'Radians (R)','GRA':'Gradians (G)'};
-  toast('Angle: '+names[angMode]);
+function updateModePanel(){
+  const panel=document.getElementById('mode-panel');
+  if(calcMode==='COMP'||calcMode==='CMPLX'){
+    panel.innerHTML='';panel.classList.remove('open');
+    return;
+  }
+  panel.classList.add('open');
+  if(calcMode==='STAT')   renderStatPanel();
+  else if(calcMode==='BASE-N') renderBasePanel();
+  else if(calcMode==='EQN')    renderEqnPanel();
+  else if(calcMode==='TABLE')  renderTablePanel();
+  else if(calcMode==='MATRIX') renderMatrixPanel();
+  else if(calcMode==='VECTOR') renderVectorPanel();
+}
+
+// ── STAT ───────────────────────────────────────────────────────────────────
+function setStatType(t){
+  closeOv('ov-stat');
+  statType=t;
+  statData=[];statRow=0;statCol='x';
+  updateModePanel();
+}
+function renderStatPanel(){
+  const is2var=statType!=='1-VAR';
+  if(!statData.length) {
+    for(let i=0;i<6;i++) statData.push(is2var?{x:'',y:''}:{x:'',freq:''});
+  }
+  let h=`<div class="mp-title">STAT [${statType}]
+    <span style="float:right;cursor:pointer;font-size:9px" onclick="openOv('ov-stat')">[type]</span>
+    <span style="float:right;cursor:pointer;font-size:9px;margin-right:4px" onclick="statCalcAll()">[calc]</span>
+  </div>`;
+  h+=`<table class="stat-tbl"><thead><tr>`;
+  if(!is2var) h+=`<th>x</th><th>FREQ</th>`;
+  else        h+=`<th>x</th><th>y</th>`;
+  h+=`</tr></thead><tbody>`;
+  for(let i=0;i<statData.length;i++){
+    const d=statData[i];
+    const hi=i===statRow?'hi':'';
+    h+=`<tr class="${hi}"><td>`;
+    h+=`<input type="number" value="${d.x}" onchange="statSet(${i},'x',this.value)" onfocus="statRow=${i}" style="width:52px"></td><td>`;
+    if(!is2var) h+=`<input type="number" value="${d.freq}" onchange="statSet(${i},'freq',this.value)" onfocus="statRow=${i}" style="width:52px">`;
+    else        h+=`<input type="number" value="${d.y}"    onchange="statSet(${i},'y',this.value)"    onfocus="statRow=${i}" style="width:52px">`;
+    h+=`</td></tr>`;
+  }
+  h+=`</tbody></table>`;
+  h+=`<div style="margin-top:4px;font-size:9px">
+    <span style="cursor:pointer;margin-right:8px" onclick="statAddRow()">[+row]</span>
+    <span style="cursor:pointer" onclick="statCalcAll()">[CALC →]</span>
+  </div>`;
+  document.getElementById('mode-panel').innerHTML=h;
+}
+function statSet(i,col,v){
+  while(statData.length<=i) statData.push({x:'',freq:'',y:''});
+  statData[i][col]=v;
+}
+function statAddRow(){
+  const is2var=statType!=='1-VAR';
+  statData.push(is2var?{x:'',y:''}:{x:'',freq:''});
+  renderStatPanel();
+}
+function statCalcAll(){
+  const is2var=statType!=='1-VAR';
+  const rows=statData.filter(d=>d.x!==''&&d.x!==undefined);
+  if(!rows.length){toast('No data');return;}
+  let res='';
+  if(!is2var){
+    const xs=[],fs=[];
+    for(const d of rows){
+      const x=parseFloat(d.x);
+      const f=d.freq!==''?parseFloat(d.freq):1;
+      if(!isNaN(x)&&!isNaN(f)){xs.push(x);fs.push(f);}
+    }
+    const n=fs.reduce((a,b)=>a+b,0);
+    const sumx=xs.reduce((s,x,i)=>s+x*fs[i],0);
+    const sumx2=xs.reduce((s,x,i)=>s+x*x*fs[i],0);
+    const mean=sumx/n;
+    const sx=Math.sqrt((sumx2-sumx*sumx/n)/(n-1));
+    const sig=Math.sqrt((sumx2-sumx*sumx/n)/n);
+    res=`n=${n}  x̄=${fmt(mean)}\nσx=${fmt(sig)}  sx=${fmt(sx)}\nΣx=${fmt(sumx)}  Σx²=${fmt(sumx2)}`;
+  } else {
+    const xs=[],ys=[];
+    for(const d of rows){
+      const x=parseFloat(d.x),y=parseFloat(d.y);
+      if(!isNaN(x)&&!isNaN(y)){xs.push(x);ys.push(y);}
+    }
+    const n=xs.length;
+    const sx=xs.reduce((a,b)=>a+b,0)/n;
+    const sy=ys.reduce((a,b)=>a+b,0)/n;
+    const sxx=xs.reduce((s,x)=>s+(x-sx)*(x-sx),0);
+    const sxy=xs.reduce((s,x,i)=>s+(x-sx)*(ys[i]-sy),0);
+    const syy=ys.reduce((s,y)=>s+(y-sy)*(y-sy),0);
+    const B=sxy/sxx, A=sy-B*sx;
+    const r=sxy/Math.sqrt(sxx*syy);
+    res=`n=${n}  x̄=${fmt(sx)}  ȳ=${fmt(sy)}\nA=${fmt(A)}  B=${fmt(B)}\nr=${fmt(r)}`;
+  }
+  // show in expr + result area
+  const lines=res.split('\n');
+  document.getElementById('d-expr').textContent=lines[0]||'';
+  document.getElementById('d-res').textContent=lines.slice(1).join(' | ');
+  document.getElementById('d-res').style.fontSize='10px';
+}
+
+// ── BASE-N ─────────────────────────────────────────────────────────────────
+function renderBasePanel(){
+  const v=parseInt(expr||'0')||0;
+  const dec=v;
+  const h=`<div class="mp-title">BASE-N
+    <span style="float:right;font-size:9px;cursor:pointer" onclick="cycleBase()">[${baseMode}→]</span>
+  </div>
+  <div class="base-rows">
+    <div class="base-row"><span class="base-lbl">DEC</span><span class="base-val">${dec}</span></div>
+    <div class="base-row"><span class="base-lbl">HEX</span><span class="base-val">${dec<0?'-':''+(Math.abs(dec)>>>0).toString(16).toUpperCase()}</span></div>
+    <div class="base-row"><span class="base-lbl">BIN</span><span class="base-val">${(dec>>>0).toString(2)}</span></div>
+    <div class="base-row"><span class="base-lbl">OCT</span><span class="base-val">${(dec>>>0).toString(8)}</span></div>
+  </div>
+  <div style="margin-top:4px;font-size:9px;color:#111">
+    Logic:
+    <span style="cursor:pointer;margin-right:4px" onclick="baseLogic('and')">AND</span>
+    <span style="cursor:pointer;margin-right:4px" onclick="baseLogic('or')">OR</span>
+    <span style="cursor:pointer;margin-right:4px" onclick="baseLogic('xor')">XOR</span>
+    <span style="cursor:pointer;margin-right:4px" onclick="baseLogic('not')">NOT</span>
+  </div>`;
+  document.getElementById('mode-panel').innerHTML=h;
+}
+function cycleBase(){
+  const order=['DEC','HEX','BIN','OCT'];
+  baseMode=order[(order.indexOf(baseMode)+1)%4];
+  toast('BASE: '+baseMode);
+  renderBasePanel();
+}
+function baseLogic(op){
+  const a=parseInt(expr||'0')||0;
+  if(op==='not'){
+    const r=(~a)>>>0;
+    expr=r.toString();showRes(r);postEq=true;
+  } else {
+    expr+=op.toUpperCase()+'(';
+  }
+  renderBasePanel();render();
+}
+
+// ── EQN ────────────────────────────────────────────────────────────────────
+function setEqnType(t){
+  closeOv('ov-eqn');
+  eqnType=t;
+  eqnCoeffs=t===1?[0,0,0]:t===2?[0,0,0,0]:t===3?[0,0,0,0,0,0]:new Array(12).fill(0);
+  updateModePanel();
+}
+function renderEqnPanel(){
+  let h=`<div class="mp-title">EQN
+    <span style="float:right;font-size:9px;cursor:pointer" onclick="openOv('ov-eqn')">[type]</span>
+    <span style="float:right;font-size:9px;cursor:pointer;margin-right:4px" onclick="solveEqn()">[SOLVE]</span>
+  </div>`;
+  if(eqnType===1){
+    h+=`<div style="font-size:10px;color:#333;margin-bottom:4px">aX²+bX+c=0</div>`;
+    h+=eqnInput(['a','b','c']);
+  } else if(eqnType===2){
+    h+=`<div style="font-size:10px;color:#333;margin-bottom:4px">aX³+bX²+cX+d=0</div>`;
+    h+=eqnInput(['a','b','c','d']);
+  } else if(eqnType===3){
+    h+=`<div style="font-size:10px;color:#333;margin-bottom:4px">a₁X+b₁Y=c₁ | a₂X+b₂Y=c₂</div>`;
+    h+=eqnInput(['a₁','b₁','c₁','a₂','b₂','c₂']);
+  } else {
+    h+=`<div style="font-size:10px;color:#333;margin-bottom:4px">3×3 System</div>`;
+    h+=eqnInput(['a₁','b₁','c₁','d₁','a₂','b₂','c₂','d₂','a₃','b₃','c₃','d₃']);
+  }
+  h+=`<div id="eqn-res" class="eqn-res"></div>`;
+  document.getElementById('mode-panel').innerHTML=h;
+}
+function eqnInput(labels){
+  let h='<div style="display:flex;flex-wrap:wrap;gap:3px;align-items:center;">';
+  for(let i=0;i<labels.length;i++){
+    h+=`<span style="font-size:9px;color:#444">${labels[i]}=</span>`;
+    h+=`<input class="eqn-coef" type="number" value="${eqnCoeffs[i]||0}" onchange="eqnCoeffs[${i}]=parseFloat(this.value)||0">`;
+    if(i<labels.length-1&&(eqnType===3||eqnType===4)&&(i+1)%Math.floor(labels.length/(eqnType===3?2:3))===0)
+      h+=`<br style="width:100%">`;
+  }
+  h+='</div>';
+  return h;
+}
+function solveEqn(){
+  let res='';
+  if(eqnType===1){
+    const [a,b,c]=eqnCoeffs;
+    if(a===0){res=b!==0?`X=${fmt(-c/b)}`:'No solution';}
+    else{
+      const d=b*b-4*a*c;
+      if(d>=0){res=`X₁=${fmt((-b+Math.sqrt(d))/(2*a))}\nX₂=${fmt((-b-Math.sqrt(d))/(2*a))}`;}
+      else{const re=-b/(2*a),im=Math.sqrt(-d)/(2*a);res=`X₁=${fmt(re)}+${fmt(im)}i\nX₂=${fmt(re)}-${fmt(im)}i`;}
+    }
+  } else if(eqnType===2){
+    const [a,b,c,d]=eqnCoeffs;
+    if(a===0){res='Use quadratic';} else {
+      res=solveCubic(a,b,c,d).map((r,i)=>`X${i+1}=${r}`).join('\n');
+    }
+  } else if(eqnType===3){
+    const [a1,b1,c1,a2,b2,c2]=eqnCoeffs;
+    const det=a1*b2-a2*b1;
+    if(Math.abs(det)<1e-12){res='No unique solution';}
+    else{res=`X=${fmt((c1*b2-c2*b1)/det)}\nY=${fmt((a1*c2-a2*c1)/det)}`;}
+  } else {
+    const c=eqnCoeffs;
+    const det=c[0]*(c[5]*c[10]-c[6]*c[9])-c[1]*(c[4]*c[10]-c[6]*c[8])+c[2]*(c[4]*c[9]-c[5]*c[8]);
+    if(Math.abs(det)<1e-12){res='No unique solution';}
+    else{
+      const X=(c[3]*(c[5]*c[10]-c[6]*c[9])-c[1]*(c[7]*c[10]-c[6]*c[11])+c[2]*(c[7]*c[9]-c[5]*c[11]))/det;
+      const Y=(c[0]*(c[7]*c[10]-c[6]*c[11])-c[3]*(c[4]*c[10]-c[6]*c[8])+c[2]*(c[4]*c[11]-c[7]*c[8]))/det;
+      const Z=(c[0]*(c[5]*c[11]-c[7]*c[9])-c[1]*(c[4]*c[11]-c[7]*c[8])+c[3]*(c[4]*c[9]-c[5]*c[8]))/det;
+      res=`X=${fmt(X)}\nY=${fmt(Y)}\nZ=${fmt(Z)}`;
+    }
+  }
+  const el=document.getElementById('eqn-res');
+  if(el) el.innerHTML=res.replace(/\n/g,'<br>');
+  // also show first result in display
+  const firstLine=res.split('\n')[0];
+  document.getElementById('d-expr').textContent=firstLine;
+  document.getElementById('d-res').textContent='';
+}
+function solveCubic(a,b,c,d){
+  b/=a;c/=a;d/=a;
+  const p=c-b*b/3, q=2*b*b*b/27-b*c/3+d;
+  const D=q*q/4+p*p*p/27;
+  const roots=[];
+  if(D>0){
+    const u=Math.cbrt(-q/2+Math.sqrt(D));
+    const v=Math.cbrt(-q/2-Math.sqrt(D));
+    roots.push(fmt(u+v-b/3));
+  } else if(Math.abs(D)<1e-10){
+    roots.push(fmt(3*q/p-b/3));
+    roots.push(fmt(-3*q/(2*p)-b/3));
+    roots.push(fmt(-3*q/(2*p)-b/3));
+  } else {
+    const r=Math.sqrt(-p*p*p/27);
+    const th=Math.acos(-q/(2*r))/3;
+    const m=2*Math.cbrt(r);
+    for(let k=0;k<3;k++) roots.push(fmt(m*Math.cos(th-2*Math.PI*k/3)-b/3));
+  }
+  return roots;
+}
+
+// ── TABLE ──────────────────────────────────────────────────────────────────
+function renderTablePanel(){
+  let h=`<div class="mp-title">TABLE f(X)
+    <span style="float:right;font-size:9px;cursor:pointer" onclick="genTable()">[GEN]</span>
+  </div>`;
+  h+=`<div style="font-size:10px;color:#111;margin-bottom:4px">
+    f(X): <input id="tbl-expr" type="text" value="${tableExpr}"
+      style="width:100px;background:rgba(255,255,255,.4);border:1px solid #888;border-radius:2px;font-family:monospace;font-size:10px;padding:1px 3px;"
+      oninput="tableExpr=this.value">
+  </div>
+  <div style="display:flex;gap:6px;font-size:10px;color:#111;margin-bottom:4px">
+    Start:<input id="tbl-s" type="number" value="${tableStart}" style="width:42px;background:rgba(255,255,255,.4);border:1px solid #888;border-radius:2px;font-family:monospace;font-size:10px;padding:1px 2px" oninput="tableStart=parseFloat(this.value)||0">
+    End:<input id="tbl-e" type="number" value="${tableEnd}" style="width:42px;background:rgba(255,255,255,.4);border:1px solid #888;border-radius:2px;font-family:monospace;font-size:10px;padding:1px 2px" oninput="tableEnd=parseFloat(this.value)||0">
+    Step:<input id="tbl-p" type="number" value="${tableStep}" style="width:38px;background:rgba(255,255,255,.4);border:1px solid #888;border-radius:2px;font-family:monospace;font-size:10px;padding:1px 2px" oninput="tableStep=parseFloat(this.value)||1">
+  </div>
+  <div id="tbl-result"></div>`;
+  document.getElementById('mode-panel').innerHTML=h;
+}
+function genTable(){
+  const fe=document.getElementById('tbl-expr');
+  if(fe) tableExpr=fe.value;
+  const fs=document.getElementById('tbl-s');const fe2=document.getElementById('tbl-e');const fp=document.getElementById('tbl-p');
+  if(fs) tableStart=parseFloat(fs.value)||0;
+  if(fe2) tableEnd=parseFloat(fe2.value)||0;
+  if(fp) tableStep=parseFloat(fp.value)||1;
+  if(!tableExpr){toast('Enter f(X)');return;}
+  if(tableStep===0||Math.sign(tableEnd-tableStart)!==Math.sign(tableStep)){toast('Invalid range');return;}
+  let h=`<div class="tbl-header"><span style="min-width:54px">X</span><span>f(X)</span></div>`;
+  let count=0;
+  for(let x=tableStart;(tableStep>0?x<=tableEnd+1e-10:x>=tableEnd-1e-10)&&count<50;x+=tableStep,count++){
+    const v=evalExprX(tableExpr,x);
+    h+=`<div class="tbl-row"><span>${fmt(x)}</span><span>${v!==null?fmt(v):'ERR'}</span></div>`;
+  }
+  const el=document.getElementById('tbl-result');
+  if(el) el.innerHTML=h;
+}
+
+// ── MATRIX ─────────────────────────────────────────────────────────────────
+function initMat(r,c){const m=[];for(let i=0;i<r;i++){m.push([]);for(let j=0;j<c;j++) m[i].push(0);}return m;}
+function renderMatrixPanel(){
+  if(!matA) matA=initMat(matAr,matAc);
+  if(!matB) matB=initMat(matBr,matBc);
+  let h=`<div class="mp-title">MATRIX
+    <span style="float:right;font-size:9px;cursor:pointer" onclick="openOv('ov-matop')">[OP]</span>
+  </div>`;
+  h+=`<div style="display:flex;gap:12px;flex-wrap:wrap">`;
+  h+=matInputHTML('A',matA,matAr,matAc)+'&nbsp;&nbsp;'+matInputHTML('B',matB,matBr,matBc);
+  h+=`</div>`;
+  h+=`<div style="margin-top:4px;font-size:9px;color:#333">
+    MatA size:
+    <select onchange="resizeMat('A',parseInt(this.value.split('x')[0]),parseInt(this.value.split('x')[1]));renderMatrixPanel();"
+      style="font-size:9px;border:1px solid #888;background:rgba(255,255,255,.4);border-radius:2px">
+      ${['2x2','2x3','3x2','3x3'].map(s=>`<option ${s===matAr+'x'+matAc?'selected':''}>${s}</option>`).join('')}
+    </select>
+    MatB size:
+    <select onchange="resizeMat('B',parseInt(this.value.split('x')[0]),parseInt(this.value.split('x')[1]));renderMatrixPanel();"
+      style="font-size:9px;border:1px solid #888;background:rgba(255,255,255,.4);border-radius:2px">
+      ${['2x2','2x3','3x2','3x3'].map(s=>`<option ${s===matBr+'x'+matBc?'selected':''}>${s}</option>`).join('')}
+    </select>
+  </div>
+  <div id="mat-res" style="font-size:10px;color:#111;margin-top:4px"></div>`;
+  document.getElementById('mode-panel').innerHTML=h;
+}
+function matInputHTML(name,m,rows,cols){
+  let h=`<div><div style="font-size:9px;font-weight:bold;color:#333;margin-bottom:2px">Mat${name}</div><table class="mat-grid">`;
+  for(let i=0;i<rows;i++){
+    h+='<tr>';
+    for(let j=0;j<cols;j++){
+      h+=`<td><input class="mat-cell" type="number" value="${m[i][j]}"
+        onchange="mat${name}[${i}][${j}]=parseFloat(this.value)||0"></td>`;
+    }
+    h+='</tr>';
+  }
+  h+=`</table></div>`;
+  return h;
+}
+function resizeMat(n,r,c){
+  if(n==='A'){matAr=r;matAc=c;matA=initMat(r,c);}
+  else{matBr=r;matBc=c;matB=initMat(r,c);}
+}
+function matOp(op){
+  closeOv('ov-matop');
+  if(!matA){toast('Enter matrix A');return;}
+  let res='';
+  try{
+    if(op==='det'){
+      if(matAr!==matAc){res='Non-square matrix';}
+      else res='det(A)='+fmt(matDet(matA));
+    } else if(op==='inv'){
+      if(matAr!==matAc){res='Non-square matrix';}
+      else{const inv=matInv(matA);res=matToStr('A⁻¹',inv);}
+    } else if(op==='trnA'){
+      const t=matTranspose(matA);res=matToStr('Trn(A)',t);
+    } else if(op==='add'){
+      if(matAr!==matBr||matAc!==matBc){res='Size mismatch';}
+      else{const r=matAdd(matA,matB);res=matToStr('A+B',r);}
+    } else if(op==='sub'){
+      if(matAr!==matBr||matAc!==matBc){res='Size mismatch';}
+      else{const r=matSub(matA,matB);res=matToStr('A-B',r);}
+    } else if(op==='mul'){
+      if(matAc!==matBr){res='Size mismatch (Ac≠Br)';}
+      else{const r=matMul(matA,matB);res=matToStr('A×B',r);}
+    }
+  }catch(e){res='Error: '+e.message;}
+  const el=document.getElementById('mat-res');
+  if(el) el.innerHTML=res;
+  document.getElementById('d-expr').textContent=res.split('\n')[0]||'';
+}
+function matDet(m){
+  const n=m.length;
+  if(n===1) return m[0][0];
+  if(n===2) return m[0][0]*m[1][1]-m[0][1]*m[1][0];
+  let d=0;
+  for(let j=0;j<n;j++){
+    const sub=m.slice(1).map(r=>r.filter((_,c)=>c!==j));
+    d+=((j%2===0)?1:-1)*m[0][j]*matDet(sub);
+  }
+  return d;
+}
+function matInv(m){
+  const n=m.length;const det=matDet(m);
+  if(Math.abs(det)<1e-12) throw new Error('Singular matrix');
+  const adj=[];
+  for(let i=0;i<n;i++){adj.push([]);
+    for(let j=0;j<n;j++){
+      const sub=m.filter((_,r)=>r!==i).map(r=>r.filter((_,c)=>c!==j));
+      adj[i].push(((i+j)%2===0?1:-1)*matDet(sub));
+    }
+  }
+  const adjT=matTranspose(adj);
+  return adjT.map(r=>r.map(v=>v/det));
+}
+function matTranspose(m){return m[0].map((_,j)=>m.map(r=>r[j]));}
+function matAdd(a,b){return a.map((r,i)=>r.map((v,j)=>v+b[i][j]));}
+function matSub(a,b){return a.map((r,i)=>r.map((v,j)=>v-b[i][j]));}
+function matMul(a,b){
+  const bt=matTranspose(b);
+  return a.map(ar=>bt.map(bc=>ar.reduce((s,v,i)=>s+v*bc[i],0)));
+}
+function matToStr(label,m){
+  return label+':\n'+m.map(r=>'['+r.map(fmt).join('  ')+']').join('\n');
+}
+
+// ── VECTOR ─────────────────────────────────────────────────────────────────
+function renderVectorPanel(){
+  let h=`<div class="mp-title">VECTOR (${vecDim}D)
+    <span style="float:right;font-size:9px;cursor:pointer" onclick="vecDim=vecDim===2?3:2;renderVectorPanel()">[2D/3D]</span>
+    <span style="float:right;font-size:9px;cursor:pointer;margin-right:4px" onclick="openOv('ov-vecop')">[OP]</span>
+  </div>
+  <div class="vec-wrap">`;
+  h+=vecInputHTML('A',vecA);
+  h+='&nbsp;&nbsp;&nbsp;';
+  h+=vecInputHTML('B',vecB);
+  h+=`</div><div id="vec-res" style="font-size:10px;color:#111;margin-top:4px"></div>`;
+  document.getElementById('mode-panel').innerHTML=h;
+}
+function vecInputHTML(name,v){
+  const dim=vecDim;
+  let h=`<div class="vec-col"><div style="font-size:9px;font-weight:bold;color:#333;margin-bottom:2px">Vec${name}</div>`;
+  for(let i=0;i<dim;i++){
+    h+=`<input class="vec-cell" type="number" value="${v[i]||0}"
+      onchange="vec${name}[${i}]=parseFloat(this.value)||0">`;
+  }
+  h+=`</div>`;
+  return h;
+}
+function vecOp(op){
+  closeOv('ov-vecop');
+  const dim=vecDim;
+  const a=vecA.slice(0,dim),b=vecB.slice(0,dim);
+  let res='';
+  if(op==='dot'){
+    const d=a.reduce((s,v,i)=>s+v*(b[i]||0),0);
+    res='A·B='+fmt(d);
+  } else if(op==='cross'){
+    if(dim!==3){res='Cross: need 3D';}
+    else{const c=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];res='A×B=('+c.map(fmt).join(',')+')';}
+  } else if(op==='magA'){
+    res='|A|='+fmt(Math.sqrt(a.reduce((s,v)=>s+v*v,0)));
+  } else if(op==='magB'){
+    res='|B|='+fmt(Math.sqrt(b.reduce((s,v)=>s+v*v,0)));
+  } else if(op==='add'){
+    res='A+B=('+a.map((v,i)=>fmt(v+(b[i]||0))).join(',')+')';
+  } else if(op==='sub'){
+    res='A-B=('+a.map((v,i)=>fmt(v-(b[i]||0))).join(',')+')';
+  }
+  const el=document.getElementById('vec-res');
+  if(el) el.innerHTML=res;
+  document.getElementById('d-expr').textContent=res;
+}
+
+// ── SETUP SUBS ─────────────────────────────────────────────────────────────
+function openSub(type){
+  const el=document.getElementById('sub-content');
+  if(type==='angle'){
+    el.innerHTML=`<div class="sub-label">Angle Unit:</div>
+    <div class="mgrid">
+      <div class="mi ${angMode==='DEG'?'active':''}" onclick="setAngMode('DEG')"><span class="mi-n">1</span>Deg</div>
+      <div class="mi ${angMode==='RAD'?'active':''}" onclick="setAngMode('RAD')"><span class="mi-n">2</span>Rad</div>
+      <div class="mi ${angMode==='GRA'?'active':''}" onclick="setAngMode('GRA')"><span class="mi-n">3</span>Gra</div>
+    </div>`;
+  } else if(type==='numfmt'){
+    el.innerHTML=`<div class="sub-label">Number Format:</div>
+    <div class="mgrid2">
+      <div class="mi ${numFmt.type==='Norm'?'active':''}" onclick="setNumFmt('Norm',1)"><span class="mi-n">1</span>Norm 1</div>
+      <div class="mi ${numFmt.type==='Norm'?'active':''}" onclick="setNumFmt('Norm',2)"><span class="mi-n">2</span>Norm 2</div>
+    </div>
+    <div style="margin-top:4px;display:flex;align-items:center;gap:4px;font-size:10px">
+      Fix <input type="number" min="0" max="9" value="${numFmt.type==='Fix'?numFmt.n:2}" style="width:30px;border:1px solid #888;background:rgba(255,255,255,.4);border-radius:2px;font-size:10px" onchange="setNumFmt('Fix',parseInt(this.value))">
+      &nbsp; Sci <input type="number" min="0" max="9" value="${numFmt.type==='Sci'?numFmt.n:4}" style="width:30px;border:1px solid #888;background:rgba(255,255,255,.4);border-radius:2px;font-size:10px" onchange="setNumFmt('Sci',parseInt(this.value))">
+    </div>`;
+  } else if(type==='disp'){
+    el.innerHTML=`<div class="sub-label">Input/Output:</div>
+    <div class="mgrid2">
+      <div class="mi ${dispMode==='MthIO'?'active':''}" onclick="dispMode='MthIO';toast('MthIO');closeOv('ov-setup')"><span class="mi-n">1</span>MthIO</div>
+      <div class="mi ${dispMode==='LineIO'?'active':''}" onclick="dispMode='LineIO';toast('LineIO');closeOv('ov-setup')"><span class="mi-n">2</span>LineIO</div>
+    </div>`;
+  } else if(type==='frac'){
+    el.innerHTML=`<div class="sub-label">Fraction display:</div>
+    <div class="mgrid2">
+      <div class="mi ${fracMode==='d/c'?'active':''}" onclick="fracMode='d/c';toast('d/c');closeOv('ov-setup')"><span class="mi-n">1</span>d/c</div>
+      <div class="mi ${fracMode==='a b/c'?'active':''}" onclick="fracMode='a b/c';toast('a b/c');closeOv('ov-setup')"><span class="mi-n">2</span>a b/c</div>
+    </div>`;
+  }
+}
+function setAngMode(m){angMode=m;toast('Angle: '+m);closeOv('ov-setup');render();}
+function setNumFmt(t,n){numFmt={type:t,n:n};toast('Fmt: '+t+(t!=='Norm'?n:''));closeOv('ov-setup');}
+
+// ── STO / RCL ──────────────────────────────────────────────────────────────
+function doSTO(varName){
+  closeOv('ov-sto');
+  const v=evaluate();
+  const val=v!==null?v:lastAns;
+  if(varName==='M') mem=val;
+  else vars[varName]=val;
+  toast(varName+'='+fmt(val));
   render();
 }
-function pAC(){ expr=''; postEq=false; showRes(0); clr(); render(); }
+function doRCL(varName){
+  closeOv('ov-rcl');
+  afterEq(false);
+  if(varName==='M') expr+=fmt(mem);
+  else expr+=varName;
+  clr();live();render();
+}
+
+// ── PHYSICAL CONSTANTS ─────────────────────────────────────────────────────
+function buildConstList(){
+  const el=document.getElementById('const-list');
+  if(!el) return;
+  el.innerHTML=PHYS_CONST.map((c,i)=>`
+    <div class="ci" onclick="insertConst(${c.val})">
+      <span class="ci-n">${i+1}</span>
+      <span class="ci-sym">${c.sym}</span>
+      <span class="ci-val">${c.val.toExponential(4)}</span>
+      <span class="const-name">${c.name}</span>
+    </div>`).join('');
+}
+function insertConst(v){
+  closeOv('ov-const');
+  afterEq(false);
+  expr+=v.toString();
+  clr();live();render();
+}
+
+// ── BUTTON HANDLERS ────────────────────────────────────────────────────────
+function pShift(){
+  shiftOn=!shiftOn;
+  alphaOn=false;
+  render();
+}
+function pAlpha(){
+  alphaOn=!alphaOn;
+  shiftOn=false;
+  if(alphaOn) toast('ALPHA: A=sin B=cos C=tan D=( E=) F=log X=7 Y=8');
+  render();
+}
+function pMode(){
+  if(shiftOn){
+    shiftOn=false;
+    document.getElementById('sub-content').innerHTML='';
+    openOv('ov-setup');
+  } else {
+    openOv('ov-mode');
+  }
+  render();
+}
+function pAC(){
+  if(calcMode!=='COMP'&&calcMode!=='CMPLX'&&calcMode!=='BASE-N'){
+    // in special modes, AC resets the current mode panel input
+    expr='';postEq=false;showRes(0);clr();render();
+    updateModePanel();
+  } else {
+    expr='';postEq=false;showRes(0);clr();render();
+  }
+}
 function pDEL(){
   if(postEq){expr='';postEq=false;render();return;}
   const tok=['sinh⁻¹(','cosh⁻¹(','tanh⁻¹(','sin⁻¹(','cos⁻¹(','tan⁻¹(',
     'sinh(','cosh(','tanh(','sin(','cos(','tan(',
-    'log(','ln(','√(','∛(','Abs(','×10^(','Ans','⁻¹','²','³'];
-  for(const t of tok){ if(expr.endsWith(t)){expr=expr.slice(0,-t.length);clr();render();return;} }
-  expr=expr.slice(0,-1); clr(); render();
+    'log(','ln(','√(','∛(','Abs(','×10^(','Ans','⁻¹','²','³',
+    '∫(','d/dx(','Σ(','Pol(','Rec('];
+  for(const t of tok){if(expr.endsWith(t)){expr=expr.slice(0,-t.length);clr();render();return;}}
+  expr=expr.slice(0,-1);clr();render();
 }
 function pNum(n){
+  if(alphaOn){
+    // number keys in alpha mode insert variables
+    const alphaNum={'7':'X','8':'Y','0':'M'};
+    if(alphaNum[n]){afterEq(false);expr+=alphaNum[n];clr();live();render();return;}
+    alphaOn=false;render();
+  }
+  if(calcMode==='BASE-N'){
+    if(baseMode==='BIN'&&!'01'.includes(n)) return;
+    if(baseMode==='OCT'&&!'01234567'.includes(n)) return;
+  }
   afterEq(false);
   if(n==='.'){
     const seg=expr.split(/[+\-×÷(^]/);
     if(seg[seg.length-1].includes('.')) return;
   }
-  expr+=n; clr(); live(); render();
+  expr+=n;clr();live();render();
+  if(calcMode==='BASE-N') renderBasePanel();
 }
 function pOp(op){
-  afterEq(true);  // chain: keeps 'Ans' prefix so user builds on last result
+  afterEq(true);
   if(expr&&'+-×÷−'.includes(expr.slice(-1))) expr=expr.slice(0,-1);
-  expr+=op; clr(); render();
+  expr+=op;clr();render();
 }
-function pKey(k){ afterEq(false); expr+=k; clr(); live(); render(); }
-function pF(name){
-  afterEq(false);
-  const sh=shiftOn; clr();
-  switch(name){
-    case'log':  expr+=sh?'10^(':'log('; break;
-    case'ln':   expr+=sh?'e^(':'ln(';   break;
-    case'abs':  expr+='Abs(';            break;
-    case'fact': expr+='!';               break;
-    case'ncr':  expr+=sh?'P':'C';        break;
-    case'sq':   expr+=sh?'⁻¹':'²';     break;
-    case'cube': expr+=sh?'∛(':'³';     break;
-    case'pow':  expr+='^';              break;
-    case'sqrt': expr+='√(';            break;
-    case'cbrt': expr+='∛(';            break;
-    case'sin':  expr+=sh?'sin⁻¹(':'sin('; break;
-    case'cos':  expr+=sh?'cos⁻¹(':'cos('; break;
-    case'tan':  expr+=sh?'tan⁻¹(':'tan('; break;
-    case'sinh': expr+=sh?'sinh⁻¹(':'sinh('; break;
-    case'cosh': expr+=sh?'cosh⁻¹(':'cosh('; break;
-    case'tanh': expr+=sh?'tanh⁻¹(':'tanh('; break;
+function pKey(k){
+  if(alphaOn){
+    // ( → D, ) → E
+    const alphaKey={'(':'D',')':'E'};
+    if(alphaKey[k]){afterEq(false);expr+=alphaKey[k];clr();live();render();return;}
+    alphaOn=false;render();
   }
-  live(); render();
+  afterEq(false);expr+=k;clr();live();render();
+}
+function pF(name){
+  if(alphaOn){
+    const alphaFn={sin:'A',cos:'B',tan:'C',log:'F',ln:'G'};
+    if(alphaFn[name]){afterEq(false);expr+=alphaFn[name];clr();live();render();return;}
+    alphaOn=false;render();
+  }
+  afterEq(false);
+  const sh=shiftOn;clr();
+  switch(name){
+    case'log': expr+=sh?'10^(':'log(';break;
+    case'ln':  expr+=sh?'e^(':'ln('; break;
+    case'abs': expr+=sh?'Pol(':'Abs(';break;
+    case'fact':expr+=sh?'Rec(':'!';  break;
+    case'ncr': expr+=sh?'P':'C';     break;
+    case'sq':  expr+=sh?'⁻¹':'²';  break;
+    case'cube':expr+=sh?'∛(':'³';  break;
+    case'pow': expr+='^';            break;
+    case'sqrt':expr+=sh?'∫(':'√('; break;
+    case'cbrt':expr+=sh?'d/dx(':'∛(';break;
+    case'sin': expr+=sh?'sin⁻¹(':'sin(';break;
+    case'cos': expr+=sh?'cos⁻¹(':'cos(';break;
+    case'tan': expr+=sh?'tan⁻¹(':'tan(';break;
+    case'sinh':expr+=sh?'sinh⁻¹(':'sinh(';break;
+    case'cosh':expr+=sh?'cosh⁻¹(':'cosh(';break;
+    case'tanh':expr+=sh?'tanh⁻¹(':'tanh(';break;
+  }
+  live();render();
 }
 function pConst(c){
   afterEq(false);
-  const sh=shiftOn; clr();
+  const sh=shiftOn;clr();
   if(c==='pi'){
-    if(sh){ expr+=parseFloat(Math.random().toPrecision(9)).toString(); }
-    else   { expr+='π'; }
+    if(sh){expr+=parseFloat(Math.random().toPrecision(9)).toString();}
+    else  {expr+='π';}
   } else {
+    if(sh){
+      // →DEG conversion
+      const v=evaluate();
+      if(v!==null){
+        const deg=fromRad(toRad(v));
+        expr=fmt(deg);showRes(deg);postEq=true;return;
+      }
+    }
     expr+='e';
   }
-  live(); render();
+  live();render();
 }
-function pEXP(){ afterEq(false); expr+='×10^('; clr(); render(); }
+function pEXP(){
+  if(shiftOn){shiftOn=false;openOv('ov-const');buildConstList();render();return;}
+  afterEq(false);expr+='×10^(';clr();render();
+}
 function pM(action){
-  const sh=shiftOn; clr();
-  const v=evaluate(); const cur=v!==null?v:lastAns;
-  if(action==='plus')  { mem+=sh?-cur:cur; toast('M='+(mem>=0?'':'')+fmt(mem)); render(); }
-  else if(action==='recall'){ afterEq(false); expr+=fmt(mem); live(); render(); }
-  else if(action==='clear') { mem=0; toast('Memory Cleared'); render(); }
+  const sh=shiftOn;clr();
+  if(action==='plus'){
+    const v=evaluate();const cur=v!==null?v:lastAns;
+    mem+=sh?-cur:cur;
+    toast('M='+fmt(mem));render();
+  } else if(action==='recall'){
+    if(sh){openOv('ov-sto');return;}
+    openOv('ov-rcl');
+  } else if(action==='clear'){
+    mem=0;toast('Memory Cleared');render();
+  }
 }
-function pANS(){ afterEq(false); expr+='Ans'; clr(); live(); render(); }
+function pANS(){
+  if(shiftOn){
+    // DRG▸: convert angle units
+    shiftOn=false;
+    const v=evaluate();
+    if(v!==null){
+      const from=angMode;
+      angMode=from==='DEG'?'RAD':from==='RAD'?'GRA':'DEG';
+      const rad=from==='DEG'?v*Math.PI/180:from==='RAD'?v:v*Math.PI/200;
+      const to=angMode==='DEG'?rad*180/Math.PI:angMode==='RAD'?rad:rad*200/Math.PI;
+      expr=fmt(to);showRes(to);postEq=true;
+      toast('→'+angMode);render();return;
+    }
+    render();return;
+  }
+  afterEq(false);expr+='Ans';clr();live();render();
+}
 function pNeg(){
   if(postEq){afterEq(false);expr='-';clr();render();return;}
-  if(!expr||/[+\-×÷−(^]$/.test(expr)){ expr+='-'; }
+  if(!expr||/[+\-×÷−(^]$/.test(expr)){expr+='-';}
   else{
     const m=expr.match(/([\d.]+)$/);
     if(m){
       const n=m[1],bef=expr.slice(0,-n.length),pc=bef.slice(-1);
       expr=pc==='-'?bef.slice(0,-1)+n:bef+'(-'+n+')';
-    } else { expr+='×(-'; }
+    }else{expr+='×(-';}
   }
-  clr(); live(); render();
+  clr();live();render();
 }
-function pPct(){ afterEq(false); expr+='%'; clr(); live(); render(); }
+function pPct(){afterEq(false);expr+='%';clr();live();render();}
+
 function pEQ(){
   clr();
+  if(calcMode==='BASE-N'){
+    const v=evaluate();
+    if(v!==null){
+      const i=Math.trunc(v);
+      expr=i.toString();showRes(i);postEq=true;
+      renderBasePanel();
+    }else showRes(null);
+    return;
+  }
+  if(calcMode==='CMPLX'){
+    // try to evaluate as complex (simplified: treat as normal + show)
+    const v=evaluate();
+    if(v!==null){lastAns=v;showRes(v);postEq=true;}
+    else showRes(null);
+    render();return;
+  }
   const v=evaluate();
-  if(v!==null){ lastAns=v; showRes(v); postEq=true; }
-  else showRes(null);
+  if(v!==null){
+    if(expr&&!history.includes(expr)) history.unshift(expr);
+    if(history.length>20) history.pop();
+    histIdx=-1;
+    lastAns=v;
+    showRes(v);
+    postEq=true;
+  }else showRes(null);
   render();
 }
 
-// ── KEYBOARD ────────────────────────────────────────────────────
+// S⟺D toggle
+function pSD(){
+  showFrac=!showFrac;
+  const v=evaluate();
+  if(v!==null) showRes(v);
+}
+
+// ── KEYBOARD ───────────────────────────────────────────────────────────────
 document.addEventListener('keydown',ev=>{
   if(ev.ctrlKey||ev.metaKey||ev.altKey) return;
   const k=ev.key;
-  if(k>='0'&&k<='9')          {pNum(k);return;}
-  if(k==='.')                  {pNum('.');return;}
-  if(k==='+')                  {pOp('+');return;}
-  if(k==='-')                  {pOp('−');return;}
-  if(k==='*')                  {pOp('×');return;}
-  if(k==='/')                  {ev.preventDefault();pOp('÷');return;}
-  if(k==='Enter'||k==='=')     {pEQ();return;}
-  if(k==='Backspace')          {pDEL();return;}
-  if(k==='Escape')             {pAC();return;}
-  if(k==='(')                  {pKey('(');return;}
-  if(k===')')                  {pKey(')');return;}
-  if(k==='%')                  {pPct();return;}
-  if(k==='^')                  {pF('pow');return;}
-  if(k==='s')                  {pF('sin');return;}
-  if(k==='c')                  {pF('cos');return;}
-  if(k==='t')                  {pF('tan');return;}
-  if(k==='l')                  {pF('log');return;}
-  if(k==='n')                  {pF('ln');return;}
-  if(k==='r')                  {pF('sqrt');return;}
-  if(k==='p')                  {pConst('pi');return;}
-  if(k==='!')                  {pF('fact');return;}
+  // history
+  if(k==='ArrowUp'){
+    if(history.length){
+      histIdx=Math.min(histIdx+1,history.length-1);
+      expr=history[histIdx];postEq=false;clr();live();render();
+    }
+    ev.preventDefault();return;
+  }
+  if(k==='ArrowDown'){
+    if(histIdx>0){histIdx--;expr=history[histIdx];}
+    else{histIdx=-1;expr='';}
+    postEq=false;clr();live();render();
+    ev.preventDefault();return;
+  }
+  if(k>='0'&&k<='9')           {pNum(k);return;}
+  if(k==='.')                   {pNum('.');return;}
+  if(k==='+')                   {pOp('+');return;}
+  if(k==='-')                   {pOp('−');return;}
+  if(k==='*')                   {pOp('×');return;}
+  if(k==='/')                   {ev.preventDefault();pOp('÷');return;}
+  if(k==='Enter'||k==='=')      {pEQ();return;}
+  if(k==='Backspace')            {pDEL();return;}
+  if(k==='Escape')               {pAC();return;}
+  if(k==='(')                   {pKey('(');return;}
+  if(k===')')                   {pKey(')');return;}
+  if(k==='%')                   {pPct();return;}
+  if(k==='^')                   {pF('pow');return;}
+  if(k==='s')                   {pF('sin');return;}
+  if(k==='c')                   {pF('cos');return;}
+  if(k==='t')                   {pF('tan');return;}
+  if(k==='l')                   {pF('log');return;}
+  if(k==='n')                   {pF('ln');return;}
+  if(k==='r')                   {pF('sqrt');return;}
+  if(k==='p')                   {pConst('pi');return;}
+  if(k==='!')                   {pF('fact');return;}
+  if(k==='F5')                  {ev.preventDefault();pSD();return;}
 });
 
-// ── INIT ────────────────────────────────────────────────────────
+// ── INIT ───────────────────────────────────────────────────────────────────
 (function(){
   const s=document.getElementById('solar');
   for(let i=0;i<22;i++) s.innerHTML+='<div class="sc"></div>';
-  render(); showRes(0);
+  render();showRes(0);
 })();
 </script>
 </body>
