@@ -241,7 +241,7 @@ button::before{content:'';position:absolute;top:0;left:0;right:0;height:45%;back
       <div class="kw0"><button class="bnum-k bnum" id="btn-0" onclick="pNum('0')">0</button></div>
       <div class="kw0"><button class="bnum-k bnum" onclick="pNum('.')">.</button></div>
       <div class="kw0"><button class="bnum-k bnum" style="font-size:11px" onclick="pNeg()">(−)</button></div>
-      <div class="kw0"><button class="bop bnum" id="btn-pct" onclick="pPct()">%</button></div>
+      <div class="kw0" style="position:relative"><span class="lbl lsh" style="top:-11px;font-size:7px">%</span><button class="bop bnum" id="btn-sd" onclick="shiftOn?pPct():pSD()">S⟺D</button></div>
       <div class="kw0"><button class="beq-k beq" onclick="pEQ()">=</button></div>
     </div>
   </div>
@@ -559,6 +559,9 @@ function transform(s){
      .replace(/\bX\b/g,'(_VX)').replace(/\bY\b/g,'(_VY)').replace(/\bM\b/g,'(_VM)');
   e=e.replace(/×10\^\(/g,'*_EE(');
   e=e.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');
+  // implicit multiplication before function names: 2sin(30) → 2*sin(30), )sin( → )*sin(
+  e=e.replace(/(\d)(sinh⁻¹|cosh⁻¹|tanh⁻¹|sin⁻¹|cos⁻¹|tan⁻¹|sinh|cosh|tanh|sin|cos|tan|log|ln|Abs|√|∛|Pol|Rec)/g,'$1*$2');
+  e=e.replace(/\)(sinh⁻¹|cosh⁻¹|tanh⁻¹|sin⁻¹|cos⁻¹|tan⁻¹|sinh|cosh|tanh|sin|cos|tan|log|ln|Abs|√|∛)/g,')*$1');
   e=e.replace(/sinh⁻¹\(/g,'_ASINH(').replace(/cosh⁻¹\(/g,'_ACOSH(').replace(/tanh⁻¹\(/g,'_ATANH(');
   e=e.replace(/sin⁻¹\(/g,'_ASIN(').replace(/cos⁻¹\(/g,'_ACOS(').replace(/tan⁻¹\(/g,'_ATAN(');
   e=e.replace(/sinh\(/g,'_SINH(').replace(/cosh\(/g,'_COSH(').replace(/tanh\(/g,'_TANH(');
@@ -667,6 +670,10 @@ function tryNumericalOps(s){
 
 function evaluateStr(s){
   if(!s||!s.trim()) return null;
+  // auto-close unclosed parentheses
+  let depth=0;
+  for(const c of s){if(c==='(') depth++;else if(c===')') depth--;}
+  if(depth>0) s+=')'.repeat(depth);
   // intercept ∫, d/dx, Σ before normal eval
   if(/[∫Σ]/.test(s)||s.includes('d/dx(')){
     const v=tryNumericalOps(s);
@@ -1610,7 +1617,13 @@ function pEQ(){
     if(expr&&!history.includes(expr)) history.unshift(expr);
     if(history.length>20) history.pop();
     histIdx=-1;
-    lastAns=v;showRes(v);postEq=true;
+    lastAns=v;
+    // in MthIO: auto-show as fraction if it simplifies nicely
+    if(dispMode==='MthIO'){
+      const f=toFrac(v,100);
+      showFrac=!!(f&&f.den>1&&Math.abs(f.num/f.den-v)<1e-9);
+    }
+    showRes(v);postEq=true;
   }else showRes(null);
   render();
 }
