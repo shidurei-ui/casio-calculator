@@ -412,8 +412,12 @@ let statCol  = 'x'; // 'x' | 'freq' | 'y'
 let baseMode = 'DEC';
 
 // EQN
-let eqnType   = 1;
-let eqnCoeffs = [0,0,0];  // will resize per type
+let eqnType        = 1;
+let eqnCoeffs      = [0,0,0];
+let eqnPhase       = 'select'; // 'select' | 'entry' | 'result'
+let eqnEnteredCount= 0;
+let eqnRoots       = [];
+let eqnResultIdx   = 0;
 
 // MATRIX
 let matA = null, matB = null;
@@ -428,6 +432,7 @@ let vecDim = 3;
 let tableExpr  = '';
 let tableStart = 0, tableEnd = 6, tableStep = 1;
 let tablePhase = 'expr'; // 'expr'|'start'|'end'|'step'|'result'
+let tableRows  = [];
 
 // STO waiting
 let stoWaiting = false;
@@ -612,8 +617,61 @@ function evalExprX(fxStr,xVal){
   const v=evaluateStr(fxStr);
   vars.X=tmp;return v!==null?v:0;
 }
+// ── NUMERICAL OPS PRE-PROCESSOR ────────────────────────────────────────────
+// Parse balanced-paren argument list starting from openParenIdx
+function extractArgs(s,openIdx,nArgs){
+  let depth=0,argStart=openIdx+1;
+  const args=[];
+  for(let i=openIdx;i<s.length;i++){
+    if(s[i]==='(') depth++;
+    else if(s[i]===')'){
+      depth--;
+      if(depth===0){args.push(s.slice(argStart,i).trim());break;}
+    } else if(s[i]===','&&depth===1){
+      args.push(s.slice(argStart,i).trim());
+      argStart=i+1;
+    }
+  }
+  return args.length===nArgs?args:null;
+}
+function tryNumericalOps(s){
+  // ∫(f(X),a,b)
+  const ii=s.indexOf('∫(');
+  if(ii>=0){
+    const args=extractArgs(s,ii+1,3);
+    if(args){
+      const a=evaluateStr(args[1]),b=evaluateStr(args[2]);
+      if(a!==null&&b!==null) return integrate(t=>evalExprX(args[0],t),a,b);
+    }
+  }
+  // d/dx(f(X),x)
+  const di=s.indexOf('d/dx(');
+  if(di>=0){
+    const args=extractArgs(s,di+4,2);
+    if(args){
+      const x=evaluateStr(args[1]);
+      if(x!==null) return derivative(t=>evalExprX(args[0],t),x);
+    }
+  }
+  // Σ(f(X),start,end)
+  const si=s.indexOf('Σ(');
+  if(si>=0){
+    const args=extractArgs(s,si+1,3);
+    if(args){
+      const start=evaluateStr(args[1]),end=evaluateStr(args[2]);
+      if(start!==null&&end!==null) return summation(t=>evalExprX(args[0],t),Math.round(start),Math.round(end));
+    }
+  }
+  return null;
+}
+
 function evaluateStr(s){
   if(!s||!s.trim()) return null;
+  // intercept ∫, d/dx, Σ before normal eval
+  if(/[∫Σ]/.test(s)||s.includes('d/dx(')){
+    const v=tryNumericalOps(s);
+    if(v!==null) return v;
+  }
   let e;try{e=transform(s);}catch(_){return null;}
   try{
     const fn=makeEvalFn(e);
@@ -665,12 +723,28 @@ function ind(id,on){const el=document.getElementById(id);if(el) el.classList.tog
 function render(){
   const exprEl=document.getElementById('d-expr');
   if(!exprEl) return;
-  exprEl.textContent=expr;
+  // in step-based modes, d-expr shows the prompt, not expr
+  if(calcMode!=='EQN'&&!(calcMode==='TABLE'&&tablePhase!=='expr')&&calcMode!=='STAT'&&
+     calcMode!=='MATRIX'&&calcMode!=='VECTOR'){
+    exprEl.textContent=expr;
+  }
   ind('is',shiftOn);ind('ia',alphaOn);ind('im',mem!==0||Object.values(vars).some(v=>v!==0));
   ind('id',angMode==='DEG');ind('ir',angMode==='RAD');ind('ig',angMode==='GRA');
   ind('icx',calcMode==='CMPLX');
+  // update TABLE expr panel live
+  if(calcMode==='TABLE'&&tablePhase==='expr'){
+    const p=document.getElementById('mode-panel');
+    if(p){
+      const preview=p.querySelector('b');
+      if(preview) preview.textContent=expr||'…';
+    }
+  }
 }
-function live(){const v=evaluate();if(v!==null) showRes(v);}
+function live(){
+  if(calcMode==='EQN'||calcMode==='STAT'||calcMode==='MATRIX'||calcMode==='VECTOR') return;
+  if(calcMode==='TABLE'&&tablePhase==='expr') return;
+  const v=evaluate();if(v!==null) showRes(v);
+}
 function clr(){shiftOn=false;alphaOn=false;render();}
 
 // ── TOAST ──────────────────────────────────────────────────────────────────
@@ -706,9 +780,19 @@ function setCalcMode(m){
   showRes(0);
   render();
   updateModePanel();
-  if(m==='STAT')   openOv('ov-stat');
-  if(m==='EQN')    openOv('ov-eqn');
-  if(m==='BASE-N') toast('BASE-N: DEC');
+  if(m==='STAT'){
+    openOv('ov-stat');
+  } else if(m==='EQN'){
+    eqnPhase='select';
+    document.getElementById('d-expr').textContent='EQN';
+    openOv('ov-eqn');
+  } else if(m==='TABLE'){
+    tablePhase='expr';tableExpr='';tableRows=[];
+    document.getElementById('d-expr').textContent='f(X)?';
+    showRes(0);
+  } else if(m==='BASE-N'){
+    toast('BASE-N: DEC');
+  }
 }
 
 function updateModePanel(){
@@ -822,7 +906,7 @@ function renderBasePanel(){
   </div>
   <div class="base-rows">
     <div class="base-row"><span class="base-lbl">DEC</span><span class="base-val">${dec}</span></div>
-    <div class="base-row"><span class="base-lbl">HEX</span><span class="base-val">${dec<0?'-':''+(Math.abs(dec)>>>0).toString(16).toUpperCase()}</span></div>
+    <div class="base-row"><span class="base-lbl">HEX</span><span class="base-val">${dec<0?'-':''}${(Math.abs(dec)>>>0).toString(16).toUpperCase()||'0'}</span></div>
     <div class="base-row"><span class="base-lbl">BIN</span><span class="base-val">${(dec>>>0).toString(2)}</span></div>
     <div class="base-row"><span class="base-lbl">OCT</span><span class="base-val">${(dec>>>0).toString(8)}</span></div>
   </div>
@@ -853,98 +937,133 @@ function baseLogic(op){
 }
 
 // ── EQN ────────────────────────────────────────────────────────────────────
+function eqnLabels(){
+  switch(eqnType){
+    case 1:return['a','b','c'];
+    case 2:return['a','b','c','d'];
+    case 3:return['a₁','b₁','c₁','a₂','b₂','c₂'];
+    case 4:return['a₁','b₁','c₁','d₁','a₂','b₂','c₂','d₂','a₃','b₃','c₃','d₃'];
+    default:return[];
+  }
+}
+function eqnFmtTitle(){
+  const titles=['aX²+bX+c=0','aX³+bX²+cX+d=0','a₁X+b₁Y=c₁, a₂X+b₂Y=c₂','3×3 System'];
+  return titles[eqnType-1]||'';
+}
 function setEqnType(t){
   closeOv('ov-eqn');
   eqnType=t;
-  eqnCoeffs=t===1?[0,0,0]:t===2?[0,0,0,0]:t===3?[0,0,0,0,0,0]:new Array(12).fill(0);
+  const count=t===1?3:t===2?4:t===3?6:12;
+  eqnCoeffs=new Array(count).fill(0);
+  eqnEnteredCount=0;eqnRoots=[];eqnResultIdx=0;
+  eqnPhase='entry';
+  expr='';postEq=false;
   updateModePanel();
+  // show first coefficient prompt in display
+  const labels=eqnLabels();
+  document.getElementById('d-expr').textContent=labels[0]+'?';
+  showRes(0);
 }
 function renderEqnPanel(){
-  let h=`<div class="mp-title">EQN
+  const labels=eqnLabels();
+  let h=`<div class="mp-title">${eqnFmtTitle()}
     <span style="float:right;font-size:9px;cursor:pointer" onclick="openOv('ov-eqn')">[type]</span>
-    <span style="float:right;font-size:9px;cursor:pointer;margin-right:4px" onclick="solveEqn()">[SOLVE]</span>
   </div>`;
-  if(eqnType===1){
-    h+=`<div style="font-size:10px;color:#333;margin-bottom:4px">aX²+bX+c=0</div>`;
-    h+=eqnInput(['a','b','c']);
-  } else if(eqnType===2){
-    h+=`<div style="font-size:10px;color:#333;margin-bottom:4px">aX³+bX²+cX+d=0</div>`;
-    h+=eqnInput(['a','b','c','d']);
-  } else if(eqnType===3){
-    h+=`<div style="font-size:10px;color:#333;margin-bottom:4px">a₁X+b₁Y=c₁ | a₂X+b₂Y=c₂</div>`;
-    h+=eqnInput(['a₁','b₁','c₁','a₂','b₂','c₂']);
-  } else {
-    h+=`<div style="font-size:10px;color:#333;margin-bottom:4px">3×3 System</div>`;
-    h+=eqnInput(['a₁','b₁','c₁','d₁','a₂','b₂','c₂','d₂','a₃','b₃','c₃','d₃']);
+  if(eqnPhase==='entry'){
+    // Show entered coefficients so far
+    h+=`<div style="font-size:9px;color:#333;">`;
+    for(let i=0;i<eqnEnteredCount;i++){
+      h+=`<span style="margin-right:6px">${labels[i]}=${fmt(eqnCoeffs[i])}</span>`;
+    }
+    h+=`</div>`;
+    if(eqnEnteredCount<labels.length){
+      h+=`<div style="font-size:10px;color:#111;margin-top:4px">Entering: <b>${labels[eqnEnteredCount]}=</b></div>`;
+    }
+  } else if(eqnPhase==='result'){
+    h+=`<div style="font-size:9px;color:#333;margin-bottom:3px">`;
+    for(let i=0;i<labels.length;i++){
+      h+=`<span style="margin-right:5px">${labels[i]}=${fmt(eqnCoeffs[i])}</span>`;
+    }
+    h+=`</div>`;
+    h+=`<div style="font-size:9px;color:#555">Press = for next root</div>`;
+    h+=`<div style="font-size:10px;color:#111;margin-top:4px">`;
+    eqnRoots.forEach((r,i)=>{
+      const lbl=eqnType<=2?`X${i+1}`:(i===0?'X':i===1?'Y':'Z');
+      const active=i===eqnResultIdx;
+      h+=`<div style="${active?'font-weight:bold;':'color:#555;'}">${lbl} = ${r}</div>`;
+    });
+    h+=`</div>`;
   }
-  h+=`<div id="eqn-res" class="eqn-res"></div>`;
   document.getElementById('mode-panel').innerHTML=h;
 }
-function eqnInput(labels){
-  let h='<div style="display:flex;flex-wrap:wrap;gap:3px;align-items:center;">';
-  for(let i=0;i<labels.length;i++){
-    h+=`<span style="font-size:9px;color:#444">${labels[i]}=</span>`;
-    h+=`<input class="eqn-coef" type="number" value="${eqnCoeffs[i]||0}" onchange="eqnCoeffs[${i}]=parseFloat(this.value)||0">`;
-    if(i<labels.length-1&&(eqnType===3||eqnType===4)&&(i+1)%Math.floor(labels.length/(eqnType===3?2:3))===0)
-      h+=`<br style="width:100%">`;
-  }
-  h+='</div>';
-  return h;
-}
-function solveEqn(){
-  let res='';
+function computeEqnRoots(){
+  eqnRoots=[];
   if(eqnType===1){
     const [a,b,c]=eqnCoeffs;
-    if(a===0){res=b!==0?`X=${fmt(-c/b)}`:'No solution';}
+    if(a===0){eqnRoots=b!==0?[fmt(-c/b)]:['No solution'];}
     else{
       const d=b*b-4*a*c;
-      if(d>=0){res=`X₁=${fmt((-b+Math.sqrt(d))/(2*a))}\nX₂=${fmt((-b-Math.sqrt(d))/(2*a))}`;}
-      else{const re=-b/(2*a),im=Math.sqrt(-d)/(2*a);res=`X₁=${fmt(re)}+${fmt(im)}i\nX₂=${fmt(re)}-${fmt(im)}i`;}
+      if(d>=0){eqnRoots=[fmt((-b+Math.sqrt(d))/(2*a)),fmt((-b-Math.sqrt(d))/(2*a))];}
+      else{const re=-b/(2*a),im=Math.sqrt(-d)/(2*a);eqnRoots=[`${fmt(re)}+${fmt(im)}i`,`${fmt(re)}-${fmt(im)}i`];}
     }
   } else if(eqnType===2){
     const [a,b,c,d]=eqnCoeffs;
-    if(a===0){res='Use quadratic';} else {
-      res=solveCubic(a,b,c,d).map((r,i)=>`X${i+1}=${r}`).join('\n');
-    }
+    if(a===0){eqnRoots=['Not cubic'];}
+    else eqnRoots=solveCubic(a,b,c,d);
   } else if(eqnType===3){
     const [a1,b1,c1,a2,b2,c2]=eqnCoeffs;
     const det=a1*b2-a2*b1;
-    if(Math.abs(det)<1e-12){res='No unique solution';}
-    else{res=`X=${fmt((c1*b2-c2*b1)/det)}\nY=${fmt((a1*c2-a2*c1)/det)}`;}
+    if(Math.abs(det)<1e-12){eqnRoots=['No unique sol'];}
+    else{eqnRoots=[fmt((c1*b2-c2*b1)/det),fmt((a1*c2-a2*c1)/det)];}
   } else {
     const c=eqnCoeffs;
     const det=c[0]*(c[5]*c[10]-c[6]*c[9])-c[1]*(c[4]*c[10]-c[6]*c[8])+c[2]*(c[4]*c[9]-c[5]*c[8]);
-    if(Math.abs(det)<1e-12){res='No unique solution';}
+    if(Math.abs(det)<1e-12){eqnRoots=['No unique sol'];}
     else{
       const X=(c[3]*(c[5]*c[10]-c[6]*c[9])-c[1]*(c[7]*c[10]-c[6]*c[11])+c[2]*(c[7]*c[9]-c[5]*c[11]))/det;
       const Y=(c[0]*(c[7]*c[10]-c[6]*c[11])-c[3]*(c[4]*c[10]-c[6]*c[8])+c[2]*(c[4]*c[11]-c[7]*c[8]))/det;
       const Z=(c[0]*(c[5]*c[11]-c[7]*c[9])-c[1]*(c[4]*c[11]-c[7]*c[8])+c[3]*(c[4]*c[9]-c[5]*c[8]))/det;
-      res=`X=${fmt(X)}\nY=${fmt(Y)}\nZ=${fmt(Z)}`;
+      eqnRoots=[fmt(X),fmt(Y),fmt(Z)];
     }
   }
-  const el=document.getElementById('eqn-res');
-  if(el) el.innerHTML=res.replace(/\n/g,'<br>');
-  // also show first result in display
-  const firstLine=res.split('\n')[0];
-  document.getElementById('d-expr').textContent=firstLine;
-  document.getElementById('d-res').textContent='';
+}
+function showEqnCurrentRoot(){
+  if(!eqnRoots.length) return;
+  const r=eqnRoots[eqnResultIdx];
+  const labels=eqnType<=2
+    ?[`X₁`,`X₂`,`X₃`]
+    :eqnType===3?['X','Y']:['X','Y','Z'];
+  const lbl=labels[eqnResultIdx]||`X${eqnResultIdx+1}`;
+  document.getElementById('d-expr').textContent=lbl+'=';
+  const v=parseFloat(r);
+  if(!isNaN(v)&&!r.includes('i')){showRes(v);}
+  else{const el=document.getElementById('d-res');el.textContent=r;el.style.fontSize='13px';}
 }
 function solveCubic(a,b,c,d){
   b/=a;c/=a;d/=a;
   const p=c-b*b/3, q=2*b*b*b/27-b*c/3+d;
   const D=q*q/4+p*p*p/27;
   const roots=[];
-  if(D>0){
+  if(Math.abs(D)<1e-10){
+    if(Math.abs(p)<1e-10){
+      // triple root
+      roots.push(fmt(-b/3));roots.push(fmt(-b/3));roots.push(fmt(-b/3));
+    } else {
+      roots.push(fmt(3*q/p-b/3));
+      roots.push(fmt(-3*q/(2*p)-b/3));
+      roots.push(fmt(-3*q/(2*p)-b/3));
+    }
+  } else if(D>0){
     const u=Math.cbrt(-q/2+Math.sqrt(D));
     const v=Math.cbrt(-q/2-Math.sqrt(D));
     roots.push(fmt(u+v-b/3));
-  } else if(Math.abs(D)<1e-10){
-    roots.push(fmt(3*q/p-b/3));
-    roots.push(fmt(-3*q/(2*p)-b/3));
-    roots.push(fmt(-3*q/(2*p)-b/3));
+    // two complex roots
+    const re=-(u+v)/2-b/3, im=(u-v)*Math.sqrt(3)/2;
+    roots.push(`${fmt(re)}+${fmt(Math.abs(im))}i`);
+    roots.push(`${fmt(re)}-${fmt(Math.abs(im))}i`);
   } else {
     const r=Math.sqrt(-p*p*p/27);
-    const th=Math.acos(-q/(2*r))/3;
+    const th=Math.acos(Math.max(-1,Math.min(1,-q/(2*r))))/3;
     const m=2*Math.cbrt(r);
     for(let k=0;k<3;k++) roots.push(fmt(m*Math.cos(th-2*Math.PI*k/3)-b/3));
   }
@@ -953,39 +1072,42 @@ function solveCubic(a,b,c,d){
 
 // ── TABLE ──────────────────────────────────────────────────────────────────
 function renderTablePanel(){
-  let h=`<div class="mp-title">TABLE f(X)
-    <span style="float:right;font-size:9px;cursor:pointer" onclick="genTable()">[GEN]</span>
-  </div>`;
-  h+=`<div style="font-size:10px;color:#111;margin-bottom:4px">
-    f(X): <input id="tbl-expr" type="text" value="${tableExpr}"
-      style="width:100px;background:rgba(255,255,255,.4);border:1px solid #888;border-radius:2px;font-family:monospace;font-size:10px;padding:1px 3px;"
-      oninput="tableExpr=this.value">
-  </div>
-  <div style="display:flex;gap:6px;font-size:10px;color:#111;margin-bottom:4px">
-    Start:<input id="tbl-s" type="number" value="${tableStart}" style="width:42px;background:rgba(255,255,255,.4);border:1px solid #888;border-radius:2px;font-family:monospace;font-size:10px;padding:1px 2px" oninput="tableStart=parseFloat(this.value)||0">
-    End:<input id="tbl-e" type="number" value="${tableEnd}" style="width:42px;background:rgba(255,255,255,.4);border:1px solid #888;border-radius:2px;font-family:monospace;font-size:10px;padding:1px 2px" oninput="tableEnd=parseFloat(this.value)||0">
-    Step:<input id="tbl-p" type="number" value="${tableStep}" style="width:38px;background:rgba(255,255,255,.4);border:1px solid #888;border-radius:2px;font-family:monospace;font-size:10px;padding:1px 2px" oninput="tableStep=parseFloat(this.value)||1">
-  </div>
-  <div id="tbl-result"></div>`;
-  document.getElementById('mode-panel').innerHTML=h;
+  const panel=document.getElementById('mode-panel');
+  let h='';
+  if(tablePhase==='expr'){
+    h=`<div class="mp-title">TABLE: Enter f(X)</div>
+    <div style="font-size:9px;color:#555">Use ALPHA+7 for X. Press = when done.</div>
+    <div style="font-size:11px;color:#111;margin-top:3px">f(X) = <b>${expr||'…'}</b></div>`;
+  } else if(tablePhase==='start'){
+    h=`<div class="mp-title">TABLE: f(X)=${tableExpr}</div>
+    <div style="font-size:9px;color:#555">Press = to confirm Start</div>`;
+  } else if(tablePhase==='end'){
+    h=`<div class="mp-title">TABLE: f(X)=${tableExpr}</div>
+    <div style="font-size:9px;color:#555">Start=${fmt(tableStart)} — Press = to confirm End</div>`;
+  } else if(tablePhase==='step'){
+    h=`<div class="mp-title">TABLE: f(X)=${tableExpr}</div>
+    <div style="font-size:9px;color:#555">Start=${fmt(tableStart)} End=${fmt(tableEnd)} — Press = to confirm Step</div>`;
+  } else if(tablePhase==='result'){
+    h=`<div class="mp-title">f(X)=${tableExpr} [${fmt(tableStart)},${fmt(tableEnd)},${fmt(tableStep)}]
+      <span style="float:right;font-size:9px;cursor:pointer" onclick="tablePhase='expr';expr='';document.getElementById('d-expr').textContent='f(X)?';showRes(0);renderTablePanel();">[↺]</span>
+    </div>`;
+    h+=`<div class="tbl-header"><span style="min-width:60px">X</span><span>f(X)</span></div>`;
+    for(const row of tableRows){
+      h+=`<div class="tbl-row"><span>${fmt(row.x)}</span><span>${row.v!==null?fmt(row.v):'ERR'}</span></div>`;
+    }
+  }
+  panel.innerHTML=h;
 }
 function genTable(){
-  const fe=document.getElementById('tbl-expr');
-  if(fe) tableExpr=fe.value;
-  const fs=document.getElementById('tbl-s');const fe2=document.getElementById('tbl-e');const fp=document.getElementById('tbl-p');
-  if(fs) tableStart=parseFloat(fs.value)||0;
-  if(fe2) tableEnd=parseFloat(fe2.value)||0;
-  if(fp) tableStep=parseFloat(fp.value)||1;
   if(!tableExpr){toast('Enter f(X)');return;}
-  if(tableStep===0||Math.sign(tableEnd-tableStart)!==Math.sign(tableStep)){toast('Invalid range');return;}
-  let h=`<div class="tbl-header"><span style="min-width:54px">X</span><span>f(X)</span></div>`;
+  if(tableStep===0||(tableEnd!==tableStart&&Math.sign(tableEnd-tableStart)!==Math.sign(tableStep))){toast('Invalid range');return;}
+  tableRows=[];
   let count=0;
-  for(let x=tableStart;(tableStep>0?x<=tableEnd+1e-10:x>=tableEnd-1e-10)&&count<50;x+=tableStep,count++){
-    const v=evalExprX(tableExpr,x);
-    h+=`<div class="tbl-row"><span>${fmt(x)}</span><span>${v!==null?fmt(v):'ERR'}</span></div>`;
+  for(let x=tableStart;(tableStep>0?x<=tableEnd+1e-10:x>=tableEnd-1e-10)&&count<60;x+=tableStep,count++){
+    tableRows.push({x,v:evalExprX(tableExpr,x)});
   }
-  const el=document.getElementById('tbl-result');
-  if(el) el.innerHTML=h;
+  tablePhase='result';
+  renderTablePanel();
 }
 
 // ── MATRIX ─────────────────────────────────────────────────────────────────
@@ -1239,12 +1361,23 @@ function pMode(){
   render();
 }
 function pAC(){
-  if(calcMode!=='COMP'&&calcMode!=='CMPLX'&&calcMode!=='BASE-N'){
-    // in special modes, AC resets the current mode panel input
-    expr='';postEq=false;showRes(0);clr();render();
+  expr='';postEq=false;showRes(0);clr();render();
+  if(calcMode==='EQN'){
+    // restart coefficient entry
+    eqnEnteredCount=0;eqnRoots=[];eqnResultIdx=0;
+    eqnCoeffs=new Array(eqnCoeffs.length).fill(0);
+    eqnPhase='entry';
+    renderEqnPanel();
+    const labels=eqnLabels();
+    if(labels.length) document.getElementById('d-expr').textContent=labels[0]+'?';
+    showRes(0);
+  } else if(calcMode==='TABLE'){
+    tablePhase='expr';tableExpr='';tableRows=[];
+    renderTablePanel();
+    document.getElementById('d-expr').textContent='f(X)?';
+    showRes(0);
+  } else if(calcMode!=='COMP'&&calcMode!=='CMPLX'&&calcMode!=='BASE-N'){
     updateModePanel();
-  } else {
-    expr='';postEq=false;showRes(0);clr();render();
   }
 }
 function pDEL(){
@@ -1291,7 +1424,7 @@ function pKey(k){
 }
 function pF(name){
   if(alphaOn){
-    const alphaFn={sin:'A',cos:'B',tan:'C',log:'F',ln:'G'};
+    const alphaFn={sin:'A',cos:'B',tan:'C',log:'F'};
     if(alphaFn[name]){afterEq(false);expr+=alphaFn[name];clr();live();render();return;}
     alphaOn=false;render();
   }
@@ -1325,10 +1458,11 @@ function pConst(c){
     else  {expr+='π';}
   } else {
     if(sh){
-      // →DEG conversion
+      // →DEG: convert value from current angle unit to degrees
       const v=evaluate();
       if(v!==null){
-        const deg=fromRad(toRad(v));
+        const rad=toRad(v);
+        const deg=rad*180/Math.PI;
         expr=fmt(deg);showRes(deg);postEq=true;return;
       }
     }
@@ -1386,6 +1520,80 @@ function pPct(){afterEq(false);expr+='%';clr();live();render();}
 
 function pEQ(){
   clr();
+
+  // ── EQN step-by-step ──
+  if(calcMode==='EQN'){
+    if(eqnPhase==='entry'){
+      const v=parseFloat(expr)||0;
+      eqnCoeffs[eqnEnteredCount]=v;
+      eqnEnteredCount++;
+      expr='';postEq=false;
+      const labels=eqnLabels();
+      if(eqnEnteredCount>=labels.length){
+        computeEqnRoots();
+        eqnPhase='result';eqnResultIdx=0;
+        renderEqnPanel();
+        showEqnCurrentRoot();
+      } else {
+        renderEqnPanel();
+        document.getElementById('d-expr').textContent=labels[eqnEnteredCount]+'?';
+        showRes(0);
+      }
+    } else if(eqnPhase==='result'){
+      eqnResultIdx=(eqnResultIdx+1)%eqnRoots.length;
+      renderEqnPanel();
+      showEqnCurrentRoot();
+    }
+    return;
+  }
+
+  // ── TABLE step-by-step ──
+  if(calcMode==='TABLE'){
+    switch(tablePhase){
+      case 'expr':
+        tableExpr=expr||tableExpr;
+        if(!tableExpr){toast('Enter f(X) first');return;}
+        tablePhase='start';
+        expr=tableStart.toString();
+        document.getElementById('d-expr').textContent='Start?';
+        showRes(tableStart);
+        renderTablePanel();
+        break;
+      case 'start':
+        tableStart=parseFloat(expr);if(isNaN(tableStart)) tableStart=0;
+        tablePhase='end';
+        expr=tableEnd.toString();
+        document.getElementById('d-expr').textContent='End?';
+        showRes(tableEnd);
+        renderTablePanel();
+        break;
+      case 'end':
+        tableEnd=parseFloat(expr);if(isNaN(tableEnd)) tableEnd=6;
+        tablePhase='step';
+        expr=tableStep.toString();
+        document.getElementById('d-expr').textContent='Step?';
+        showRes(tableStep);
+        renderTablePanel();
+        break;
+      case 'step':
+        tableStep=parseFloat(expr);if(isNaN(tableStep)||tableStep===0) tableStep=1;
+        genTable();
+        expr='';
+        renderTablePanel();
+        break;
+      case 'result':
+        // = restarts
+        tablePhase='expr';tableExpr='';tableRows=[];
+        expr='';
+        document.getElementById('d-expr').textContent='f(X)?';
+        showRes(0);
+        renderTablePanel();
+        break;
+    }
+    return;
+  }
+
+  // ── BASE-N ──
   if(calcMode==='BASE-N'){
     const v=evaluate();
     if(v!==null){
@@ -1395,21 +1603,14 @@ function pEQ(){
     }else showRes(null);
     return;
   }
-  if(calcMode==='CMPLX'){
-    // try to evaluate as complex (simplified: treat as normal + show)
-    const v=evaluate();
-    if(v!==null){lastAns=v;showRes(v);postEq=true;}
-    else showRes(null);
-    render();return;
-  }
+
+  // ── COMP / CMPLX ──
   const v=evaluate();
   if(v!==null){
     if(expr&&!history.includes(expr)) history.unshift(expr);
     if(history.length>20) history.pop();
     histIdx=-1;
-    lastAns=v;
-    showRes(v);
-    postEq=true;
+    lastAns=v;showRes(v);postEq=true;
   }else showRes(null);
   render();
 }
