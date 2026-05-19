@@ -7,17 +7,17 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{min-height:100dvh;display:flex;justify-content:center;align-items:center;padding:0;margin:0;background:#555;font-family:'Segoe UI',Arial,sans-serif;touch-action:manipulation;-webkit-tap-highlight-color:transparent;overflow-x:hidden;}
-.calc{width:292px;background:linear-gradient(170deg,#f0ede5 0%,#e8e4da 40%,#dedad0 100%);border-radius:16px 16px 12px 12px;box-shadow:0 0 0 1.5px #9a9288,0 3px 0 0 #888,0 6px 0 0 #777,0 10px 30px rgba(0,0,0,.5),0 24px 70px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.95);overflow:hidden;position:relative;}
-.top{background:linear-gradient(180deg,#1a2470 0%,#10196a 60%,#0c1560 100%);padding:10px 14px 0;border-radius:15px 15px 0 0;}
-.brand-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
-.casio-logo{font-family:'Times New Roman',serif;font-size:24px;font-weight:900;font-style:italic;color:#fff;letter-spacing:2px;text-shadow:0 2px 4px rgba(0,0,0,.7);}
+body{min-height:100dvh;display:flex;justify-content:center;align-items:center;padding:0;margin:0;background:#888;font-family:'Segoe UI',Arial,sans-serif;touch-action:manipulation;-webkit-tap-highlight-color:transparent;overflow-x:hidden;}
+.calc{width:300px;background:linear-gradient(170deg,#f4f2f8 0%,#eeeaf8 40%,#e8e4f4 100%);border-radius:14px 14px 8px 8px;box-shadow:0 0 0 4px #7a80a8,0 4px 0 0 #6870a0,0 8px 0 0 #5a6090,0 12px 32px rgba(0,0,0,.45),0 28px 70px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.9);overflow:hidden;position:relative;}
+.top{background:transparent;padding:8px 14px 0;border-radius:14px 14px 0 0;}
+.brand-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;}
+.casio-logo{font-family:'Times New Roman',serif;font-size:22px;font-weight:900;font-style:italic;color:#1a1a38;letter-spacing:2px;}
 .model-block{text-align:right;line-height:1.3}
-.model-main{display:block;font-size:11px;font-weight:700;color:#90b8f8;letter-spacing:.4px;}
-.model-sub{display:block;font-size:6.5px;color:#5888c8;letter-spacing:.6px;text-transform:uppercase;}
-.solar{height:8px;background:#050510;border-radius:2px;margin-bottom:8px;display:flex;gap:1.5px;padding:1.5px 3px;border:1px solid #030308;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.8);}
-.sc{flex:1;background:linear-gradient(180deg,rgba(80,110,230,.25),rgba(0,0,0,.1));border-radius:1px}
-.disp-wrap{background:linear-gradient(180deg,#0c1560,#101870);padding:0 12px 10px;}
+.model-main{display:block;font-size:10px;font-weight:700;color:#38386a;letter-spacing:.4px;}
+.model-sub{display:block;font-size:6px;color:#7070a0;letter-spacing:.6px;text-transform:uppercase;}
+.solar{height:9px;background:#1a1828;border-radius:2px;margin-bottom:7px;display:flex;gap:1.5px;padding:1.5px 3px;border:1px solid #0a0818;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.6);}
+.sc{flex:1;background:linear-gradient(180deg,rgba(60,80,180,.3),rgba(10,10,40,.2));border-radius:1px}
+.disp-wrap{background:transparent;padding:0 12px 8px;}
 .disp{background:linear-gradient(175deg,#bdd490 0%,#adc47e 55%,#a0bb74 100%);border:2px solid #1a1a1a;border-radius:3px;padding:5px 8px 7px;min-height:70px;position:relative;box-shadow:inset 0 3px 7px rgba(0,0,0,.4),inset 0 -1px 3px rgba(255,255,255,.12),0 1px 0 rgba(255,255,255,.3);overflow:hidden;}
 .disp::before{content:'';position:absolute;top:0;left:0;right:0;height:35%;background:linear-gradient(180deg,rgba(255,255,255,.15),transparent);pointer-events:none;z-index:1;}
 .disp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2px;position:relative;z-index:2;}
@@ -71,31 +71,42 @@ body{min-height:100dvh;display:flex;justify-content:center;align-items:center;pa
 .vec-cell{width:34px;height:20px;background:rgba(255,255,255,.4);border:1px solid #888;border-radius:2px;font-family:'Courier New',monospace;font-size:9px;color:#111;text-align:center;padding:0;outline:none;}
 
 /* BUTTONS */
-.btns{background:linear-gradient(180deg,#e0ddd5 0%,#d5d2ca 50%,#ccc9c1 100%);padding:8px 10px 14px;border-top:1px solid #bbb;}
-.row{display:flex;gap:4px;margin-bottom:5px;justify-content:center}
+.btns{background:transparent;padding:6px 10px 12px;border-top:1px solid rgba(120,128,168,.3);}
+.row{display:flex;gap:3px;margin-bottom:4px;justify-content:center}
 .kw{display:flex;flex-direction:column;align-items:center;position:relative;padding-top:12px}
 .kw0{display:flex;flex-direction:column;align-items:center;position:relative;padding-top:0}
 .lbl{position:absolute;top:0;font-size:6.5px;font-weight:700;white-space:nowrap;left:50%;transform:translateX(-50%);line-height:12px;}
 .lsh{color:#c05800}
 .lal{color:#bb0000}
-button{border:none;border-radius:5px;cursor:pointer;font-family:'Segoe UI',Arial,sans-serif;font-weight:700;font-size:10px;width:46px;height:26px;outline:none;box-shadow:0 3px 0 rgba(0,0,0,.55),0 4px 6px rgba(0,0,0,.25);user-select:none;-webkit-user-select:none;transition:filter .05s,transform .04s,box-shadow .04s;letter-spacing:.1px;position:relative;overflow:hidden;}
-button:active{transform:translateY(2.5px);box-shadow:0 .5px 0 rgba(0,0,0,.45),0 1px 2px rgba(0,0,0,.2);filter:brightness(.75)}
-button::before{content:'';position:absolute;top:0;left:0;right:0;height:42%;background:linear-gradient(180deg,rgba(255,255,255,.25),transparent);border-radius:5px 5px 0 0;pointer-events:none;}
-.bsm{width:46px;height:24px;font-size:9.5px}
-.bnum{width:46px;height:33px;font-size:14px}
-.beq{width:46px;height:33px;font-size:17px}
-.bshift{background:linear-gradient(175deg,#f8a020,#e08000);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4)}
-.balpha{background:linear-gradient(175deg,#f04040,#c81818);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4)}
-.bac{background:linear-gradient(175deg,#f04040,#c81818);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4)}
-.bdel{background:linear-gradient(175deg,#6a7585,#4e5a68);color:#fff}
-.bmode{background:linear-gradient(175deg,#607080,#445060);color:#fff}
-.bfn{background:linear-gradient(175deg,#505762,#3a4048);color:#dde4ee}
-.bnum-k{background:linear-gradient(175deg,#38404e,#252d3a);color:#fff}
-.bop{background:linear-gradient(175deg,#38404e,#252d3a);color:#dde8ff}
-.beq-k{background:linear-gradient(175deg,#4a90f0,#1a58d8);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35)}
-.bmem{background:linear-gradient(175deg,#486860,#304848);color:#d0ffe0}
-.bconst{background:linear-gradient(175deg,#505762,#3a4048);color:#c0d0ff}
-.strip{height:5px;background:linear-gradient(180deg,#c0bdb5,#ccc9c1);margin:3px 0 4px;border-top:1px solid #aaa;border-bottom:1px solid #ddd;}
+button{border:none;border-radius:4px;cursor:pointer;font-family:'Segoe UI',Arial,sans-serif;font-weight:700;font-size:10px;width:48px;height:26px;outline:none;box-shadow:0 3px 0 rgba(0,0,0,.4),0 3px 5px rgba(0,0,0,.2);user-select:none;-webkit-user-select:none;transition:filter .05s,transform .04s,box-shadow .04s;letter-spacing:.1px;position:relative;overflow:hidden;}
+button:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.35),0 1px 2px rgba(0,0,0,.15);filter:brightness(.82)}
+button::before{content:'';position:absolute;top:0;left:0;right:0;height:45%;background:linear-gradient(180deg,rgba(255,255,255,.3),transparent);border-radius:4px 4px 0 0;pointer-events:none;}
+.bsm{width:48px;height:24px;font-size:9.5px}
+.bnum{width:48px;height:34px;font-size:14px}
+.beq{width:48px;height:34px;font-size:17px}
+/* SHIFT: orange */
+.bshift{background:linear-gradient(175deg,#f8a020,#d87808);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+/* ALPHA: red */
+.balpha{background:linear-gradient(175deg,#e03030,#b81010);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+/* AC: orange (same as DEL in real Casio) */
+.bac{background:linear-gradient(175deg,#f8a020,#d87808);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+/* DEL: orange */
+.bdel{background:linear-gradient(175deg,#f8a020,#d87808);color:#fff}
+/* MODE: blue-grey */
+.bmode{background:linear-gradient(175deg,#8090b8,#586898);color:#fff}
+/* Function buttons: blue-grey */
+.bfn{background:linear-gradient(175deg,#8090b8,#6070a0);color:#fff}
+/* Number buttons: light grey */
+.bnum-k{background:linear-gradient(175deg,#d4d2dc,#bab8c4);color:#1a1a2e}
+/* Operators: same light grey as numbers */
+.bop{background:linear-gradient(175deg,#d4d2dc,#bab8c4);color:#1a1a2e}
+/* = button: blue */
+.beq-k{background:linear-gradient(175deg,#3a80e8,#1048c8);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+/* Memory: blue-grey like functions */
+.bmem{background:linear-gradient(175deg,#8090b8,#6070a0);color:#fff}
+/* Constants: blue-grey */
+.bconst{background:linear-gradient(175deg,#8090b8,#6070a0);color:#e8eeff}
+.strip{height:4px;background:linear-gradient(180deg,#d0cedc,#c4c2d0);margin:3px 0 3px;border-top:1px solid #b8b6c8;border-bottom:1px solid #e0deea;}
 
 /* modal overlay */
 .ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:200;justify-content:center;align-items:center;}
