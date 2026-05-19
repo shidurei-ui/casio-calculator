@@ -465,6 +465,12 @@ let stoWaiting = false;
 // HYP mode: false | 'hyp' | 'inv'
 let hypMode = false;
 
+// CALC variable solver
+let calcActive   = false;
+let calcExpr     = '';
+let calcVarList  = [];   // unique variable names found in expression
+let calcVarIdx   = 0;    // which var we are currently prompting
+
 // ── PHYSICAL CONSTANTS ─────────────────────────────────────────────────────
 const PHYS_CONST = [
   {sym:'c',    name:'Speed of light',       val:299792458},
@@ -771,8 +777,21 @@ function tryNumericalOps(s){
   return null;
 }
 
+function parseDMS(s){
+  // Convert DMS like "2°30'45" to decimal degrees
+  const m=s.match(/^(-?)(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)'?(\d+(?:\.\d+)?)?"?$/);
+  if(!m) return null;
+  const sign=m[1]==='-'?-1:1;
+  const d=parseFloat(m[2])||0,mn=parseFloat(m[3])||0,sc=parseFloat(m[4]||'0')||0;
+  return sign*(d+mn/60+sc/3600);
+}
 function evaluateStr(s){
   if(!s||!s.trim()) return null;
+  // Handle DMS input like "2°30'45"
+  if(/°/.test(s)){
+    const dv=parseDMS(s);
+    if(dv!==null) return dv;
+  }
   // auto-close unclosed parentheses
   let depth=0;
   for(const c of s){if(c==='(') depth++;else if(c===')') depth--;}
@@ -833,8 +852,15 @@ function ind(id,on){const el=document.getElementById(id);if(el) el.classList.tog
 function render(){
   const exprEl=document.getElementById('d-expr');
   if(!exprEl) return;
+  // In CALC mode, show typed digits in d-res
+  if(calcActive){
+    const resEl=document.getElementById('d-res');
+    if(expr){resEl.textContent=expr;resEl.style.fontSize='22px';}
+    ind('is',shiftOn);ind('ia',alphaOn);
+    return;
+  }
   // in step-based modes, d-expr shows the prompt, not expr
-  if(calcMode!=='EQN'&&!(calcMode==='TABLE'&&tablePhase!=='expr')&&calcMode!=='STAT'&&
+  if(!calcActive&&calcMode!=='EQN'&&!(calcMode==='TABLE'&&tablePhase!=='expr')&&calcMode!=='STAT'&&
      calcMode!=='MATRIX'&&calcMode!=='VECTOR'){
     exprEl.textContent=expr;
   }
@@ -1462,7 +1488,7 @@ function pShift(){
 function pAlpha(){
   alphaOn=!alphaOn;
   shiftOn=false;
-  if(alphaOn) toast('ALPHA: sin=A cos=B tan=C log=F 7=X 8=Y 9=M');
+  if(alphaOn) toast('ALPHA: sin=A cos=B tan=C log=F (=A )=B 7=X 8=Y 9=M');
   render();
 }
 // ── ON-SCREEN MENU SYSTEM ──────────────────────────────────────────────────
@@ -1550,6 +1576,7 @@ function pMode(){
 }
 function pAC(){
   if(menuState){closeMenu();return;}
+  if(calcActive){calcActive=false;calcExpr='';calcVarList=[];calcVarIdx=0;}
   expr='';postEq=false;showRes(0);clr();render();
   if(calcMode==='EQN'){
     // restart coefficient entry
@@ -1621,7 +1648,7 @@ function pF(name){
     case'sq':  expr+=sh?'⁻¹':'²';  break;
     case'cube':expr+=sh?'∛(':'³';  break;
     case'pow': expr+='^';            break;
-    case'calc': if(sh){expr+='∫(';}else{const v2=evaluate();if(v2!==null){lastAns=v2;showRes(v2);postEq=true;render();}else toast('CALC: enter expression');return;} break;
+    case'calc': if(sh){expr+='∫(';}else{pCALC_fn();return;} break;
     case'sqrt':expr+=sh?'d/dx(':'√('; break;
     case'cbrt':expr+=sh?'d/dx(':'∛(';break;
     case'sin':
@@ -1721,6 +1748,28 @@ function pPct(){afterEq(false);expr+='%';clr();live();render();}
 
 function pEQ(){
   clr();
+
+  // ── CALC variable solver ──
+  if(calcActive){
+    const vn=calcVarList[calcVarIdx];
+    const val=parseFloat(expr);
+    const v=isNaN(val)?0:val;
+    vars[vn]=v;
+    calcVarIdx++;
+    if(calcVarIdx<calcVarList.length){
+      // prompt next variable
+      _calcPromptVar();
+    } else {
+      // all vars entered → evaluate
+      const res=evaluateStr(calcExpr);
+      if(res!==null){lastAns=res;showRes(res);}else showRes(null);
+      document.getElementById('d-expr').textContent=calcExpr.slice(0,16);
+      expr='';postEq=false;
+      calcVarIdx=0;
+      // stay in calcActive=true; user presses CALC again to re-prompt
+    }
+    return;
+  }
 
   // ── EQN step-by-step ──
   if(calcMode==='EQN'){
@@ -1846,6 +1895,41 @@ function pSD(){
   if(v!==null) showRes(v);
 }
 
+// ── CALC VARIABLE SOLVER ──────────────────────────────────────────────────
+function pCALC_fn(){
+  // If already in CALC mode, just re-prompt from the first variable
+  if(calcActive){
+    calcVarIdx=0;
+    _calcPromptVar();
+    return;
+  }
+  // New CALC activation
+  const src = expr.trim() || calcExpr;
+  if(!src){toast('Enter expression with variables');return;}
+  calcExpr = src;
+  // Find unique variable names used (A-F, X, Y)
+  const found = src.match(/\b([A-FXYM])\b/g)||[];
+  calcVarList=[...new Set(found)];
+  if(!calcVarList.length){
+    // No variables — just evaluate
+    const v=evaluateStr(calcExpr);
+    if(v!==null){lastAns=v;showRes(v);postEq=true;render();}
+    else showRes(null);
+    return;
+  }
+  calcActive=true;
+  calcVarIdx=0;
+  _calcPromptVar();
+}
+function _calcPromptVar(){
+  const vn=calcVarList[calcVarIdx];
+  expr='';postEq=false;
+  document.getElementById('d-expr').textContent=vn+'?';
+  const cur=vn==='M'?mem:(vars[vn]||0);
+  showRes(cur);
+  render();
+}
+
 // ── HYP / NAV / ENG / DMS ──────────────────────────────────────────────────
 function pHyp(){
   const sh=shiftOn;clr();
@@ -1876,12 +1960,30 @@ function pENG(){
 }
 function pDMS(){
   const sh=shiftOn;clr();
-  if(sh){pENG();return;}
-  const v=evaluate()??lastAns;
-  if(v===null){toast('Enter a value first');return;}
-  const sign=v<0?'-':'';const a=Math.abs(v);
-  const d=Math.floor(a);const mf=(a-d)*60;const m=Math.floor(mf);const sc=(mf-m)*60;
-  toast(sign+d+'°'+m+"'"+parseFloat(sc.toPrecision(6))+'"');
+  if(sh){
+    // SHIFT+°'" = ←ENG
+    const v=lastAns||evaluate();
+    if(!v&&v!==0){toast('No value');return;}
+    pENG(); return;
+  }
+  // If expression ends with a number, convert to DMS string
+  // Otherwise insert ° as a separator
+  if(postEq||expr===''){
+    // Convert last result to DMS
+    const v=lastAns;
+    if(v===0){toast('0°0\'0"');return;}
+    const sign=v<0?'-':'';const a=Math.abs(v);
+    const d=Math.floor(a);const mf=(a-d)*60;const m=Math.floor(mf);const sc=(mf-m)*60;
+    const dmsStr=sign+d+'°'+m+"'"+parseFloat(sc.toPrecision(6))+'"';
+    // Show in result area
+    const el=document.getElementById('d-res');
+    el.textContent=dmsStr;el.style.fontSize='13px';
+    document.getElementById('d-expr').textContent=fmt(v);
+    postEq=true;
+  } else {
+    // Insert ° as DMS separator in input mode
+    afterEq(false);expr+='°';render();
+  }
 }
 
 // ── KEYBOARD ───────────────────────────────────────────────────────────────
