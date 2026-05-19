@@ -7,7 +7,7 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:16px 6px 24px;background:radial-gradient(ellipse at 50% 0%,#888 0%,#555 100%);font-family:'Segoe UI',Arial,sans-serif;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+body{min-height:100dvh;display:flex;justify-content:center;align-items:center;padding:0;margin:0;background:#555;font-family:'Segoe UI',Arial,sans-serif;touch-action:manipulation;-webkit-tap-highlight-color:transparent;overflow-x:hidden;}
 .calc{width:292px;background:linear-gradient(170deg,#f0ede5 0%,#e8e4da 40%,#dedad0 100%);border-radius:16px 16px 12px 12px;box-shadow:0 0 0 1.5px #9a9288,0 3px 0 0 #888,0 6px 0 0 #777,0 10px 30px rgba(0,0,0,.5),0 24px 70px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.95);overflow:hidden;position:relative;}
 .top{background:linear-gradient(180deg,#1a2470 0%,#10196a 60%,#0c1560 100%);padding:10px 14px 0;border-radius:15px 15px 0 0;}
 .brand-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
@@ -109,6 +109,13 @@ button::before{content:'';position:absolute;top:0;left:0;right:0;height:42%;back
 .mi-n{font-weight:bold;color:#333;width:14px;flex-shrink:0;}
 .mi.active{background:rgba(0,80,0,.2);border-color:rgba(0,80,0,.3);}
 
+/* on-screen menu */
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:3px;}
+.menu-item{display:flex;align-items:center;gap:4px;padding:5px 4px;cursor:pointer;border-radius:3px;border:1px solid transparent;font-family:'Courier New',monospace;}
+.menu-item:hover,.menu-item:active{background:rgba(0,0,0,.18);border-color:rgba(0,0,0,.2);}
+.menu-num{font-size:11px;font-weight:900;color:#1a4a1a;min-width:13px;flex-shrink:0;}
+.menu-lbl{font-size:10px;color:#0a1a0a;line-height:1.2;}
+
 /* constants modal */
 .clist{max-height:200px;overflow-y:auto;}
 .ci{display:flex;align-items:center;gap:4px;padding:3px 2px;cursor:pointer;font-size:9.5px;color:#111;border-bottom:1px solid rgba(0,0,0,.1);}
@@ -120,10 +127,10 @@ button::before{content:'';position:absolute;top:0;left:0;right:0;height:42%;back
 /* setup sub */
 .sub-label{font-size:10px;color:#444;margin-bottom:4px;}
 
-@media(max-width:320px){
-  .calc{width:100%}
-  button{width:40px!important}
-  .btns{padding:6px 6px 10px}
+@media(max-width:300px){
+  .calc{width:100vw;border-radius:0}
+  button{width:38px!important;height:24px!important}
+  .btns{padding:5px 6px 8px}
   .row{gap:3px}
 }
 </style>
@@ -412,6 +419,9 @@ let statCol  = 'x'; // 'x' | 'freq' | 'y'
 let baseMode = 'DEC';
 let baseLogicOp = null; // 'AND'|'OR'|'XOR'
 let baseLogicA  = 0;
+
+// ON-SCREEN MENU
+let menuState = null; // {title, items:[{k,label,action}]}
 
 // EQN
 let eqnType        = 1;
@@ -857,21 +867,16 @@ function afterEq(isOp){
 
 // ── MODE SWITCHING ─────────────────────────────────────────────────────────
 function setCalcMode(m){
-  closeOv('ov-mode');
+  menuState=null;
   calcMode=m;
   expr='';postEq=false;showFrac=false;
-  showRes(0);
-  render();
-  updateModePanel();
-  // update EXP button label for CMPLX mode
+  showRes(0);render();updateModePanel();
   const expBtn=document.getElementById('btn-exp');
   if(expBtn){expBtn.textContent=m==='CMPLX'?'i':'EXP';expBtn.style.fontSize=m==='CMPLX'?'15px':'';}
   if(m==='STAT'){
-    openOv('ov-stat');
+    showStatMenu();
   } else if(m==='EQN'){
-    eqnPhase='select';
-    document.getElementById('d-expr').textContent='EQN';
-    openOv('ov-eqn');
+    showEqnMenu();
   } else if(m==='CMPLX'){
     document.getElementById('d-expr').textContent='CMPLX';
   } else if(m==='TABLE'){
@@ -901,9 +906,9 @@ function updateModePanel(){
 
 // ── STAT ───────────────────────────────────────────────────────────────────
 function setStatType(t){
-  closeOv('ov-stat');
-  statType=t;
-  statData=[];statRow=0;statCol='x';
+  menuState=null;calcMode='STAT';
+  statType=t;statData=[];statRow=0;statCol='x';
+  expr='';postEq=false;showFrac=false;showRes(0);render();
   updateModePanel();
 }
 function renderStatPanel(){
@@ -912,7 +917,7 @@ function renderStatPanel(){
     for(let i=0;i<6;i++) statData.push(is2var?{x:'',y:''}:{x:'',freq:''});
   }
   let h=`<div class="mp-title">STAT [${statType}]
-    <span style="float:right;cursor:pointer;font-size:9px" onclick="openOv('ov-stat')">[type]</span>
+    <span style="float:right;cursor:pointer;font-size:9px" onclick="showStatMenu()">[type]</span>
     <span style="float:right;cursor:pointer;font-size:9px;margin-right:4px" onclick="statCalcAll()">[calc]</span>
   </div>`;
   h+=`<table class="stat-tbl"><thead><tr>`;
@@ -983,7 +988,7 @@ function statCalcAll(){
   // show in mode panel
   const panel=document.getElementById('mode-panel');
   panel.classList.add('open');
-  panel.innerHTML=`<div class="mp-title">STAT Results <span style="float:right;font-size:9px;cursor:pointer" onclick="openOv('ov-stat')">[type]</span></div>`+
+  panel.innerHTML=`<div class="mp-title">STAT Results <span style="float:right;font-size:9px;cursor:pointer" onclick="showStatMenu()">[type]</span></div>`+
     res.split('\n').map(l=>`<div style="font-size:10px;color:#111;font-family:'Courier New',monospace;padding:1px 0">${l}</div>`).join('');
   document.getElementById('d-expr').textContent='STAT CALC';
   document.getElementById('d-res').textContent='';
@@ -1032,28 +1037,28 @@ function baseLogic(op){
 
 // ── EQN ────────────────────────────────────────────────────────────────────
 function eqnLabels(){
+  // 1=2×2 simult, 2=3×3 simult, 3=quadratic, 4=cubic (matches real Casio)
   switch(eqnType){
-    case 1:return['a','b','c'];
-    case 2:return['a','b','c','d'];
-    case 3:return['a₁','b₁','c₁','a₂','b₂','c₂'];
-    case 4:return['a₁','b₁','c₁','d₁','a₂','b₂','c₂','d₂','a₃','b₃','c₃','d₃'];
+    case 1:return['a₁','b₁','c₁','a₂','b₂','c₂'];
+    case 2:return['a₁','b₁','c₁','d₁','a₂','b₂','c₂','d₂','a₃','b₃','c₃','d₃'];
+    case 3:return['a','b','c'];
+    case 4:return['a','b','c','d'];
     default:return[];
   }
 }
 function eqnFmtTitle(){
-  const titles=['aX²+bX+c=0','aX³+bX²+cX+d=0','a₁X+b₁Y=c₁, a₂X+b₂Y=c₂','3×3 System'];
+  const titles=['a₁X+b₁Y=c₁','3×3 System','aX²+bX+c=0','aX³+bX²+cX+d=0'];
   return titles[eqnType-1]||'';
 }
 function setEqnType(t){
-  closeOv('ov-eqn');
+  menuState=null;calcMode='EQN';
   eqnType=t;
-  const count=t===1?3:t===2?4:t===3?6:12;
+  const count=t===1?6:t===2?12:t===3?3:4;
   eqnCoeffs=new Array(count).fill(0);
   eqnEnteredCount=0;eqnRoots=[];eqnResultIdx=0;
   eqnPhase='entry';
   expr='';postEq=false;
   updateModePanel();
-  // show first coefficient prompt in display
   const labels=eqnLabels();
   document.getElementById('d-expr').textContent=labels[0]+'?';
   showRes(0);
@@ -1061,7 +1066,7 @@ function setEqnType(t){
 function renderEqnPanel(){
   const labels=eqnLabels();
   let h=`<div class="mp-title">${eqnFmtTitle()}
-    <span style="float:right;font-size:9px;cursor:pointer" onclick="openOv('ov-eqn')">[type]</span>
+    <span style="float:right;font-size:9px;cursor:pointer" onclick="showEqnMenu()">[type]</span>
   </div>`;
   if(eqnPhase==='entry'){
     // Show entered coefficients so far
@@ -1092,7 +1097,7 @@ function renderEqnPanel(){
 }
 function computeEqnRoots(){
   eqnRoots=[];
-  if(eqnType===1){
+  if(eqnType===3){  // quadratic
     const [a,b,c]=eqnCoeffs;
     if(a===0){eqnRoots=b!==0?[fmt(-c/b)]:['No solution'];}
     else{
@@ -1100,16 +1105,16 @@ function computeEqnRoots(){
       if(d>=0){eqnRoots=[fmt((-b+Math.sqrt(d))/(2*a)),fmt((-b-Math.sqrt(d))/(2*a))];}
       else{const re=-b/(2*a),im=Math.sqrt(-d)/(2*a);eqnRoots=[`${fmt(re)}+${fmt(im)}i`,`${fmt(re)}-${fmt(im)}i`];}
     }
-  } else if(eqnType===2){
+  } else if(eqnType===4){  // cubic
     const [a,b,c,d]=eqnCoeffs;
     if(a===0){eqnRoots=['Not cubic'];}
     else eqnRoots=solveCubic(a,b,c,d);
-  } else if(eqnType===3){
+  } else if(eqnType===1){  // 2×2 simultaneous
     const [a1,b1,c1,a2,b2,c2]=eqnCoeffs;
     const det=a1*b2-a2*b1;
     if(Math.abs(det)<1e-12){eqnRoots=['No unique sol'];}
     else{eqnRoots=[fmt((c1*b2-c2*b1)/det),fmt((a1*c2-a2*c1)/det)];}
-  } else {
+  } else {  // 3×3 simultaneous
     const c=eqnCoeffs;
     const det=c[0]*(c[5]*c[10]-c[6]*c[9])-c[1]*(c[4]*c[10]-c[6]*c[8])+c[2]*(c[4]*c[9]-c[5]*c[8]);
     if(Math.abs(det)<1e-12){eqnRoots=['No unique sol'];}
@@ -1124,9 +1129,9 @@ function computeEqnRoots(){
 function showEqnCurrentRoot(){
   if(!eqnRoots.length) return;
   const r=eqnRoots[eqnResultIdx];
-  const labels=eqnType<=2
-    ?[`X₁`,`X₂`,`X₃`]
-    :eqnType===3?['X','Y']:['X','Y','Z'];
+  // polynomial types → X₁,X₂,X₃; simultaneous → X,Y,Z
+  const isPoly=(eqnType===3||eqnType===4);
+  const labels=isPoly?['X₁','X₂','X₃']:['X','Y','Z'];
   const lbl=labels[eqnResultIdx]||`X${eqnResultIdx+1}`;
   document.getElementById('d-expr').textContent=lbl+'=';
   const v=parseFloat(r);
@@ -1444,17 +1449,91 @@ function pAlpha(){
   if(alphaOn) toast('ALPHA: A=sin B=cos C=tan D=( E=) F=log X=7 Y=8');
   render();
 }
+// ── ON-SCREEN MENU SYSTEM ──────────────────────────────────────────────────
+function showMenu(title, items){
+  menuState={title,items};
+  document.getElementById('d-expr').textContent=title;
+  document.getElementById('d-res').textContent='';
+  const p=document.getElementById('mode-panel');
+  p.classList.add('open');
+  let h=`<div class="mp-title">${title}</div><div class="menu-grid">`;
+  for(const it of items) h+=`<div class="menu-item" onclick="menuKey('${it.k}')"><span class="menu-num">${it.k}</span><span class="menu-lbl">${it.label}</span></div>`;
+  h+='</div>';
+  p.innerHTML=h;
+}
+function menuKey(k){
+  if(!menuState) return;
+  const it=menuState.items.find(i=>i.k===k);
+  if(!it) return;
+  menuState=null;
+  it.action();
+  if(!menuState){document.getElementById('d-expr').textContent=expr;updateModePanel();render();}
+}
+function closeMenu(){
+  menuState=null;
+  document.getElementById('d-expr').textContent=expr;
+  updateModePanel();render();
+}
+function showStatMenu(){
+  showMenu('STAT',[
+    {k:'1',label:'1-VAR',action:()=>setStatType('1-VAR')},
+    {k:'2',label:'A+BX',action:()=>setStatType('A+BX')},
+    {k:'3',label:'+CX²',action:()=>setStatType('_+CX²')},
+    {k:'4',label:'ln X',action:()=>setStatType('ln X')},
+    {k:'5',label:'e^X',action:()=>setStatType('e^X')},
+    {k:'6',label:'A·B^X',action:()=>setStatType('A·B^X')},
+    {k:'7',label:'A·X^B',action:()=>setStatType('A·X^B')},
+    {k:'8',label:'1/X',action:()=>setStatType('1/X')},
+  ]);
+}
+function showEqnMenu(){
+  showMenu('EQN',[
+    {k:'1',label:'Simult 2 unk.',action:()=>setEqnType(1)},
+    {k:'2',label:'Simult 3 unk.',action:()=>setEqnType(2)},
+    {k:'3',label:'Poly degree 2',action:()=>setEqnType(3)},
+    {k:'4',label:'Poly degree 3',action:()=>setEqnType(4)},
+  ]);
+}
+
 function pMode(){
   if(shiftOn){
-    shiftOn=false;
-    document.getElementById('sub-content').innerHTML='';
-    openOv('ov-setup');
-  } else {
-    openOv('ov-mode');
+    shiftOn=false;render();
+    showMenu('SETUP',[
+      {k:'1',label:'Input/Output',action:()=>showMenu('In/Out',[
+        {k:'1',label:'MthIO',action:()=>{dispMode='MthIO';toast('MthIO');}},
+        {k:'2',label:'LineIO',action:()=>{dispMode='LineIO';toast('LineIO');}}
+      ])},
+      {k:'2',label:'Angle Unit',action:()=>showMenu('Angle',[
+        {k:'1',label:'Deg',action:()=>{angMode='DEG';render();toast('DEG');}},
+        {k:'2',label:'Rad',action:()=>{angMode='RAD';render();toast('RAD');}},
+        {k:'3',label:'Gra',action:()=>{angMode='GRA';render();toast('GRA');}}
+      ])},
+      {k:'3',label:'Display',action:()=>showMenu('Display',[
+        {k:'1',label:'Fix 2',action:()=>{numFmt={type:'Fix',n:2};toast('Fix 2');}},
+        {k:'2',label:'Sci 4',action:()=>{numFmt={type:'Sci',n:4};toast('Sci 4');}},
+        {k:'3',label:'Norm 1',action:()=>{numFmt={type:'Norm',n:1};toast('Norm 1');}},
+        {k:'4',label:'Norm 2',action:()=>{numFmt={type:'Norm',n:2};toast('Norm 2');}}
+      ])},
+      {k:'4',label:'Fraction',action:()=>showMenu('Fraction',[
+        {k:'1',label:'d/c',action:()=>{fracMode='d/c';toast('d/c');}},
+        {k:'2',label:'a b/c',action:()=>{fracMode='a b/c';toast('a b/c');}}
+      ])},
+    ]);
+    return;
   }
-  render();
+  showMenu('MODE',[
+    {k:'1',label:'COMP',action:()=>setCalcMode('COMP')},
+    {k:'2',label:'CMPLX',action:()=>setCalcMode('CMPLX')},
+    {k:'3',label:'STAT',action:()=>showStatMenu()},
+    {k:'4',label:'BASE-N',action:()=>setCalcMode('BASE-N')},
+    {k:'5',label:'EQN',action:()=>showEqnMenu()},
+    {k:'6',label:'MATRIX',action:()=>setCalcMode('MATRIX')},
+    {k:'7',label:'TABLE',action:()=>setCalcMode('TABLE')},
+    {k:'8',label:'VECTOR',action:()=>setCalcMode('VECTOR')},
+  ]);
 }
 function pAC(){
+  if(menuState){closeMenu();return;}
   expr='';postEq=false;showRes(0);clr();render();
   if(calcMode==='EQN'){
     // restart coefficient entry
@@ -1484,6 +1563,7 @@ function pDEL(){
   expr=expr.slice(0,-1);clr();render();
 }
 function pNum(n){
+  if(menuState){menuKey(n);return;}
   if(alphaOn){
     // number keys in alpha mode insert variables
     const alphaNum={'7':'X','8':'Y','0':'M'};
@@ -1576,8 +1656,13 @@ function pM(action){
     mem+=sh?-cur:cur;
     toast('M='+fmt(mem));render();
   } else if(action==='recall'){
-    if(sh){openOv('ov-sto');return;}
-    openOv('ov-rcl');
+    if(sh){
+      const stoVars=['A','B','C','D','E','F','X','Y','M'];
+      showMenu('STO →',stoVars.map((v,i)=>({k:String(i+1),label:v,action:()=>doSTO(v)})));
+      return;
+    }
+    const rclVars=['A','B','C','D','E','F','X','Y','M'];
+    showMenu('RCL',rclVars.map((v,i)=>({k:String(i+1),label:v,action:()=>doRCL(v)})));
   } else if(action==='clear'){
     mem=0;toast('Memory Cleared');render();
   }
