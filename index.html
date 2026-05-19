@@ -82,6 +82,7 @@ button{border:none;border-radius:4px;cursor:pointer;font-family:'Segoe UI',Arial
 button:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.35),0 1px 2px rgba(0,0,0,.15);filter:brightness(.82)}
 button::before{content:'';position:absolute;top:0;left:0;right:0;height:45%;background:linear-gradient(180deg,rgba(255,255,255,.3),transparent);border-radius:4px 4px 0 0;pointer-events:none;}
 .bsm{width:48px;height:24px;font-size:9.5px}
+.b6{width:40px;height:24px;font-size:9px}
 .bnum{width:48px;height:34px;font-size:14px}
 .beq{width:48px;height:34px;font-size:17px}
 /* SHIFT: orange */
@@ -92,20 +93,22 @@ button::before{content:'';position:absolute;top:0;left:0;right:0;height:45%;back
 .bac{background:linear-gradient(175deg,#f8a020,#d87808);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3)}
 /* DEL: orange */
 .bdel{background:linear-gradient(175deg,#f8a020,#d87808);color:#fff}
-/* MODE: blue-grey */
-.bmode{background:linear-gradient(175deg,#8090b8,#586898);color:#fff}
-/* Function buttons: blue-grey */
-.bfn{background:linear-gradient(175deg,#8090b8,#6070a0);color:#fff}
-/* Number buttons: light grey */
-.bnum-k{background:linear-gradient(175deg,#d4d2dc,#bab8c4);color:#1a1a2e}
+/* MODE: neutral blue-grey */
+.bmode{background:linear-gradient(175deg,#7a8898,#586878);color:#fff}
+/* Function buttons: neutral blue-grey (matching real Casio) */
+.bfn{background:linear-gradient(175deg,#7a8898,#586878);color:#fff}
+/* Number buttons: light grey-cream */
+.bnum-k{background:linear-gradient(175deg,#d8d6e0,#c4c2cc);color:#1a1a2e}
 /* Operators: same light grey as numbers */
-.bop{background:linear-gradient(175deg,#d4d2dc,#bab8c4);color:#1a1a2e}
+.bop{background:linear-gradient(175deg,#d8d6e0,#c4c2cc);color:#1a1a2e}
+/* Navigation arrows: small circular grey */
+.bnav{background:linear-gradient(175deg,#9098b0,#7080a0);color:#fff;border-radius:50%;width:22px;height:22px;font-size:9px;box-shadow:0 2px 0 rgba(0,0,0,.4),0 2px 4px rgba(0,0,0,.2);padding:0}
 /* = button: blue */
 .beq-k{background:linear-gradient(175deg,#3a80e8,#1048c8);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35)}
-/* Memory: blue-grey like functions */
-.bmem{background:linear-gradient(175deg,#8090b8,#6070a0);color:#fff}
-/* Constants: blue-grey */
-.bconst{background:linear-gradient(175deg,#8090b8,#6070a0);color:#e8eeff}
+/* Memory: neutral blue-grey */
+.bmem{background:linear-gradient(175deg,#7a8898,#586878);color:#fff}
+/* Constants: neutral blue-grey */
+.bconst{background:linear-gradient(175deg,#7a8898,#586878);color:#eef0ff}
 .strip{height:4px;background:linear-gradient(180deg,#d0cedc,#c4c2d0);margin:3px 0 3px;border-top:1px solid #b8b6c8;border-bottom:1px solid #e0deea;}
 
 /* modal overlay */
@@ -181,64 +184,63 @@ button::before{content:'';position:absolute;top:0;left:0;right:0;height:45%;back
   <div id="mode-panel"></div>
 
   <div class="btns">
-    <!-- R1 -->
-    <div class="row">
-      <div class="kw0"><button class="bshift bsm" onclick="pShift()">SHIFT</button></div>
-      <div class="kw0"><button class="balpha bsm" onclick="pAlpha()">ALPHA</button></div>
-      <div class="kw"><span class="lbl lsh">SETUP</span><button class="bmode bsm" onclick="pMode()">MODE</button></div>
-      <div class="kw"><span class="lbl lsh">INS</span><button class="bdel bsm" onclick="pDEL()">DEL</button></div>
-      <div class="kw"><span class="lbl lsh">OFF</span><button class="bac bsm" onclick="pAC()">AC</button></div>
+    <!-- R1: SHIFT ALPHA ◄▲▼► MODE ON -->
+    <div class="row" style="gap:2px">
+      <div class="kw0"><button class="bshift bsm" style="width:40px" onclick="pShift()">SHIFT</button></div>
+      <div class="kw0"><button class="balpha bsm" style="width:40px" onclick="pAlpha()">ALPHA</button></div>
+      <div class="kw0"><button class="bnav" onclick="pNavLeft()">◄</button></div>
+      <div class="kw0"><button class="bnav" onclick="pNavUp()">▲</button></div>
+      <div class="kw0"><button class="bnav" onclick="pNavDown()">▼</button></div>
+      <div class="kw0"><button class="bnav" onclick="pNavRight()">►</button></div>
+      <div class="kw" style="padding-top:10px"><span class="lbl lsh" style="font-size:6px">SETUP</span><button class="bmode bsm" style="width:40px" onclick="pMode()">MODE</button></div>
+      <div class="kw" style="padding-top:10px"><span class="lbl lsh" style="font-size:6px">OFF</span><button class="bac bsm" style="width:26px;font-size:8px" onclick="pAC()">ON</button></div>
     </div>
-    <!-- R2 -->
-    <div class="row">
-      <div class="kw"><span class="lbl lsh">10ˣ</span><button class="bfn bsm" id="btn-log" onclick="pF('log')">log</button></div>
-      <div class="kw"><span class="lbl lsh">eˣ</span><button class="bfn bsm" id="btn-ln" onclick="pF('ln')">ln</button></div>
-      <div class="kw"><span class="lbl lsh">Pol(</span><button class="bfn bsm" id="btn-abs" onclick="pF('abs')">Abs</button></div>
-      <div class="kw"><span class="lbl lsh">Rec(</span><button class="bfn bsm" id="btn-fact" onclick="pF('fact')">x!</button></div>
-      <div class="kw"><span class="lbl lsh">nPr</span><button class="bfn bsm" id="btn-ncr" onclick="pF('ncr')">nCr</button></div>
+    <!-- R2: CALC √ x² xʸ log ln  (real Casio FX-570ES PLUS 2 row 2) -->
+    <div class="row" style="gap:2px">
+      <div class="kw"><span class="lbl lsh" style="font-size:6px">∫dx</span><button class="bfn b6" onclick="pF('calc')">CALC</button></div>
+      <div class="kw"><span class="lbl lsh" style="font-size:6px">d/dx</span><button class="bfn b6" id="btn-sqrt" onclick="pF('sqrt')">√</button></div>
+      <div class="kw"><span class="lbl lsh">x⁻¹</span><button class="bfn b6" onclick="pF('sq')">x²</button></div>
+      <div class="kw"><span class="lbl lsh">ˣ√</span><button class="bfn b6" onclick="pF('pow')">xʸ</button></div>
+      <div class="kw"><span class="lbl lsh">10ˣ</span><button class="bfn b6" id="btn-log" onclick="pF('log')">log</button></div>
+      <div class="kw"><span class="lbl lsh">eˣ</span><button class="bfn b6" id="btn-ln" onclick="pF('ln')">ln</button></div>
     </div>
-    <!-- R3 -->
-    <div class="row">
-      <div class="kw"><span class="lbl lsh">x⁻¹</span><button class="bfn bsm" onclick="pF('sq')">x²</button></div>
-      <div class="kw"><span class="lbl lsh">∛</span><button class="bfn bsm" onclick="pF('cube')">x³</button></div>
-      <div class="kw"><span class="lbl lsh">ˣ√</span><button class="bfn bsm" onclick="pF('pow')">xʸ</button></div>
-      <div class="kw"><span class="lbl lsh">∫dx</span><button class="bfn bsm" onclick="pF('sqrt')">√</button></div>
-      <div class="kw"><span class="lbl lsh">d/dx</span><button class="bfn bsm" onclick="pF('cbrt')">∛</button></div>
+    <!-- R3: x³ x! nCr Abs e (secondary function row) -->
+    <div class="row" style="gap:2px">
+      <div class="kw"><span class="lbl lsh">∛</span><button class="bfn b6" onclick="pF('cube')">x³</button></div>
+      <div class="kw"><span class="lbl lsh">Pol(</span><button class="bfn b6" id="btn-fact" onclick="pF('fact')">x!</button></div>
+      <div class="kw"><span class="lbl lsh">nPr</span><button class="bfn b6" id="btn-ncr" onclick="pF('ncr')">nCr</button></div>
+      <div class="kw"><span class="lbl lsh">Rec(</span><button class="bfn b6" id="btn-abs" onclick="pF('abs')">Abs</button></div>
+      <div class="kw"><span class="lbl lsh">Σ(</span><button class="bconst b6" onclick="pConst('e')">e</button></div>
+      <div class="kw"><span class="lbl lsh">→DEG</span><button class="bconst b6" onclick="pConst('pi')">π</button></div>
     </div>
-    <!-- R4 -->
-    <div class="row">
-      <div class="kw"><span class="lbl lsh">sin⁻¹</span><button class="bfn bsm" id="btn-sin" onclick="pF('sin')">sin</button></div>
-      <div class="kw"><span class="lbl lsh">cos⁻¹</span><button class="bfn bsm" id="btn-cos" onclick="pF('cos')">cos</button></div>
-      <div class="kw"><span class="lbl lsh">tan⁻¹</span><button class="bfn bsm" id="btn-tan" onclick="pF('tan')">tan</button></div>
-      <div class="kw"><span class="lbl lal">π</span><button class="bfn bsm" id="btn-lp" onclick="pKey('(')">(</button></div>
-      <div class="kw"><span class="lbl lal">e</span><button class="bfn bsm" id="btn-rp" onclick="pKey(')')">)</button></div>
+    <!-- R4: (−) °'" HYP sin cos tan  (real Casio row 3) -->
+    <div class="row" style="gap:2px">
+      <div class="kw"><span class="lbl lsh" style="font-size:6px">Ans</span><button class="bfn b6" onclick="shiftOn?(shiftOn=false,afterEq(false),expr+='Ans',clr(),live(),render()):pNeg()">(−)</button></div>
+      <div class="kw"><span class="lbl lsh" style="font-size:6px">←ENG</span><button class="bfn b6" onclick="pDMS()">°'"</button></div>
+      <div class="kw"><span class="lbl lsh" style="font-size:6px">h⁻¹</span><button class="bfn b6" id="btn-hyp" onclick="pHyp()">HYP</button></div>
+      <div class="kw"><span class="lbl lsh">sin⁻¹</span><button class="bfn b6" id="btn-sin" onclick="pF('sin')">sin</button></div>
+      <div class="kw"><span class="lbl lsh">cos⁻¹</span><button class="bfn b6" id="btn-cos" onclick="pF('cos')">cos</button></div>
+      <div class="kw"><span class="lbl lsh">tan⁻¹</span><button class="bfn b6" id="btn-tan" onclick="pF('tan')">tan</button></div>
     </div>
-    <!-- R5 -->
-    <div class="row">
-      <div class="kw"><span class="lbl lsh">sinh⁻¹</span><button class="bfn bsm" onclick="pF('sinh')">sinh</button></div>
-      <div class="kw"><span class="lbl lsh">cosh⁻¹</span><button class="bfn bsm" onclick="pF('cosh')">cosh</button></div>
-      <div class="kw"><span class="lbl lsh">tanh⁻¹</span><button class="bfn bsm" onclick="pF('tanh')">tanh</button></div>
-      <div class="kw"><span class="lbl lsh">Ran#</span><button class="bconst bsm" onclick="pConst('pi')">π</button></div>
-      <div class="kw"><span class="lbl lsh">→DEG</span><button class="bconst bsm" onclick="pConst('e')">e</button></div>
-    </div>
-    <!-- R6 -->
-    <div class="row">
-      <div class="kw"><span class="lbl lsh">Σ</span><button class="bfn bsm" id="btn-exp" onclick="pEXP()">EXP</button></div>
-      <div class="kw"><span class="lbl lsh">M−</span><button class="bmem bsm" onclick="pM('plus')">M+</button></div>
-      <div class="kw"><span class="lbl lsh">STO</span><button class="bmem bsm" id="btn-mr" onclick="pM('recall')">MR</button></div>
-      <div class="kw"><span class="lbl lsh">CLR</span><button class="bmem bsm" onclick="pM('clear')">MC</button></div>
-      <div class="kw"><span class="lbl lsh">DRG▸</span><button class="bfn bsm" onclick="pANS()">ANS</button></div>
+    <!-- R5: RCL ENG ( ) S⟺D M+  (real Casio row 4) -->
+    <div class="row" style="gap:2px">
+      <div class="kw"><span class="lbl lsh">STO</span><button class="bmem b6" onclick="pM('recall')">RCL</button></div>
+      <div class="kw"><span class="lbl lsh" style="font-size:6px">←ENG</span><button class="bfn b6" onclick="pENG()">ENG</button></div>
+      <div class="kw"><span class="lbl lal">A</span><button class="bfn b6" id="btn-lp" onclick="alphaOn?(alphaOn=false,afterEq(false),expr+='A',clr(),live(),render()):pKey('(')">(</button></div>
+      <div class="kw"><span class="lbl lal">B</span><button class="bfn b6" id="btn-rp" onclick="alphaOn?(alphaOn=false,afterEq(false),expr+='B',clr(),live(),render()):pKey(')')">)</button></div>
+      <div class="kw"><span class="lbl lsh" style="font-size:6px">A↔B</span><button class="bfn b6" id="btn-sd" onclick="pSD()">S⟺D</button></div>
+      <div class="kw"><span class="lbl lsh">M−</span><button class="bmem b6" onclick="pM('plus')">M+</button></div>
     </div>
     <div class="strip"></div>
-    <!-- R7 -->
+    <!-- R6: 7 8 9 DEL AC -->
     <div class="row">
-      <div class="kw0"><button class="bnum-k bnum" id="btn-7" onclick="pNum('7')">7</button></div>
-      <div class="kw0"><button class="bnum-k bnum" id="btn-8" onclick="pNum('8')">8</button></div>
-      <div class="kw0"><button class="bnum-k bnum" id="btn-9" onclick="pNum('9')">9</button></div>
-      <div class="kw0"><button class="bdel bnum" style="font-size:11px" onclick="pDEL()">DEL</button></div>
+      <div class="kw"><span class="lbl lal">X</span><button class="bnum-k bnum" id="btn-7" onclick="alphaOn?(alphaOn=false,afterEq(false),expr+='X',clr(),live(),render()):pNum('7')">7</button></div>
+      <div class="kw"><span class="lbl lal">Y</span><button class="bnum-k bnum" id="btn-8" onclick="alphaOn?(alphaOn=false,afterEq(false),expr+='Y',clr(),live(),render()):pNum('8')">8</button></div>
+      <div class="kw"><span class="lbl lal">M</span><button class="bnum-k bnum" id="btn-9" onclick="alphaOn?(alphaOn=false,afterEq(false),expr+='M',clr(),live(),render()):pNum('9')">9</button></div>
+      <div class="kw"><span class="lbl lsh" style="font-size:6px">INS</span><button class="bdel bnum" style="font-size:11px" onclick="pDEL()">DEL</button></div>
       <div class="kw0"><button class="bac bnum" style="font-size:12px" onclick="pAC()">AC</button></div>
     </div>
-    <!-- R8 -->
+    <!-- R7: 4 5 6 × ÷ -->
     <div class="row">
       <div class="kw0"><button class="bnum-k bnum" id="btn-4" onclick="pNum('4')">4</button></div>
       <div class="kw0"><button class="bnum-k bnum" id="btn-5" onclick="pNum('5')">5</button></div>
@@ -246,7 +248,7 @@ button::before{content:'';position:absolute;top:0;left:0;right:0;height:45%;back
       <div class="kw0"><button class="bop bnum" onclick="pOp('×')">×</button></div>
       <div class="kw0"><button class="bop bnum" onclick="pOp('÷')">÷</button></div>
     </div>
-    <!-- R9 -->
+    <!-- R8: 1 2 3 + − -->
     <div class="row">
       <div class="kw0"><button class="bnum-k bnum" id="btn-1" onclick="pNum('1')">1</button></div>
       <div class="kw0"><button class="bnum-k bnum" id="btn-2" onclick="pNum('2')">2</button></div>
@@ -254,12 +256,12 @@ button::before{content:'';position:absolute;top:0;left:0;right:0;height:45%;back
       <div class="kw0"><button class="bop bnum" onclick="pOp('+')">+</button></div>
       <div class="kw0"><button class="bop bnum" onclick="pOp('−')">−</button></div>
     </div>
-    <!-- R10 -->
+    <!-- R9: 0 . ×10ˣ Ans = -->
     <div class="row">
-      <div class="kw0"><button class="bnum-k bnum" id="btn-0" onclick="pNum('0')">0</button></div>
+      <div class="kw"><span class="lbl lsh" style="font-size:6px">Rnd</span><button class="bnum-k bnum" id="btn-0" onclick="shiftOn?(shiftOn=false,expr+=parseFloat(Math.random().toPrecision(9)).toString(),render()):pNum('0')">0</button></div>
       <div class="kw0"><button class="bnum-k bnum" onclick="pNum('.')">.</button></div>
-      <div class="kw0"><button class="bnum-k bnum" style="font-size:11px" onclick="pNeg()">(−)</button></div>
-      <div class="kw0" style="position:relative"><span class="lbl lsh" style="top:-11px;font-size:7px">%</span><button class="bop bnum" id="btn-sd" onclick="shiftOn?pPct():pSD()">S⟺D</button></div>
+      <div class="kw"><span class="lbl lsh" style="font-size:7px">π</span><button class="bfn bsm" style="height:34px;font-size:9px" id="btn-exp" onclick="pEXP()">×10ˣ</button></div>
+      <div class="kw"><span class="lbl lsh" style="font-size:6px">DRG▸</span><button class="bop bnum" id="btn-ans" onclick="pANS()">Ans</button></div>
       <div class="kw0"><button class="beq-k beq" onclick="pEQ()">=</button></div>
     </div>
   </div>
@@ -459,6 +461,9 @@ let tableRows  = [];
 
 // STO waiting
 let stoWaiting = false;
+
+// HYP mode: false | 'hyp' | 'inv'
+let hypMode = false;
 
 // ── PHYSICAL CONSTANTS ─────────────────────────────────────────────────────
 const PHYS_CONST = [
@@ -1457,7 +1462,7 @@ function pShift(){
 function pAlpha(){
   alphaOn=!alphaOn;
   shiftOn=false;
-  if(alphaOn) toast('ALPHA: A=sin B=cos C=tan D=( E=) F=log X=7 Y=8');
+  if(alphaOn) toast('ALPHA: sin=A cos=B tan=C log=F 7=X 8=Y 9=M');
   render();
 }
 // ── ON-SCREEN MENU SYSTEM ──────────────────────────────────────────────────
@@ -1576,9 +1581,6 @@ function pDEL(){
 function pNum(n){
   if(menuState){menuKey(n);return;}
   if(alphaOn){
-    // number keys in alpha mode insert variables
-    const alphaNum={'7':'X','8':'Y','0':'M'};
-    if(alphaNum[n]){afterEq(false);expr+=alphaNum[n];clr();live();render();return;}
     alphaOn=false;render();
   }
   if(calcMode==='BASE-N'){
@@ -1599,18 +1601,13 @@ function pOp(op){
   expr+=op;clr();render();
 }
 function pKey(k){
-  if(alphaOn){
-    // ( → D, ) → E
-    const alphaKey={'(':'D',')':'E'};
-    if(alphaKey[k]){afterEq(false);expr+=alphaKey[k];clr();live();render();return;}
-    alphaOn=false;render();
-  }
+  if(alphaOn){alphaOn=false;render();}
   afterEq(false);expr+=k;clr();live();render();
 }
 function pF(name){
   if(alphaOn){
     const alphaFn={sin:'A',cos:'B',tan:'C',log:'F'};
-    if(alphaFn[name]){afterEq(false);expr+=alphaFn[name];clr();live();render();return;}
+    if(alphaFn[name]){alphaOn=false;afterEq(false);expr+=alphaFn[name];clr();live();render();return;}
     alphaOn=false;render();
   }
   afterEq(false);
@@ -1624,11 +1621,24 @@ function pF(name){
     case'sq':  expr+=sh?'⁻¹':'²';  break;
     case'cube':expr+=sh?'∛(':'³';  break;
     case'pow': expr+='^';            break;
-    case'sqrt':expr+=sh?'∫(':'√('; break;
+    case'calc': if(sh){expr+='∫(';}else{const v2=evaluate();if(v2!==null){lastAns=v2;showRes(v2);postEq=true;render();}else toast('CALC: enter expression');return;} break;
+    case'sqrt':expr+=sh?'d/dx(':'√('; break;
     case'cbrt':expr+=sh?'d/dx(':'∛(';break;
-    case'sin': expr+=sh?'sin⁻¹(':'sin(';break;
-    case'cos': expr+=sh?'cos⁻¹(':'cos(';break;
-    case'tan': expr+=sh?'tan⁻¹(':'tan(';break;
+    case'sin':
+      if(hypMode==='hyp') expr+=sh?'sinh⁻¹(':'sinh(';
+      else if(hypMode==='inv') expr+='sinh⁻¹(';
+      else expr+=sh?'sin⁻¹(':'sin(';
+      hypMode=false;break;
+    case'cos':
+      if(hypMode==='hyp') expr+=sh?'cosh⁻¹(':'cosh(';
+      else if(hypMode==='inv') expr+='cosh⁻¹(';
+      else expr+=sh?'cos⁻¹(':'cos(';
+      hypMode=false;break;
+    case'tan':
+      if(hypMode==='hyp') expr+=sh?'tanh⁻¹(':'tanh(';
+      else if(hypMode==='inv') expr+='tanh⁻¹(';
+      else expr+=sh?'tan⁻¹(':'tan(';
+      hypMode=false;break;
     case'sinh':expr+=sh?'sinh⁻¹(':'sinh(';break;
     case'cosh':expr+=sh?'cosh⁻¹(':'cosh(';break;
     case'tanh':expr+=sh?'tanh⁻¹(':'tanh(';break;
@@ -1657,7 +1667,7 @@ function pConst(c){
 }
 function pEXP(){
   if(calcMode==='CMPLX'){afterEq(false);expr+='i';clr();live();render();return;}
-  if(shiftOn){shiftOn=false;openOv('ov-const');buildConstList();render();return;}
+  if(shiftOn){shiftOn=false;afterEq(false);expr+='π';clr();live();render();return;}
   afterEq(false);expr+='×10^(';clr();render();
 }
 function pM(action){
@@ -1834,6 +1844,44 @@ function pSD(){
   showFrac=!showFrac;
   const v=evaluate();
   if(v!==null) showRes(v);
+}
+
+// ── HYP / NAV / ENG / DMS ──────────────────────────────────────────────────
+function pHyp(){
+  const sh=shiftOn;clr();
+  if(sh){hypMode='inv';toast('h⁻¹: press sin / cos / tan');}
+  else{hypMode=hypMode?false:'hyp';if(hypMode) toast('hyp: press sin / cos / tan');}
+  render();
+}
+function pNavUp(){
+  if(menuState) return;
+  if(history.length){histIdx=Math.min(histIdx+1,history.length-1);expr=history[histIdx];postEq=false;clr();live();render();}
+}
+function pNavDown(){
+  if(histIdx>0){histIdx--;expr=history[histIdx];}else{histIdx=-1;expr='';}
+  postEq=false;clr();live();render();
+}
+function pNavLeft(){if(menuState) return; if(expr.length) pDEL(); }
+function pNavRight(){if(menuState) return; pNavUp(); }
+function pENG(){
+  const sh=shiftOn;clr();
+  const v=(lastAns!==0?lastAns:evaluate());
+  if(v===null||v===undefined) return;
+  if(v===0){toast('ENG: 0');return;}
+  const log10=Math.log10(Math.abs(v));
+  const engPow=sh?(Math.ceil(log10/3)*3-3):Math.floor(log10/3)*3;
+  const mantissa=v/Math.pow(10,engPow);
+  const s=parseFloat(mantissa.toPrecision(9)).toString()+(engPow!==0?'×10^('+engPow+')':'');
+  afterEq(false);expr=s;live();render();
+}
+function pDMS(){
+  const sh=shiftOn;clr();
+  if(sh){pENG();return;}
+  const v=evaluate()??lastAns;
+  if(v===null){toast('Enter a value first');return;}
+  const sign=v<0?'-':'';const a=Math.abs(v);
+  const d=Math.floor(a);const mf=(a-d)*60;const m=Math.floor(mf);const sc=(mf-m)*60;
+  toast(sign+d+'°'+m+"'"+parseFloat(sc.toPrecision(6))+'"');
 }
 
 // ── KEYBOARD ───────────────────────────────────────────────────────────────
